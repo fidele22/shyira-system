@@ -1,0 +1,9 @@
+.logistic-dashboard {
+    display: flex;
+    height: 100vh;
+  }
+  .content{
+    
+    position:absolute;
+    left: 16%;
+  }

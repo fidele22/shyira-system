@@ -1,0 +1,19 @@
+*{
+    margin: 0;
+}
+.hod-items{
+    background-color: white;
+    padding: 20px;
+    width: 1000px;
+    margin-left: 10%;
+}
+.hod-items h2{
+    padding: 20px;
+}
+.hod-items input[type='text']{
+    width: 30%;
+    border-left: none;
+    border-top: none;
+    border-right: none;
+    font-size: 16px;
+}

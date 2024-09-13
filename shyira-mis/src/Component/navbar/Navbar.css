@@ -1,0 +1,69 @@
+.Navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: white;
+    box-shadow: 0 1px 3px -2px black;
+    height: 4.5rem;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000; /* Ensure the navbar stays above other content */
+  }
+  
+  .Navbar-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .Navbar-logo p {
+    color: black;
+    font-size: 24px;
+    font-weight: 600;
+  }
+  
+  .navbar-menu {
+    display: block; /* Hide the menu by default */
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .navbar-menu li {
+    cursor: pointer;
+    margin-right: 60px;
+    font-size: 22px;
+  }
+  
+  .navbar-menu li hr {
+    border: none;
+    background: red;
+    height: 3px;
+    margin-top: -1px;
+  }
+  
+  .navbar-login {
+    display: flex;
+    align-items: center;
+  }
+  
+  
+  
+  @media (min-width: 768px) {
+    .Navbar {
+      padding: 10px 40px;
+    }
+  
+    .navbar-menu {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+  
+    .navbar-login {
+      margin-left: auto;
+    }
+  }
+  

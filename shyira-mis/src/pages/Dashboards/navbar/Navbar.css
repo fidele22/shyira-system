@@ -1,0 +1,43 @@
+.Navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: white;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    height: 3rem;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000; /* Ensure the navbar stays above other content */
+  }
+
+  .navbar-menu {
+    position: absolute;
+    display: block; /* Hide the menu by default */
+    list-style: none;
+    right: 10%;
+    
+  }
+  .navbar-menu h1{
+   color: black;
+   font-size: 20px;
+  }
+  
+  
+  @media (min-width: 768px) {
+    .Navbar {
+      padding: 10px 40px;
+    }
+  
+    .navbar-menu {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+  
+    .navbar-login {
+      margin-left: auto;
+    }
+  }
+  

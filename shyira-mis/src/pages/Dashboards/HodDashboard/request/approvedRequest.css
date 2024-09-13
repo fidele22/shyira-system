@@ -1,0 +1,32 @@
+.approved-requests {
+  padding: 20px;
+}
+
+.approved-request {
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
+
+.approved-request table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 15px;
+}
+
+.approved-request table, .approved-request th, .approved-request td {
+  border: 1px solid #ddd;
+  text-align: left;
+  padding: 8px;
+}
+
+.signature-section {
+  display: flex;
+  justify-content: space-between;
+}
+
+.signature-section img {
+  max-width: 100px;
+  height: auto;
+}
