@@ -5,7 +5,7 @@ import Navbar from './Navigationbar/Hodnavigationbar';
 import Overview from './Overview';
 import UserRequestRecieved from './requestDecision/recievedRequisition'
 import RejectedRequest from './requestDecision/rejectedRequisition'
-import MakeRequest from './request/MakeRequist'
+import MakeRequest from './request/requisitionPages'
 import FuelRequest from './fuelRequest/fuelrequest'
 import RepairRequest from './repairRequest/repairRequest'
 import ViewFuelStatus  from './fuelRequest/viewApproved'
@@ -26,9 +26,9 @@ const LogisticDashboard = () => {
       case 'overview':
         return <Overview />;
       case 'view-items':
-        return<Items/> 
+        return<Items /> 
       case 'fuel-request':
-        return<FuelRequest/> 
+        return<FuelRequest /> 
      
 
       case 'recieved-request':

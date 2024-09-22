@@ -10,11 +10,11 @@ body{
   }
   .logisticcontent{
     height: auto;
-    width: 100%; 
+    width: 85%; 
     height: auto;
     justify-content: space-between;
-    padding-top: 100px;
-    padding-left: 300px;
+    padding: 100px 10px 0px 0px;
+    margin-left: 16%;
 
     
    

@@ -41,6 +41,9 @@
     font-size: 20px;
     cursor: pointer;
   }
+  .navigate-request li{
+    display: flex;
+  }
   .navigate-request p span{
     color: red;
     padding: 10PX;

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const connectDB = async () => {
   try {
-    await mongoose.connect('mongodb://10.20.0.99:27017/shyiradb', { 
+    await mongoose.connect('mongodb://localhost:27017/shyiradb', { 
       // You can add options here if needed
     });
     

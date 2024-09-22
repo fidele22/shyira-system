@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FaEdit, FaTrash,FaTimes,FaTimesCircle,FaCheckCircle } from 'react-icons/fa';
 import axios from 'axios';
 import AddUser from './AddUser'; // Import the AddUser component
-import '../css/admin.css';
+import '../css/adminDashboard.css';
 import '../css/new.css'
 
 const ViewItems = () => {
@@ -27,7 +27,7 @@ const ViewItems = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('http://10.20.0.99:5000/api/users');
+        const response = await axios.get('http://192.168.1.74:5000/api/users');
         setUsers(response.data);
       } catch (error) {
         console.error('Error fetching users:', error);
@@ -49,7 +49,7 @@ const ViewItems = () => {
   useEffect(() => {
     const fetchDepartments = async () => {
       try {
-        const response = await axios.get('http://10.20.0.99:5000/api/departments');
+        const response = await axios.get('http://192.168.1.74:5000/api/departments');
         setDepartments(response.data);
       } catch (error) {
         console.error('Error fetching departments:', error);
@@ -62,7 +62,7 @@ const ViewItems = () => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const response = await axios.get('http://10.20.0.99:5000/api/services');
+        const response = await axios.get('http://192.168.1.74:5000/api/services');
         setServices(response.data);
       } catch (error) {
         console.error('Error fetching services:', error);
@@ -75,7 +75,7 @@ const ViewItems = () => {
   useEffect(() => {
     const fetchPositions = async () => {
       try {
-        const response = await axios.get('http://10.20.0.99:5000/api/positions');
+        const response = await axios.get('http://192.168.1.74:5000/api/positions');
         setPositions(response.data);
       } catch (error) {
         console.error('Error fetching positions:', error);
@@ -88,7 +88,7 @@ const ViewItems = () => {
   useEffect(() => {
     const fetchUserRoles = async () => {
       try {
-        const response = await axios.get('http://10.20.0.99:5000/api/roles');
+        const response = await axios.get('http://192.168.1.74:5000/api/roles');
         setRoles(response.data);
       } catch (error) {
         console.error('Error fetching roles:', error);
@@ -115,7 +115,7 @@ const ViewItems = () => {
 
   const handleDeleteClick = async (userId) => {
     try {
-      await axios.delete(`http://10.20.0.99:5000/api/users/${userId}`);
+      await axios.delete(`http://192.168.1.74:5000/api/users/${userId}`);
       setUsers(users.filter((user) => user._id !== userId));
     } catch (error) {
       console.error('Error deleting user:', error);
@@ -145,7 +145,7 @@ const ViewItems = () => {
     }
     
     try {
-      await axios.put(`http://10.20.0.99:5000/api/profile/${editingUser}`, updatedFormData, {
+      await axios.put(`http://192.168.1.74:5000/api/profile/${editingUser}`, updatedFormData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -203,7 +203,7 @@ const ViewItems = () => {
           />
         </div>
 
-        <table>
+        <table className='user-table'>
           <thead>
             <tr>
               <th>No</th>
@@ -303,7 +303,7 @@ const ViewItems = () => {
                 <label>Phone</label>
                 <input type="text" name="phone" value={formData.phone} onChange={handleChange} />
                 <label>Email</label>
-                <input type="email" name="email" value={formData.email} onChange={handleChange} />
+                <input type="text" name="email" value={formData.email} onChange={handleChange} />
                 <label>Role</label>
                 <select name="role" value={formData.role} onChange={handleChange}>
                   <option value="">Select role</option>

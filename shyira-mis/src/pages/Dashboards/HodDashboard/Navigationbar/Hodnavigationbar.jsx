@@ -53,16 +53,10 @@ const Navbar = ({ setCurrentPage }) => {
         <li onClick={() => setCurrentPage('overview')}>  <FaHome /> Overview</li>
         <li onClick={() => setCurrentPage('view-items')}> <FaList /> Available Items</li>
         
-        <li onClick={() => toggleDropdown('requisitions')} className="dropdown">
-        <FaClipboardList /> Request Item
-          {dropdownsOpen.requisitions && (
-            <ul className="dropdown-menu">
-              <li onClick={() => setCurrentPage('requisition')}><FaBoxOpen /> Make requisition</li>
-              <li onClick={() => setCurrentPage('requisition-status')}><FaBoxOpen /> Requisition status</li>
-            
-            </ul>
-          )}
-        </li>
+        
+        <li onClick={() => setCurrentPage('requisition')}><FaBoxOpen />Request Item</li>
+        <li onClick={() => setCurrentPage('requisition-status')}><FaBoxOpen /> Requisition status</li>
+      
         <li onClick={() => toggleDropdown('fuelrequisitions')} className="dropdown">
         <FaGasPump /> Request Fuel
           {dropdownsOpen.fuelrequisitions && (

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Import eye icons
 import axios from 'axios';
+import Notification from './Dashboards/ModelMessage/notification'
 import './stylingpages/loginForm.css'; // Adjust your CSS file path
 
 const AuthForm = () => {
@@ -45,7 +46,8 @@ const togglePasswordVisibility = () => {
     e.preventDefault();
     if (validateLoginForm()) {
       try {
-        const res = await axios.post('http://10.20.0.99:5000/api/login', { email, password });
+        const res = await axios.post('http://localhost:5000/api/login', { email, password });
+        console.log('Login response:', res.data); // Check what is returned
         const { token, role } = res.data;
   
         // Generate a unique key for the current tab (optional, can store token directly in sessionStorage)
@@ -71,7 +73,7 @@ const togglePasswordVisibility = () => {
         } else if (role === 'HOD') {
           navigate('/HOD');
         } else {
-          navigate('/login');
+          navigate('/HOD');
         }
       } catch (err) {
         console.error('Login error:', err);
@@ -100,10 +102,13 @@ const togglePasswordVisibility = () => {
   const [services, setServices] = useState([]);
   const [positions, setPositions] = useState([]);
 
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState(''); // State for error message
+
   useEffect(() => {
     const fetchDepartments = async () => {
       try {
-        const response = await axios.get('http://10.20.0.99:5000/api/departments');
+        const response = await axios.get('http://localhost:5000/api/departments');
         setDepartments(response.data);
       } catch (error) {
         console.error('Error fetching departments:', error);
@@ -115,7 +120,7 @@ const togglePasswordVisibility = () => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const response = await axios.get('http://10.20.0.99:5000/api/services');
+        const response = await axios.get('http://localhost:5000/api/services');
         setServices(response.data);
       } catch (error) {
         console.error('Error fetching services:', error);
@@ -127,7 +132,7 @@ const togglePasswordVisibility = () => {
   useEffect(() => {
     const fetchPositions = async () => {
       try {
-        const response = await axios.get('http://10.20.0.99:5000/api/positions');
+        const response = await axios.get('http://localhost:5000/api/positions');
         setPositions(response.data);
       } catch (error) {
         console.error('Error fetching positions:', error);
@@ -198,13 +203,15 @@ const togglePasswordVisibility = () => {
           formDataToSend.append(key, formData[key]);
         }
 
-        const response = await axios.post('http://10.20.0.99:5000/api/users/register', formDataToSend, {
+        const response = await axios.post('http://localhost:5000/api/users/register', formDataToSend, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
 
         console.log('User registered:', response.data);
-        localStorage.setItem('token', response.data.token);
-        alert('Registration successful');
+        sessionStorage.setItem('token', response.data.token);
+
+        setSuccessMessage('Registration successful!');  // Set the success message
+        
         setFormData({
           firstName: '',
           lastName: '',
@@ -219,13 +226,40 @@ const togglePasswordVisibility = () => {
         });
       } catch (error) {
         console.error('Error registering user:', error);
-        alert('Registration error');
+
+        setErrorMessage('Registration failed. Please try again.');
       }
     }
   };
 
+  const closeNotification = () => {
+    setSuccessMessage('');
+    setErrorMessage('');
+  };
+
   return (
     <div className={`container ${isSignUp ? 'right-panel-active' : ''}`} id="container">
+      {/* {login form} */}
+      <div className="form-container sign-in-container">
+        <form onSubmit={handleSubmit}>
+          <h1>Login</h1>
+          <span>Use your account</span>
+          <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} placeholder='Email address'  />
+          {errors.email && <p className="error">{errors.email}</p>}
+
+          <input  type={showPassword ? 'text' : 'password'} value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Password'   />
+          <span onClick={togglePasswordVisibility} className="password-view-login">
+            {showPassword ? <FaEyeSlash /> : <FaEye />}
+    </span>
+          {errors.password && <p className="error">{errors.password}</p>}
+
+          <a href="/forgot-password">Forgot your password?</a>
+          
+          <button className='login-btn'>Login</button>
+          <p>If you don't have an account? <Link to="#" onClick={handleSignUpClick}>Sign Up</Link></p>
+        </form>
+      </div>
+      {/* {sign up form} */}
       <div className="form-container sign-up-container">
         <form onSubmit={handleSubmitRegister}>
           <h1>Register</h1>
@@ -273,13 +307,13 @@ const togglePasswordVisibility = () => {
           <input  type={showPassword ? 'text' : 'password'} name="password" value={formData.password} onChange={handleChange} placeholder='Password'  />
           <span onClick={togglePasswordVisibility} className="password-view-signup">
             {showPassword ? <FaEyeSlash /> : <FaEye />}
-    </span>
+           </span>
           {registerErrors.password && <p className="error">{registerErrors.password}</p>}
       
           <input type={showPassword ? 'text' : 'password'} name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} placeholder='Confirm Password'  />
           <span onClick={togglePasswordVisibility} className="password-view-signup">
-      {showPassword ? <FaEyeSlash /> : <FaEye />}
-    </span>
+          {showPassword ? <FaEyeSlash /> : <FaEye />}
+       </span>
 
           {registerErrors.confirmPassword && <p className="error">{registerErrors.confirmPassword}</p>}
 
@@ -288,25 +322,7 @@ const togglePasswordVisibility = () => {
           <p>If already have an account? Please <Link to="#" onClick={handleSignInClick}>Login</Link></p>
         </form>
       </div>
-      <div className="form-container sign-in-container">
-        <form onSubmit={handleSubmit}>
-          <h1>Login</h1>
-          <span>Use your account</span>
-          <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} placeholder='Email address'  />
-          {errors.email && <p className="error">{errors.email}</p>}
-
-          <input  type={showPassword ? 'text' : 'password'} value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Password'   />
-          <span onClick={togglePasswordVisibility} className="password-view-login">
-            {showPassword ? <FaEyeSlash /> : <FaEye />}
-    </span>
-          {errors.password && <p className="error">{errors.password}</p>}
-
-          <a href="/forgot-password">Forgot your password?</a>
-          
-          <button className='login-btn'>Login</button>
-          <p>If you don't have an account? <Link to="#" onClick={handleSignUpClick}>Sign Up</Link></p>
-        </form>
-      </div>
+     
       <div className="overlay-container">
         <div className="overlay">
           <div className="overlay-panel overlay-left">
@@ -321,6 +337,15 @@ const togglePasswordVisibility = () => {
           </div>
         </div>
       </div>
+
+{/* {notifation message} */}
+{successMessage && (
+        <Notification message={successMessage} onClose={closeNotification} type="success" />
+      )}
+      {errorMessage && (
+        <Notification message={errorMessage} onClose={closeNotification} type="error" />
+      )}
+
     </div>
   );
 };

@@ -283,7 +283,7 @@ const handleVerifySubmit = async () => {
           <span>{!request.clicked ? 'New Request' : ''}</span>
          
         </p>
-        <button className='mark-received-btn' onClick={() => handleRejectClick(request._id)}>Reject </button> 
+        <p className='mark-received-btn' onClick={() => handleRejectClick(request._id)}>Reject </p> 
       </li>
       
     ))}
@@ -427,28 +427,13 @@ const handleVerifySubmit = async () => {
                     )}
 
                   </div>
-                  {/*<div className="logistic-signature">
-                    <label>Logistic office:</label>
-                  <h3>{user.firstName} {user.lastName}</h3>
-                  {user.signature && <img src={`http://localhost:5000/${user.signature}`} alt="Signature" />}
-                  </div>*/}
+                 
                   
                   
 
                 </div>
                 <hr />
                 </div>
-               
-
-             
-                <div className="buttons">
-               
-               
-
-               
-                </div>
-               
-               
               </>
              
             )}

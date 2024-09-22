@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import RequisitionVerified from './RequestVerified';
-import RequisitionApproved from '../../logisticdashboard/Requests/approvedRequest';
+import RequisitionApproved from '../../logisticdashboard/UserRequisitions/approvedRequest';
 import './RequestStatus.css'
 
 const ItemStockManager = () => {

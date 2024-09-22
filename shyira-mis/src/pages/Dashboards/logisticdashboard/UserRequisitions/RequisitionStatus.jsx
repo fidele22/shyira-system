@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import VerifiedRequisition from './';
-import StockDetails from './stockDetails';
-import './stock.css'
+import VerifiedRequisition from './verifiedRequest';
+import ApprovedRequisition from './approvedRequest'
 
-const ItemStockManager = () => {
-  const [selectedItem, setSelectedItem] = useState(null);
+
+
+const ItemRequisitionStatus = () => {
+
 
   return (
     <div className='item-stock'>
@@ -20,4 +21,4 @@ const ItemStockManager = () => {
   );
 };
 
-export default ItemStockManager;
+export default ItemRequisitionStatus;

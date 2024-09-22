@@ -99,7 +99,7 @@ const DashboardOverview = () => {
   }, []);
 
   return (
-    <div className="logistic-0verview-content">
+    <div className="overview-content">
       <div className="welcome-nav">
       <h1>Welcome back, {lastName}</h1>
       </div>

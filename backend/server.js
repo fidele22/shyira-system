@@ -36,7 +36,7 @@ app.use(express.json()); // Or use body-parser's JSON parser
 app.use(bodyParser.json()); // If using body-parser
 
 app.use(cors({
-  origin: 'http://10.20.0.99:3000', // Replace with your frontend's local address and port
+  origin: 'http://localhost:3000', // Replace with your frontend's local address and port
   methods: 'GET,POST,PUT,DELETE',
   allowedHeaders: 'Content-Type,Authorization',
   credentials: true, // If you're using cookies or authorization headers

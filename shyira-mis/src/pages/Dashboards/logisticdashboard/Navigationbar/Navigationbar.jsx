@@ -46,37 +46,16 @@ const Navbar = ({ setCurrentPage }) => {
                 <FaClipboardCheck /> Order Supplies
               </li>
        
-        <li onClick={() => toggleDropdown('requisitions')} className="dropdown">
-          <FaClipboardList /> Item Requisitions
-          {dropdownsOpen.requisitions && (
-            <ul className="dropdown-menu">
-              <li onClick={() => setCurrentPage('view-requisition')}>
-                <FaClipboardCheck /> View Requisition
-              </li>
-              <li onClick={() => setCurrentPage('approved-request')}>
-                <FaClipboardCheck /> Approved Request
-              </li>
-              <li onClick={() => setCurrentPage('requisition-receive')}>
-                <FaClipboardList /> Requisition Status
-              </li>
-            </ul>
-          )}
+        
+        <li onClick={() => setCurrentPage('view-requisition')}>
+          <FaClipboardCheck /> Item Requisition
         </li>
-
-        <li onClick={() => toggleDropdown('fuelrequisitions')} className="dropdown">
-        <FaGasPump size={24} /> Fuel Requisitions
-          {dropdownsOpen.fuelrequisitions && (
-            <ul className="dropdown-menu">
-              <li onClick={() => setCurrentPage('fuel-requisition')}>
-                <FaClipboardCheck /> View Requisition
+          
+          <li onClick={() => setCurrentPage('fuel-requisition')}>
+                <FaClipboardCheck /> Fuel Requisition
               </li>
-              <li onClick={() => setCurrentPage('approved-request')}>
-                <FaClipboardCheck /> Approved Fuel Request
-              </li>
-
-            </ul>
-          )}
-        </li>
+          
+       
         <li onClick={() => setCurrentPage('view-cars')}>
           <FaChartBar /> view cars data
         </li>

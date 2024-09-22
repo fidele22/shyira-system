@@ -4,7 +4,7 @@ import Footer from '../footer/Footer'
 import Navbar from './Navigationbar/DGnavigationbar';
 import Overview from './Overview';
 import ViewRequest from './userRequisition/RequestVerified'
-import ViewApproved from '../logisticdashboard/Requests/approvedRequest'
+import ViewApproved from '../logisticdashboard/UserRequisitions/approvedRequest'
 import ViewLogisticRequest from './requestOfLogistic/viewLogisticRequest'
 import ViewFuelRequest from './fuelRequest/fuelRequisition'
 import UserRequestStatus from './userRequisition/userRequestStatus'

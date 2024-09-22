@@ -1,6 +1,6 @@
 .navigation {
-  width: 305px;
-  background-color: #2c3b50;
+  width: 15%;
+  background-color: #1870ea;
   position: fixed;
   height: 100%;
   color: white;
@@ -14,6 +14,7 @@
 
 .navigation h2 {
   margin: 0 0 20px;
+
 }
 
 .navigation ul {

@@ -40,4 +40,20 @@
       margin-left: auto;
     }
   }
+  @media (min-width: 480px) {
+    .Navbar {
+      padding: 10px 40px;
+    }
+  
+    .navbar-menu {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+  
+    .navbar-login {
+      margin-left: auto;
+    }
+  }
+
   

@@ -12,11 +12,11 @@ import ReceivedOrder from './OrderSupply/RecievedOrder'
 import ViewCars from './fuelRequisition/viewcars'
 import LogisticProfile from './LogisticProfile'
 import StockReport from './StockReport/ItemReport';
-import ViewRequisition from './Requests/RequisitionReceive';
-import ViewFuelRequest from './fuelRequisition/viewfuelRequest'
+import ViewRequisition from './UserRequisitions/RequisitionsPages';
+import ViewFuelRequest from './fuelRequisition/fuelRequisitionPages'
 import FuelStock from './fuelRequisition/fuelStock'
 import FuelReport from './StockReport/FuelReport'
-import ApprovedRequests from './Requests/approvedRequest';
+//import ApprovedRequests from './Requests/approvedRequest';
 import RequisitionReceive from './receivedRequisitions/itemRequestReceived';
 import './contentCss/LogisticDashboard.css';
 
@@ -53,17 +53,16 @@ const LogisticDashboard = () => {
      
       case 'view-cars':
         return <ViewCars />     
-      case 'approved-request':
-        return <ApprovedRequests />;  
+     
      
       case 'logistic-profile':
         return <LogisticProfile />;
       case 'view-requisition':
         return <ViewRequisition />;
 
-      case 'requisition-receive':
-        return <RequisitionReceive />;
-        
+      //case 'requisition-receive':
+      //  return <RequisitionReceive />;
+      //  
       default:
         return <Overview />;
     }

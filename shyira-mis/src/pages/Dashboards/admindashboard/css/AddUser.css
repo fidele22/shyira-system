@@ -11,6 +11,7 @@
 .register-user h1{
     text-align: center;
     color: blue;
+    font-size: 20px;
 }
 .register-user span{
     color: black;
