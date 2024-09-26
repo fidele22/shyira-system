@@ -9,7 +9,7 @@ const DataDisplay = ({ onItemSelect }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://10.20.0.99:5000/api/stocks');
+        const response = await axios.get('http://localhost:5000/api/stocks');
         setData(response.data);
       } catch (error) {
         console.error('Error fetching data:', error);

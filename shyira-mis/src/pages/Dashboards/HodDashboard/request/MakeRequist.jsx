@@ -188,8 +188,8 @@ const LogisticRequestForm = () => {
   };
 
   return (
-    <div className="requistion">
-      <h2>Make Requisition</h2>
+    <div className="hod-requistion">
+      <h3>Make Requisition for Items</h3>
       <label htmlFor="" >You have to make various requisitions for staff and accommodation materials</label>
       <div className="hod-request-form">
         <form onSubmit={handleSubmit}>
@@ -208,16 +208,16 @@ const LogisticRequestForm = () => {
             </div>
           <div className="heading-title">
             <div className="title">
-              <h3>WESTERN PROVINCE</h3>
+              <h4>WESTERN PROVINCE</h4>
             </div>
             <div className="title">
-              <h3>DISTRICT: NYABIHU</h3>
+              <h4>DISTRICT: NYABIHU</h4>
             </div>
             <div className="title">
-              <h3>HEALTH FACILITY : SHYIRA DISTRICT HOSPITAL</h3>
+              <h4>HEALTH FACILITY : SHYIRA DISTRICT HOSPITAL</h4>
             </div>
             <div className="title">
-              <h3>DEPARTMENT :</h3>
+              <h4>DEPARTMENT :</h4>
               <input
                 type="text"
                 value={department}
@@ -230,7 +230,7 @@ const LogisticRequestForm = () => {
             
           </div>
 
-          <h2>REQUISITION FORM</h2>
+          <h3>REQUISITION FORM</h3>
           <button className='additem-btn' type="button" onClick={handleAddItem}>Add Item</button>
           <table>
             <thead>

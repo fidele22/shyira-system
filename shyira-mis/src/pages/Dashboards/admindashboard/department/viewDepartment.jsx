@@ -16,7 +16,7 @@ const ViewDepartment = () => {
   useEffect(() => {
     const fetchDepartments = async () => {
       try {
-        const response = await axios.get('http://10.20.0.99:5000/api/departments');
+        const response = await axios.get('http://localhost:5000/api/departments');
         setDepartments(response.data);
       } catch (error) {
         console.error('Error fetching items:', error);
@@ -33,13 +33,13 @@ const ViewDepartment = () => {
 
   const handleUpdate = async () => {
     try {
-      await axios.put(`http://10.20.0.99:5000/api/departments/${editDepartment._id}`, {
+      await axios.put(`http://localhost:5000/api/departments/${editDepartment._id}`, {
         name: departmentName,
       });
       setEditDepartment(null);
       setDepartmentName('');
       // Fetch updated positions
-      const response = await axios.get('http://10.20.0.99:5000/api/departments');
+      const response = await axios.get('http://localhost:5000/api/departments');
       setDepartments(response.data);
     } catch (error) {
       console.error('Error updating position:', error);
@@ -48,10 +48,10 @@ const ViewDepartment = () => {
 
   const handleDelete = async (id) => {
     try {
-      const response = await axios.delete(`http://10.20.0.99:5000/api/departments/${id}`);
+      const response = await axios.delete(`http://localhost:5000/api/departments/${id}`);
       console.log('Delete response:', response.data); // Log the response
       // Fetch updated positions
-      const fetchUpdatedPositions = await axios.get('http://10.20.0.99:5000/api/departments');
+      const fetchUpdatedPositions = await axios.get('http://localhost:5000/api/departments');
       setDepartments(fetchUpdatedPositions.data);
     } catch (error) {
       console.error('Error deleting position:', error);

@@ -30,14 +30,14 @@ const RequisitionForm = () => {
   useEffect(() => {
     const fetchOptions = async () => {
       try {
-        const carResponse = await axios.get('http://10.20.0.99:5000/api/forms-data/cars');
+        const carResponse = await axios.get('http://localhost:5000/api/forms-data/cars');
         setCarOptions(carResponse.data);
 
-        const reasonResponse = await axios.get('http://10.20.0.99:5000/api/forms-data/reasons');
+        const reasonResponse = await axios.get('http://localhost:5000/api/forms-data/reasons');
         setReasonOptions(reasonResponse.data);
 
               // Fetch fuel types and set the first one as default
-              const fuelResponse = await axios.get('http://10.20.0.99:5000/api/fuel');
+              const fuelResponse = await axios.get('http://localhost:5000/api/fuel');
               if (fuelResponse.data.length > 0) {
                 setFuelType(fuelResponse.data[0].fuelType);
               }
@@ -95,7 +95,7 @@ const RequisitionForm = () => {
           return;
         }
  
-      const response = await axios.post('http://10.20.0.99:5000/api/fuel-requisition/submit', formData, {
+      const response = await axios.post('http://localhost:5000/api/fuel-requisition/submit', formData, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',
@@ -171,6 +171,7 @@ const RequisitionForm = () => {
             <img src="/image/logo2.png" alt="Logo" className="logo" />
           </div>
          <h2>Fuel Requisition Form</h2> 
+        
         <div className="left-content">
           <div className="form-group">
             <label htmlFor="requesterName">Name of Requester:</label>

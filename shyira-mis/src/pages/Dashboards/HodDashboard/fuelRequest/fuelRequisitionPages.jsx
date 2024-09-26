@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaEye , FaEdit,FaSpinner, FaTimes, FaTimesCircle, FaCheck, FaCheckCircle, FaCheckDouble, FaCheckSquare } from 'react-icons/fa';
-import MakeRequisition from './MakeRequist'; 
-import ViewStatus from '../requestStatus/requestStatus';
+import MakeRequistFuel from './fuelrequest'; 
+import ViewApproved from './viewApproved';
 import ReceivedDecision from '../requestDecision/recievedRequisition'
 import RejectedDecision from '../requestDecision/rejectedRequisition'
 //import ItemRequisitionStatus from './RequisitionStatus';
@@ -20,11 +20,11 @@ const UserFuelRequesition = () => {
     <div className="requistion">
       <div className="links">
       <button className='view-requisition' onClick={() => setActiveComponent('MakeRequisition')} >
-          <FaEye /> Make Requisition
+          <FaEye /> Make Requisition for fuel
         </button>
         
-        <button className='make-fuel-order' onClick={() => setActiveComponent('status')}>
-          <FaSpinner color='brown'/> view Requisition Status
+        <button className='make-fuel-order' onClick={() => setActiveComponent('approved-fuel')}>
+          <FaSpinner color='brown'/> view Approved Requisition
         </button>
 
         <button className='recieved-item' onClick={() => setActiveComponent('recieved-requisition')}>
@@ -38,9 +38,9 @@ const UserFuelRequesition = () => {
       </div>
 
       {activeComponent === 'MakeRequisition' ? (
-        <MakeRequisition />
-      ) : activeComponent === 'status' ? (
-        <ViewStatus />
+        <MakeRequistFuel />
+      ) : activeComponent === 'approved-fuel' ? (
+        <ViewApproved />
       )  : activeComponent === 'recieved-requisition' ? (
         <ReceivedDecision />
       )  : activeComponent === 'rejected-requisition' ? (

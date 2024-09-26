@@ -8,7 +8,7 @@
   width: 100%;
 
   flex-wrap: wrap;
- margin-left: 20%;/* Allows content to wrap to the next line */
+ margin-left: 1%;/* Allows content to wrap to the next line */
 }
 
 .left-content,

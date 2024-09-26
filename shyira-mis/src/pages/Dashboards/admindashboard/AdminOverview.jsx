@@ -7,6 +7,8 @@ const DashboardOverview = () => {
   const [userCount, setUserCount] = useState(0);
   const [positionCount, setPositionCount] = useState(0);
   const [roleCount, setRoleCount] = useState(0);
+  const [error, setError] = useState(null);
+
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -49,20 +51,29 @@ const DashboardOverview = () => {
         console.error('Error fetching user data:', error);
       }
     };
- // count requisition from different users
- const fetchDashboardStats = async () => {
-  const token = localStorage.getItem('token');
-  if (!token) {
-    console.error('No token found');
-    return;
-  }
+ 
+    const fetchDashboardStats = async () => {
+      // Get the current tab's ID from sessionStorage
+      const currentTab = sessionStorage.getItem('currentTab');
 
-  try {
-    const response = await axios.get('http://localhost:5000/api/positions/dashboard/stats', {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-    });
+      if (!currentTab) {
+        setError('No tab ID found in sessionStorage');
+        return;
+      }
+ 
+      // Retrieve the token using the current tab ID
+      const token = sessionStorage.getItem(`token_${currentTab}`);
+      if (!token) {
+        setError('Token not found');
+        return;
+      } 
+ 
+      try {
+        const response = await axios.get('http://localhost:5000/api/positions/dashboard/stats', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
 
     if (response.status === 200) {
       setUserCount(response.data.userCount);
@@ -131,5 +142,6 @@ fetchDashboardStats();
     </div>
   );
 };
+
 
 export default DashboardOverview;

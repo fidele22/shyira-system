@@ -20,7 +20,7 @@ const FuelRequisitionForm = () => {
   useEffect(() => {
     const fetchLogisticUsers = async () => {
       try {
-        const response = await axios.get('http://10.20.0.99:5000/api/users/logistic-users');
+        const response = await axios.get('http://localhost:5000/api/users/logistic-users');
         setLogisticUsers(response.data);
       } catch (error) {
         console.error('Error fetching logistic users:', error);
@@ -48,7 +48,7 @@ const FuelRequisitionForm = () => {
         return;
       } 
 
-        const response = await axios.get('http://10.20.0.99:5000/api/userfuelrequest', {
+        const response = await axios.get('http://localhost:5000/api/userfuelrequest', {
           headers: { Authorization: `Bearer ${token}` } // Send token with request
         });
         setRequisitions(response.data);
@@ -69,7 +69,7 @@ const FuelRequisitionForm = () => {
   useEffect(() => {
     const fetchDafUsers = async () => {
       try {
-        const response = await axios.get('http://10.20.0.99:5000/api/users/daf-users');
+        const response = await axios.get('http://localhost:5000/api/users/daf-users');
         setDafUsers(response.data);
       } catch (error) {
         console.error('Error fetching logistic users:', error);
@@ -81,7 +81,7 @@ const FuelRequisitionForm = () => {
 
   const handleRequestClick = async (requestId) => {
     try {
-      const response = await axios.get(`http://10.20.0.99:5000/api/userfuelrequest/${requestId}`);
+      const response = await axios.get(`http://localhost:5000/api/userfuelrequest/${requestId}`);
       setSelectedRequest(response.data);
       setFormData(response.data);
       setIsEditing(false);
@@ -98,7 +98,7 @@ const FuelRequisitionForm = () => {
  
   const handleRecievedClick = async () => {
     try {
-      const response = await axios.post(`http://10.20.0.99:5000/api/approve/fuel-recieved/${selectedRequest._id}`, formData);
+      const response = await axios.post(`http://localhost:5000/api/approve/fuel-recieved/${selectedRequest._id}`, formData);
       setSelectedRequest(response.data);
       alert('Sign as received done well!!!.');
     } catch (error) {
@@ -116,7 +116,8 @@ const FuelRequisitionForm = () => {
 
   return (
     <div className="fuel-requisition-form">
-      <h2>List of Fuel Requisition</h2>
+      <h2>List of Fuel Requisition that has been approved</h2>
+      <label htmlFor="">you have to review your requisition was approved and sign / mark as you recieved</label>
       <div className="navigate-request">
         <ul>
           {requisitions.slice().reverse().map((request, index) => (

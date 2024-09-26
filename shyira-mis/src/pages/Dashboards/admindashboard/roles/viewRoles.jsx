@@ -12,7 +12,7 @@ const ViewPosition = () => {
   useEffect(() => {
     const fetchPositions = async () => {
       try {
-        const response = await axios.get('http://10.20.0.99:5000/api/positions');
+        const response = await axios.get('http://localhost:5000/api/positions');
         setPositions(response.data);
       } catch (error) {
         console.error('Error fetching positions:', error);
@@ -29,13 +29,13 @@ const ViewPosition = () => {
 
   const handleUpdate = async () => {
     try {
-      await axios.put(`http://10.20.0.99:5000/api/positions/${editPosition._id}`, {
+      await axios.put(`http://localhost:5000/api/positions/${editPosition._id}`, {
         name: positionName,
       });
       setEditPosition(null);
       setPositionName('');
       // Fetch updated positions
-      const response = await axios.get('http://10.20.0.99:5000/api/positions');
+      const response = await axios.get('http://localhost:5000/api/positions');
       setPositions(response.data);
     } catch (error) {
       console.error('Error updating position:', error);
@@ -44,10 +44,10 @@ const ViewPosition = () => {
 
   const handleDelete = async (id) => {
     try {
-      const response = await axios.delete(`http://10.20.0.99:5000/api/positions/${id}`);
+      const response = await axios.delete(`http://localhost:5000/api/positions/${id}`);
       console.log('Delete response:', response.data); // Log the response
       // Fetch updated positions
-      const fetchUpdatedPositions = await axios.get('http://10.20.0.99:5000 /api/positions');
+      const fetchUpdatedPositions = await axios.get('http://localhost:5000 /api/positions');
       setPositions(fetchUpdatedPositions.data);
     } catch (error) {
       console.error('Error deleting position:', error);

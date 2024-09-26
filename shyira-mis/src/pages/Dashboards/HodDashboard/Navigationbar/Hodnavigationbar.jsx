@@ -10,7 +10,7 @@ const Navbar = ({ setCurrentPage }) => {
   const [dropdownsOpen, setDropdownsOpen] = useState({
     request: false,
     requisitions: false,
-    fuelrequisitions:false,
+   
     requisitionsstatus:false,
     fuelrequisitionsstatus:false
   });
@@ -54,28 +54,11 @@ const Navbar = ({ setCurrentPage }) => {
         <li onClick={() => setCurrentPage('view-items')}> <FaList /> Available Items</li>
         
         
-        <li onClick={() => setCurrentPage('requisition')}><FaBoxOpen />Request Item</li>
-        <li onClick={() => setCurrentPage('requisition-status')}><FaBoxOpen /> Requisition status</li>
+        <li onClick={() => setCurrentPage('requisition')}><FaBoxOpen /> Request Item</li>
+
+        <li onClick={() => setCurrentPage('fuel-request')}><FaBoxOpen /> Request Fuel</li>
+       
       
-        <li onClick={() => toggleDropdown('fuelrequisitions')} className="dropdown">
-        <FaGasPump /> Request Fuel
-          {dropdownsOpen.fuelrequisitions && (
-            <ul className="dropdown-menu">
-             <li onClick={() => setCurrentPage('fuel-request')}><FaBoxOpen size={24} /> Make Request Fuel</li>
-             <li onClick={() => setCurrentPage('repair-request')}><FaBoxOpen size={24} /> Make Request Repair</li>
-             <li onClick={() => setCurrentPage('veiw-fuel-status')}><FaGasPump size={24} />View status</li>
-            </ul>
-          )}
-        </li>
-        <li onClick={() => toggleDropdown('requisitionsstatus')} className="dropdown">
-        <FaGasPump /> Requisition Decision
-          {dropdownsOpen.requisitionsstatus && (
-            <ul className="dropdown-menu">
-          <li onClick={() => setCurrentPage('recieved-request')}><FaClipboardList /> Received Requistion</li> 
-             <li onClick={() => setCurrentPage('view-request-jected')}><FaGasPump size={24} />Rejected Requistion</li>
-            </ul>
-          )}
-        </li>
         <li onClick={() => toggleDropdown('fuelrequisitionsstatus')} className="dropdown">
         <FaGasPump /> Fuel Requisition Decision
           {dropdownsOpen.fuelrequisitionsstatus && (
