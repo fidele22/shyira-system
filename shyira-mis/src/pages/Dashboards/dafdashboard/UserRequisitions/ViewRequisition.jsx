@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaQuestionCircle,FaTimesCircle, FaEdit, FaCheckCircle,FaTimes, FaTrash,FaCheck } from 'react-icons/fa';
 import axios from 'axios';
-import ApprovedUserRequisition from './ApproveRequisition'
 import './ViewRequest.css'; // Import CSS for styling
 
 
@@ -401,8 +400,6 @@ const handleSearchSubmit = (e) => {
           </div>
         </div>
       )}
-
-      <ApprovedUserRequisition />
     </div>
   );
 };

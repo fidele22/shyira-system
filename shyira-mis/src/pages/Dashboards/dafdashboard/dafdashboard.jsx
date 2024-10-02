@@ -3,9 +3,9 @@ import Navigation from '../navbar/Navbar'
 import Footer from '../footer/Footer'
 import Navbar from './Navigationbar/Dafnavigationbar';
 import Overview from './Overview';
-import ViewRequest from './UserRequisitions/ViewRequisition'
+import ViewUserRequest from './UserRequisitions/parentPage'
 import RecieveduserRequest from '../logisticdashboard/receivedRequisitions/itemRequestReceived'
-import ViewLogisticRequest from './requestOfLogistic/viewLogisticRequest'
+import ViewLogisticRequest from './requestOfLogistic/orderpages'
 import RecievedLogisticOrder from '../logisticdashboard/OrderSupply/RecievedOrder'
 import ViewFuelRequest from './fuelRequest/fuelRequisition'
 import ViewLogisticFuel from './fuelRequest/logisticfuelrequest'
@@ -21,8 +21,8 @@ const LogisticDashboard = () => {
     switch (currentPage) {
       case 'overview':
         return <Overview />;
-     case 'view-request':
-          return <ViewRequest />;
+     case 'user-item-request':
+          return <ViewUserRequest />;
       case 'logistic-profile':
           return <DafProfile />;
       case 'recieved-requisition':

@@ -101,19 +101,21 @@ const DashboardOverview = () => {
   }, []);
 
   return (
-    <div className="logistic-0verview-content">
+    <div className="overview-content">
       <div className="welcome-nav">
       <h1>Welcome back,{lastName}!</h1>
       </div>
      
 
       {/* Overview Sections */}
-      <section className="logistic-overview-section">
+
+      <section className="overview-section">
 
       <h2>Truck Overview</h2>
        
         <p>Here you can find essential logistic information relevant to hospital operations.</p>
         {/* Add relevant widgets and summaries here */}
+
         <div className="logistic-overview-widgets">
           <div className="widget">
             <h3>Number of user's requisition for item waited to be verified:</h3>

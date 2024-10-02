@@ -66,7 +66,7 @@ const ViewService = () => {
        
         <div className="service-table-data">
         <h1>Services Managment</h1>
-        <table>
+        <table className='table'>
           <thead>
             <tr>
               <th>No</th>
@@ -82,8 +82,8 @@ const ViewService = () => {
                 <td>{index+1}</td>
                 <td>{service.name}</td>
                 <td>
-                <button onClick={() => handleEditClick(service)}><FaEdit size={24} color='black'/></button>
-                <button onClick={() => handleDelete(service._id)} ><FaTrash size={24} color='red'/></button>
+                <button onClick={() => handleEditClick(service)}><FaEdit size={16} color='black'/></button>
+                <button onClick={() => handleDelete(service._id)} ><FaTrash size={16} color='red'/></button>
 
                 </td>
                
@@ -98,6 +98,7 @@ const ViewService = () => {
        
    
       {editService && (
+          <div className="editing-userdata-ovelay">
         <div className="edit-form">
           <h2>Edit Service</h2>
           <input
@@ -106,7 +107,8 @@ const ViewService = () => {
             onChange={(e) => setServiceName(e.target.value)}
           />
           <button onClick={handleUpdate}>Update</button>
-          <button onClick={() => setEditService(null)}>Cancel</button>
+          <button className='cancel-btn' onClick={() => setEditService(null)}>Cancel</button>
+        </div>
         </div>
       )}
       <div className="addnew-service">

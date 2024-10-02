@@ -62,8 +62,8 @@ const ViewDepartment = () => {
     <div className="service-data">
         
         <div className="service-table-data">
-        <h1>Departments List</h1>
-        <table>
+        <h1>Departments Managment</h1>
+        <table className='table'>
           <thead>
             <tr>
               <th>No</th>
@@ -79,8 +79,8 @@ const ViewDepartment = () => {
                 <td>{index+1}</td>
                 <td>{department.name}</td>
                 <td>
-                <button onClick={() => handleEditClick(department)}><FaEdit size={24} color='black'/></button>
-                <button onClick={() => handleDelete(department._id)}><FaTrash size={24} color='red'/></button>
+                <button onClick={() => handleEditClick(department)}><FaEdit size={16} color='black'/></button>
+                <button onClick={() => handleDelete(department._id)}><FaTrash size={16} color='red'/></button>
 
                 </td>
                
@@ -93,6 +93,7 @@ const ViewDepartment = () => {
         </div>
 
         {editDepartment && (
+         <div className="editing-userdata-ovelay">
         <div className="edit-form">
           <h2>Edit Department</h2>
           <input
@@ -101,7 +102,8 @@ const ViewDepartment = () => {
             onChange={(e) => setDepartmentName(e.target.value)}
           />
           <button onClick={handleUpdate}>Update</button>
-          <button onClick={() => setEditDepartment(null)}>Cancel</button>
+          <button className='cancel-btn' onClick={() => setEditDepartment(null)}>Cancel</button>
+        </div>
         </div>
       )}  
 

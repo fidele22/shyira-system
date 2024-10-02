@@ -1,21 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import logo from '../../../Component/image/land.jpg'
+
 //import './contentCss/overview.css';
 
 const DashboardOverview = () => {
-  const [userName, setUserName] = useState('');
+  const [userName, setLastName] = useState('');
   const [requestCount, setRequestCount] = useState(0);
   const [requestVerifiedCount, setRequestVerifiedCount] = useState(0);
   const [requestApprovedCount, setRequestApprovedCount] = useState(0);
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const token = localStorage.getItem('token');
-      console.log('Token:', token); // Debug log
+      // Get the current tab's ID from sessionStorage
+      const currentTab = sessionStorage.getItem('currentTab');
+
+      if (!currentTab) {
+        console.error('No tab ID found in sessionStorage');
+        return;
+      }
+
+      // Retrieve the token using the current tab ID
+      const token = sessionStorage.getItem(`token_${currentTab}`);
+
+      console.log('Token:', token); // Debug log to check if the token is correctly retrieved
 
       if (!token) {
-        console.error('No token found');
+        console.error('No token found for the current tab');
         return;
       }
 
@@ -31,8 +41,8 @@ const DashboardOverview = () => {
         if (response.ok) {
           const data = await response.json();
           console.log('User data:', data); // Debug log
-          const fullName = `${data.lastName}`;
-          setUserName(fullName);
+          const lastName = ` ${data.lastName}`;
+          setLastName(lastName);
         } else {
           console.error('Failed to fetch user data');
         }
@@ -90,14 +100,14 @@ const DashboardOverview = () => {
   }, []);
 
   return (
-    <div className="logistic-0verview-content">
+    <div className="overview-content">
       <div className="welcome-nav">
       <h1>Welcome back,{userName}!</h1>
       </div>
      
 
       {/* Overview Sections */}
-      <section className="logistic-overview-section">
+      <section className="overview-section">
 
         <h2>Truck Overview</h2>
        

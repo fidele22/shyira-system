@@ -16,12 +16,62 @@
     font-size: 16px;
   
   }
-  @media (max-width: 769px) {
+  /***********responsiving on small devices*****************/
+/********* Responsive styles *********/
+@media (max-width: 768px) {
+
+  .Admincontent {
+    width: 100%;
+    margin-left: 0;
+    padding: 20px;
+  }
+
+  .add-new-user-btn {
+    font-size: 14px;
+  }
+
+  .items-table th, .items-table td {
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  .pagination button {
+    font-size: 16px;
+  }
+}
+  @media (max-width: 600px) {
+   .admin-dashboard{
+    width: 100%;
+    padding: 0;
+    margin-left: 0%;
+    margin-top: 0%;
+    background-color: #007bff;
+   }
     .Admincontent {
       width: 100%;
-      margin-left: 0%;
+      margin-left: 0;  /* Removes unnecessary margin */
+      padding: 0;      /* Ensures no extra padding */
+    }
+    .adminavbar {
+      width: 100%;  /* Full width */
+      height: 100vh;
+      margin: 0;   /* Ensures no margin */
+      padding: 0;  /* Removes padding */
+      transform: translateX(-100);  /* Ensures navbar is visible */
+    }
+    .adminavbar.open {
+      transform: translateX(0);
+    }
+  
+    .menu-toggle {
+      display: block;
+      font-size: 24px;
+      position: absolute;
+      top: 10px;
+      left: 20px;
     }
   }
+  
 
  /****************styling editing******************/ 
  .editing-userdata-ovelay{

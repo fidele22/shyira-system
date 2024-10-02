@@ -143,7 +143,7 @@ const ApprovedRequests = () => {
      
 
       <div className="approved-navigate-request">
-      <h2>Requisition for items have been signed that was recieved</h2>
+      <h4>Requisition for items have been signed that was recieved</h4>
       <form onSubmit={handleSearchRequest} className="search-form">
         <div className='search-date'>
         <label htmlFor="">Search by date</label>

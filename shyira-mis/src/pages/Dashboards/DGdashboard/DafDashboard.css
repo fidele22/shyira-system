@@ -1,19 +1,15 @@
-body{
-  overflow-x: hidden;
-}
-.daf-dashboard {
-    display: flex;
-    width: 100%;
-    height:auto;
-    background-color: rgb(237, 234, 234);
 
+.dg-dashboard {
+  width: 100%;
+  height:auto;
   }
-  .dafcontent{
+  .dgcontent{
     height: auto;
-    width: 83%; 
-    left:16%;
-    margin-top: 7%;
-    position: relative;  
+    width: 85%; 
+    height: auto;
+    justify-content: space-between;
+    padding: 100px 10px 0px 0px;
+    margin-left: 16%;
     
    
   }

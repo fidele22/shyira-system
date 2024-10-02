@@ -5,9 +5,9 @@ import Navbar from './Navigationbar/DGnavigationbar';
 import Overview from './Overview';
 import ViewRequest from './userRequisition/RequestVerified'
 import ViewApproved from '../logisticdashboard/UserRequisitions/approvedRequest'
-import ViewLogisticRequest from './requestOfLogistic/viewLogisticRequest'
-import ViewFuelRequest from './fuelRequest/fuelRequisition'
-import UserRequestStatus from './userRequisition/userRequestStatus'
+import ViewLogisticRequest from './requestOfLogistic/OrderPage'
+import FuelRequisition from './fuelRequisition/fuelRequisitionPages'
+import UserRequestpage from './userRequisition/userPage'
 import UserRequestRecieved from '../logisticdashboard/receivedRequisitions/itemRequestReceived'
 import ViewItems from './StockItem/viewitems'
 import Logisticrecieved from '../logisticdashboard/OrderSupply/RecievedOrder'
@@ -16,7 +16,7 @@ import DafProfile from './DafProfile'
 import './DafDashboard.css';
 
 
-const LogisticDashboard = () => {
+const Dashboard = () => {
   const [currentPage, setCurrentPage] = useState('overview');
 
   const renderContent = () => {
@@ -29,20 +29,20 @@ const LogisticDashboard = () => {
           return <DafProfile />;
       case 'view-stock-items':
           return <ViewItems/>
-      case 'user-request-status':
-         return <UserRequestStatus />
+      case 'user-request':
+         return <UserRequestpage />
 
-   case 'user-request-recieved':
-    return <UserRequestRecieved />
+      case 'user-request-recieved':
+         return <UserRequestRecieved />
 
       case 'logistic-recieved':
-      return <Logisticrecieved/>
+         return <Logisticrecieved/>
       case 'view-aproved':
         return <ViewApproved/>    
-     case 'view-logistic-request':
+      case 'view-logistic-request':
           return <ViewLogisticRequest />
-     case 'view-fuel-request':
-          return <ViewFuelRequest />;
+      case 'fuel-requisition':
+          return <FuelRequisition />;
           
       default:
         return <Overview />;
@@ -50,16 +50,17 @@ const LogisticDashboard = () => {
   };
 
   return (
-    <div className="daf-dashboard">
+    <div className="dg-dashboard">
       <Navigation />
       <Navbar setCurrentPage={setCurrentPage} />
-
-      <div className="dafcontent">
+      <div className="dg-content-page">
+      <div className="dgcontent">
         {renderContent()}
-        <Footer />
+      </div>
+      <Footer />
       </div>
     </div>
   );
 };
 
-export default LogisticDashboard;
+export default Dashboard;

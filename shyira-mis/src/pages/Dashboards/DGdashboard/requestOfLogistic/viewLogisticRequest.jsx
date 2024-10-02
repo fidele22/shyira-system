@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import ApprovedLogisticRequest from './approvedLogisticRequest'
 import { FaQuestionCircle, FaEdit, FaTimes, FaTrash,FaCheck } from 'react-icons/fa';
 import axios from 'axios';
 import './styling.css'; // Import CSS for styling
@@ -172,7 +171,7 @@ useEffect(() => {
     <div className={`verified-requist ${selectedRequest ? 'dim-background' : ''}`}>
     
       <div className="verified-request-navigation">
-      <h2>List of logistic Order Verified Not Approved</h2>
+      <h4>List of logistic Order Verified Not Approved</h4>
       <form onSubmit={handleSearchRequest} className="search-form">
         <div className='search-date'>
           <label htmlFor="">Search by date</label>
@@ -347,7 +346,7 @@ useEffect(() => {
         </div>
       )}
 
-      <ApprovedLogisticRequest />
+  
     </div>
   );
 };

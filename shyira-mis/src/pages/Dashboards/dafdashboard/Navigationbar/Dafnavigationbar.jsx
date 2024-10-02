@@ -7,7 +7,6 @@ import axios from 'axios';
 const Navbar = ({ setCurrentPage }) => {
   const [dropdownsOpen, setDropdownsOpen] = useState({
     request: false,
-    logisticrequest:false,
     requisitions: false,
     fuelrequest:false,
   });
@@ -36,27 +35,8 @@ const Navbar = ({ setCurrentPage }) => {
       <ul>
         <li onClick={() => setCurrentPage('overview')}><FaHome /> Overview</li>
         <li onClick={() => setCurrentPage('view-stock-items')}> <FaList /> stock Items</li>
-        <li onClick={() => toggleDropdown('logisticrequest')} className="dropdown">
-        <FaBoxOpen /> Logistic Requisition
-          {dropdownsOpen.logisticrequest && (
-            <ul className="dropdown-menu">
-              <li onClick={() => setCurrentPage('view-logistic-request')}><FaList /> View Requisition </li>
-              <li onClick={() => setCurrentPage('recieved-logistic-order')}><FaClipboardCheck/> Recieved Requisition</li>
-              <li onClick={() => setCurrentPage('rejected-logistic-order')}><FaClipboardCheck/> Rejected Requisition</li>
-            </ul>
-          )}
-        </li>
-        <li onClick={() => toggleDropdown('request')} className="dropdown">
-        <FaBoxOpen /> User Requisition
-          {dropdownsOpen.request && (
-            <ul className="dropdown-menu">
-              <li onClick={() => setCurrentPage('view-request')}><FaList /> Verified requisition</li> 
-              <li onClick={() => setCurrentPage('recieved-requisition')}><FaClipboardCheck/> Recieved Requisition</li>
-              <li onClick={() => setCurrentPage('rejected-requisition')}><FaClipboardCheck/> Rejected Requisition</li>
-            </ul>
-          )}
-        </li>
-        
+        <li onClick={() => setCurrentPage('view-logistic-request')}><FaList /> Logistic Requisition </li>
+        <li onClick={() => setCurrentPage('user-item-request')}><FaList /> User Item Requisition</li>  
         <li onClick={() => toggleDropdown('fuelrequest')} className="dropdown">
         <FaGasPump />  Fuel Requisition
           {dropdownsOpen.fuelrequest && (

@@ -11,7 +11,7 @@ import ViewP from './position/viewPosition';
 import ViewD from './department/viewDepartment';
 import './css/adminDashboard.css';
 
-const LogisticDashboard = () => {
+const AdminDashboard = () => {
   const [currentPage, setCurrentPage] = useState('adminoverview');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -41,6 +41,9 @@ const LogisticDashboard = () => {
   return (
     <div className={`admin-dashboard ${isMenuOpen ? 'open' : ''}`}>
       <div>
+
+     
+      <div>
       <Navigation />
       <div className="menu-toggle" onClick={handleMenuToggle}>
         {isMenuOpen ? <FaTimes /> : <FaBars />}
@@ -54,8 +57,9 @@ const LogisticDashboard = () => {
         </div>
         <Footer />
       </div>
+      </div>
     </div>
   );
 };
 
-export default LogisticDashboard;
+export default AdminDashboard;

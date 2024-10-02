@@ -59,7 +59,7 @@ const ViewPosition = () => {
      
       <div className="service-table-data">
       <h1>Positions Managment</h1>
-        <table>
+        <table className='table'>
           <thead>
             <tr>
               <th>No</th>
@@ -73,8 +73,8 @@ const ViewPosition = () => {
                 <td>{index + 1}</td>
                 <td>{position.name}</td>
                 <td>
-                  <button onClick={() => handleEditClick(position)}><FaEdit size={24} color='black'/></button>
-                  <button onClick={() => handleDelete(position._id)}><FaTrash size={24} color='red'/></button>
+                  <button onClick={() => handleEditClick(position)}><FaEdit size={16} color='black'/></button>
+                  <button onClick={() => handleDelete(position._id)}><FaTrash size={16} color='red'/></button>
                 </td>
               </tr>
             ))}
@@ -82,6 +82,7 @@ const ViewPosition = () => {
         </table>
       </div>
       {editPosition && (
+         <div className="editing-userdata-ovelay">
         <div className="edit-form">
           <h2>Edit Position</h2>
           <input
@@ -90,7 +91,8 @@ const ViewPosition = () => {
             onChange={(e) => setPositionName(e.target.value)}
           />
           <button onClick={handleUpdate}>Update</button>
-          <button onClick={() => setEditPosition(null)}>Cancel</button>
+          <button className='cancel-btn' onClick={() => setEditPosition(null)}>Cancel</button>
+        </div>
         </div>
       )}
 

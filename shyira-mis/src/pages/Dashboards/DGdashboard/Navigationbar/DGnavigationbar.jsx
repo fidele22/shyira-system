@@ -36,38 +36,12 @@ const Navbar = ({ setCurrentPage }) => {
       <ul>
         <li onClick={() => setCurrentPage('overview')}><FaHome /> Overview</li>
         <li onClick={() => setCurrentPage('view-stock-items')}> <FaList /> stock Items</li>
-        <li onClick={() => toggleDropdown('request')} className="dropdown">
-        <FaBoxOpen />  Logistic Requisition
-          {dropdownsOpen.request && (
-            <ul className="dropdown-menu">
-              <li onClick={() => setCurrentPage('view-logistic-request')}><FaList /> verified requisition</li>
-              <li onClick={() => setCurrentPage('logistic-recieved')}><FaClipboardCheck /> Requisition Recieved</li>
-              <li onClick={() => setCurrentPage('logistic-rejected-order')}><FaTrash />Requisition Rejected</li> 
+        <li onClick={() => setCurrentPage('view-logistic-request')}><FaList /> Logistic requisition</li>
+        <li onClick={() => setCurrentPage('user-request')}><FaList />User requisition</li>
 
-            </ul>
-          )}
-        </li>
-        <li onClick={() => toggleDropdown('userRequest')} className="dropdown">
-        <FaBoxOpen />  User Requisition
-          {dropdownsOpen.userRequest && (
-            <ul className="dropdown-menu">
-              <li onClick={() => setCurrentPage('user-request-status')}><FaList />requisition status</li>
-              <li onClick={() => setCurrentPage('user-request-recieved')}><FaClipboardCheck /> Requisition Recieved</li>
-              <li onClick={() => setCurrentPage('logistic-rejected-order')}><FaTrash />Requisition Rejected</li> 
-
-            </ul>
-          )}
-        </li>
-        <li onClick={() => toggleDropdown('fuelrequest')} className="dropdown">
-        <FaGasPump />  Fuel Requisition
-          {dropdownsOpen.fuelrequest && (
-            <ul className="dropdown-menu">
-              <li onClick={() => setCurrentPage('view-fuel-request')}><FaList /> Fuel requisition status</li>
-              <li onClick={() => setCurrentPage('viewfuel-aproved')}><FaClipboardCheck/> Approved fuel request</li>
-              <li onClick={() => setCurrentPage('viewfuel-rejected')}><FaClipboardCheck/>fuel request</li>
-            </ul>
-          )}
-        </li>
+        <li onClick={() => setCurrentPage('fuel-requisition')}>
+                <FaClipboardCheck /> Fuel Requisition </li>
+          
       </ul>
       
       <u><h2>Settings</h2></u>
