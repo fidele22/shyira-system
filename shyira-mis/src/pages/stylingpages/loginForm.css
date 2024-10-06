@@ -2,11 +2,13 @@
 
 * {
     box-sizing: border-box; 
+    
 }
 
 
 body{
   background-color: rgb(227, 226, 226);
+  overflow-x: hidden;
 }
 p {
   font-size: 12px;

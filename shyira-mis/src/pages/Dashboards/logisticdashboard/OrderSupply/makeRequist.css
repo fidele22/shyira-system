@@ -1,17 +1,19 @@
 /* makeRequist.css */
 
-.requistion {
+.requestion {
   width: 95%;
   margin: 0 auto;
   padding: 20px;
+  border-radius: 5px;
  
 }
+
 .links{
   background-color: #4a5d77;
   height: auto;
 }
 .links button{
-  font-size:18px;
+  font-size:14px;
 }
 .imag-logo img{
   width: 100%;
@@ -36,7 +38,7 @@ padding: 10px;
 }
 .date-of-done{
   position: absolute;
-  top: 50%;
+
   right: 10%;
  
   
@@ -64,6 +66,7 @@ padding: 10px;
   background-color: #fff;
   padding: 20px;
   border: 1px solid #e0e0e0;
+  border-radius: 10px;
 
 }
 

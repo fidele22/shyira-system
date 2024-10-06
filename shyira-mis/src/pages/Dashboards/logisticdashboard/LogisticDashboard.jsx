@@ -69,15 +69,20 @@ const LogisticDashboard = () => {
   };
 
   return (
-    <div className="logistic-dashboard">
-      <Navigation />
-      <Navbar setCurrentPage={setCurrentPage} />
-      
-      <div className="logisticcontent">
-        {renderContent()}
-        <Footer />
-      </div>
+    <div className="daf-dashboards">
+    <Navigation />
+    <div className="content-navbar">
+    <Navbar setCurrentPage={setCurrentPage} />
     </div>
+  
+
+    <div className="dafcontent-page">
+      <div className='dafcontents'>
+      {renderContent()}
+      </div>
+      <Footer />
+    </div>
+  </div>
   );
 };
 

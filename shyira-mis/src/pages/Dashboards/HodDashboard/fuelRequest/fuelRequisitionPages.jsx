@@ -28,11 +28,11 @@ const UserFuelRequesition = () => {
         </button>
 
         <button className='recieved-item' onClick={() => setActiveComponent('recieved-requisition')}>
-          <FaCheckCircle color='green'/> Recieved
+          <FaCheckCircle color='green'/> Recieved Fuel
         </button>
 
         <button className='recieved-item' onClick={() => setActiveComponent('rejected-requisition')}>
-          <FaTimesCircle color='red'/>  Rejected
+          <FaTimesCircle color='red'/>  Rejected Fuel
         </button>
        
       </div>

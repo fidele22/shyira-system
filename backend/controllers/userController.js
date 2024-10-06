@@ -123,10 +123,9 @@ router.get('/', authenticate, async (req, res) => {
 
 module.exports = router;
 
-// Profile route
 const getProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.user._id)
+    const user = await User.findById(req.user._id);
 
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
@@ -138,17 +137,15 @@ const getProfile = async (req, res) => {
       phone: user.phone,
       email: user.email,
       signature: user.signature,
-      // Check if positionId, serviceId, and departmentId are not null before accessing their properties
-      positionName:user.positionName,
-      serviceName:user.serviceName,
-      departmentName:user.departmentName,
+      positionName: user.positionName,
+      serviceName: user.serviceName,
+      departmentName: user.departmentName,
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error' });
   }
 };
-
 
 //fetching user data and display to admin dashboard
 const getUsers = async (req, res) => {

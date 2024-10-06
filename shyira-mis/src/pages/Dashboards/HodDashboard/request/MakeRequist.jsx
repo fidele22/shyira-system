@@ -188,7 +188,7 @@ const LogisticRequestForm = () => {
   };
 
   return (
-    <div className="hod-requistion">
+    <div className="requistion">
       <h3>Make Requisition for Items</h3>
       <label htmlFor="" >You have to make various requisitions for staff and accommodation materials</label>
       <div className="hod-request-form">

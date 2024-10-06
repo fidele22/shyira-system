@@ -156,19 +156,19 @@ const LogisticRequestForm = () => {
             </div>
           <div className="heading-title">
             <div className="title">
-              <h3>WESTERN PROVINCE</h3>
+              <h4>WESTERN PROVINCE</h4>
             </div>
             <div className="title">
-              <h3>DISTRICT: NYABIHU</h3>
+              <h4>DISTRICT: NYABIHU</h4>
             </div>
             <div className="title">
-              <h3>SHYIRA DISTRICT HOSPITAL</h3>
+              <h4>SHYIRA DISTRICT HOSPITAL</h4>
             </div>
             <div className="title">
-              <h3>LOGISTIC OFFICE</h3>
+              <h4>LOGISTIC OFFICE</h4>
             </div>
             <div className="title">
-              <h3>SUPPLIER NAME :</h3>
+              <h4>SUPPLIER NAME :</h4>
               <input
                 type="text"
                 value={supplierName}
@@ -180,7 +180,7 @@ const LogisticRequestForm = () => {
            
           </div>
 
-          <h2>REQUISITION FORM FROM LOGISTIC DEPARTMENT  FOR FUEL</h2>
+          <h4>REQUISITION FORM FROM LOGISTIC DEPARTMENT  FOR FUEL</h4>
           <button className='additem-btn' type="button" onClick={handleAddItem}>Add Item</button>
           <table>
             <thead>

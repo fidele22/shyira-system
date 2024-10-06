@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
-const middleware= require('../middlewares/userAthu')
+//const middleware= require('../middlewares/userAthu')
 const upload = require('../middlewares/upload');
 
 // Update user route with signature upload
@@ -35,43 +35,34 @@ router.put('/:id', upload.single('signature'), async (req, res) => {
   }
 });
 
-// routes/profile.js
 
-// Change password
-// Change password
-router.put('/change-password',middleware, async (req, res) => {
+// Update user profile
+router.put('/profile', async (req, res) => {
   try {
-    const userId = req.user.id; // Ensure this is correctly set by your authentication middleware
+    const userId = req.user._id; // Ensure you're using the correct user ID
 
+    // Validate that the user exists in the database
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    const { currentPassword, newPassword, confirmPassword } = req.body;
+    // Update the user's fields
+    user.firstName = req.body.firstName || user.firstName;
+    user.lastName = req.body.lastName || user.lastName;
+    user.phone = req.body.phone || user.phone;
+    // Add more fields as needed...
 
-    const isMatch = await bcrypt.compare(currentPassword, user.password);
-    if (!isMatch) {
-      return res.status(400).json({ message: 'Current password is incorrect' });
-    }
+    // Save the updated user
+    const updatedUser = await user.save();
 
-    if (newPassword !== confirmPassword) {
-      return res.status(400).json({ message: 'New passwords do not match' });
-    }
-
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
-    user.password = hashedPassword;
-
-    await user.save();
-    res.json({ message: 'Password changed successfully' });
+    // Respond with updated user data
+    res.json(updatedUser);
   } catch (error) {
-    console.error('Error changing password:', error);
-    res.status(500).json({ message: 'Error changing password' });
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
   }
 });
 
-
-
-
-
 module.exports = router;
+

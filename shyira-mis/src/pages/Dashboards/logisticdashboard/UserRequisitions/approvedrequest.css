@@ -1,7 +1,11 @@
 
  .approved-requests-page{
   background-color: white;
+  border-radius: 5px;
  } 
+ .approved-requests-page h4{
+  text-align: center;
+ }
 .approved-request {
     background-color: white;
     border: 1px solid #ddd;

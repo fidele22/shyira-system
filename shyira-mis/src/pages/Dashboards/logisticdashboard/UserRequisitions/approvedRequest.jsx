@@ -120,7 +120,7 @@ const ApprovedRequests = () => {
 
   return (
     <div className="approved-requests-page">
-      <h2>Approved Requests</h2>
+      <h4>Approved user's Requesition  for item</h4>
       <form onSubmit={handleSearchRequest} className="search-form">
        <div className='search-department'>
         <label htmlFor="">Search by department</label>

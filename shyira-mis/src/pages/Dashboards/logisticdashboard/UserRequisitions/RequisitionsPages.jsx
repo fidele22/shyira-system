@@ -3,8 +3,8 @@ import axios from 'axios';
 import { FaEye , FaEdit,FaSpinner, FaTimes, FaTimesCircle, FaCheck, FaCheckCircle, FaCheckDouble, FaCheckSquare } from 'react-icons/fa';
 import VeiwUserRequisition from './ViewRequisition'; 
 import ItemRequisitionRecieved from '../receivedRequisitions/itemRequestReceived';
-import ItemRequisitionStatus from './RequisitionStatus';
-
+import ItemRequisitionApproved from './RequisitionStatus';
+import ItemRequisitionRejected from '../receivedRequisitions/itemRequestReceived';
 
 const UserRequesition = () => {
 
@@ -21,8 +21,8 @@ const UserRequesition = () => {
           <FaEye /> View Requisition
         </button>
         
-        <button className='make-fuel-order' onClick={() => setActiveComponent('status')}>
-          <FaSpinner color='brown'/> Item Requisition Status
+        <button className='make-fuel-order' onClick={() => setActiveComponent('approved')}>
+          <FaSpinner color='brown'/> Item Requisition Approved
         </button>
 
         <button className='recieved-item' onClick={() => setActiveComponent('recieved')}>
@@ -39,8 +39,10 @@ const UserRequesition = () => {
         <VeiwUserRequisition />
       ) : activeComponent === 'recieved' ? (
         <ItemRequisitionRecieved />
-      ) : activeComponent === 'status' ? (
-        <ItemRequisitionStatus />
+      ) : activeComponent === 'approved' ? (
+        <ItemRequisitionApproved />
+      ) : activeComponent === 'rejected' ? (
+        <ItemRequisitionRejected />
       ) :(
         <div>
     <p>Navigate to what you want to look.</p>

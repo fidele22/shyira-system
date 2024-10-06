@@ -55,7 +55,7 @@ const togglePasswordVisibility = () => {
   
         // Save the token in sessionStorage instead of localStorage
         sessionStorage.setItem(`token_${tabId}`, token);
-  
+        
         // Save the tab ID for reference in other parts of the app
         sessionStorage.setItem('currentTab', tabId);
   
@@ -73,7 +73,7 @@ const togglePasswordVisibility = () => {
         } else if (role === 'HOD') {
           navigate('/HOD');
         } else {
-          navigate('/HOD');
+          navigate('/');
         }
       } catch (err) {
         console.error('Login error:', err);

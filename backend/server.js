@@ -31,6 +31,9 @@ const StockData = require('./models/stockData')
 
 const RepairRequisition = require('./routes/RepairRequisition')
 
+const userdataRoutes =require ('./routes/userData')
+
+
 const app = express();
 app.use(express.json()); // Or use body-parser's JSON parser
 app.use(bodyParser.json()); // If using body-parser
@@ -71,6 +74,7 @@ app.use('/api/positions', positionRoutes);
 app.use('/api/roles', userRoleRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/profile',userProfileRoutes)
+app.use('/api/userdata',userdataRoutes)
 app.use('/api', loginRoute);
 app.use('/api/approve', approvedRoutes);
 app.use('/api/LogisticRequest', logisticRequestsRoutes);

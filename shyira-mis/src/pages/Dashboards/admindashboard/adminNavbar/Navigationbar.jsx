@@ -27,9 +27,9 @@ const Navbar = ({ setCurrentPage, isMenuOpen }) => {
       </ul>
       <h2>Settings</h2>
       <ul>
-        <li onClick={() => setCurrentPage('logistic-profile')}><FaUser /> Profile</li>
+        <li onClick={() => setCurrentPage('user-profile')}><FaUser /> Profile</li>
         <li onClick={() => setCurrentPage('logistic-profile')}><FaBurn /> Help Center</li>
-        <li onClick={handleLogout}><FaSignOutAlt /> Logout</li>
+        <li  className='logout-button' onClick={handleLogout}><FaSignOutAlt /> Logout</li>
       </ul>
     </div>
   );

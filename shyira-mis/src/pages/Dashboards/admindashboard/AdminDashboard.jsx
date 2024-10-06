@@ -9,6 +9,7 @@ import UserRole from './roles/AddRole';
 import ViewS from './service/ViewServices';
 import ViewP from './position/viewPosition';
 import ViewD from './department/viewDepartment';
+import UserProfile from './user/profile'
 import './css/adminDashboard.css';
 
 const AdminDashboard = () => {
@@ -33,6 +34,8 @@ const AdminDashboard = () => {
         return <ViewP />;
       case 'view-department':
         return <ViewD />;
+      case 'user-profile':
+        return <UserProfile />  
       default:
         return <AdminOverview />;
     }

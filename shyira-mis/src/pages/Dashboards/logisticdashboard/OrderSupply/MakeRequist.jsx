@@ -168,24 +168,29 @@ const LogisticRequestForm = () => {
       ) : activeComponent === 'approved' ? (
         <FuelOrderApproved />
       ) : (
-        <div className="hod-request-form">
-          <h2>Make Items Requisition</h2>
+        <div className="requestion">
+          <h3>Make Requisition for Items</h3>
+          <label htmlFor="" >You have to make various requisitions for staff and accommodation materials</label>
+         
+         <div className='hod-request-form'>
           <form onSubmit={handleSubmit}>
             <div className="imag-logo">
               <img src="/image/logo2.png" alt="Logo" className="log" />
             </div>
             <div className="heading-title">
-              <div className="title"><h3>WESTERN PROVINCE</h3></div>
-              <div className="title"><h3>DISTRICT NYABIHU</h3></div>
-              <div className="title"><h3>SHYIRA DISTRICT HOSPITAL</h3></div>
-              <div className="title"><h3>LOGISTIC OFFICE</h3></div>
-              <div className="date-of-done">
+            <div className="date-of-done">
                 <label htmlFor="date">Date:</label>
                 <input type="date" id="date" value={date} onChange={(e) => setDate(e.target.value)} />
               </div>
+              
+              <div className="title"><h4>WESTERN PROVINCE</h4></div>
+              <div className="title"><h4>DISTRICT NYABIHU</h4></div>
+              <div className="title"><h4>SHYIRA DISTRICT HOSPITAL</h4></div>
+              <div className="title"><h4>LOGISTIC OFFICE</h4></div>
+             
             </div>
             <div className="requisition-title">
-              <h2>REQUISITION FORM FROM LOGISTIC DEPARTMENT</h2>
+              <h4>REQUISITION FORM FROM LOGISTIC DEPARTMENT</h4>
               <p>Supplier Name:
                 <input type="text" placeholder="Type names here..." value={supplierName} onChange={(e) => setSupplierName(e.target.value)} />
               </p>
@@ -251,7 +256,7 @@ const LogisticRequestForm = () => {
           <button className='Log-submit-btn' type="submit">Submit Request</button>
         </form>
       </div>
-         
+       </div>  
          )}
 
         {/* Modal pop message on success or error message */}

@@ -4,9 +4,9 @@ import './Footer.css'
 function Footer() {
   return (
     <div className='footer'>
-        <div className="footer-logo">
+        <div className="footer-content">
             <img src="" alt="" />
-            <p>Shyira district hospital</p>
+            <p>Shyira District Hospital</p>
         </div>
         
         

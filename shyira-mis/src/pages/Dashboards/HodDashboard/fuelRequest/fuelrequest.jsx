@@ -146,7 +146,7 @@ const RequisitionForm = () => {
         }
 
         // Use Axios to fetch user profile
-        const response = await axios.get('http://10.20.0.99:5000/api/users/profile', {
+        const response = await axios.get('http://localhost:5000/api/users/profile', {
           headers: {
             'Authorization': `Bearer ${token}`,
           },
@@ -170,7 +170,7 @@ const RequisitionForm = () => {
         <div className="image-logo">
             <img src="/image/logo2.png" alt="Logo" className="logo" />
           </div>
-         <h2>Fuel Requisition Form</h2> 
+         <h3>Fuel Requisition Form</h3> 
         
         <div className="left-content">
           <div className="form-group">
@@ -302,7 +302,8 @@ const RequisitionForm = () => {
            
             {user ? (
               <>
-               <label htmlFor="hodName">Name of {user.positionName}</label>
+              <div className='signature-div'>
+              <label htmlFor="hodName">Name of head of {user.departmentName}</label>
                 <p>{user.firstName} {user.lastName}</p>
                
                 {user.signature ? (
@@ -310,6 +311,8 @@ const RequisitionForm = () => {
                 ) : (
                   <p>No signature available</p>
                 )}
+              </div>
+         
               </>
             ) : (
               <p>Loading user profile...</p>
