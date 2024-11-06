@@ -37,16 +37,8 @@ const Navbar = ({ setCurrentPage }) => {
         <li onClick={() => setCurrentPage('view-stock-items')}> <FaList /> stock Items</li>
         <li onClick={() => setCurrentPage('view-logistic-request')}><FaList /> Logistic Requisition </li>
         <li onClick={() => setCurrentPage('user-item-request')}><FaList /> User Item Requisition</li>  
-        <li onClick={() => toggleDropdown('fuelrequest')} className="dropdown">
-        <FaGasPump />  Fuel Requisition
-          {dropdownsOpen.fuelrequest && (
-            <ul className="dropdown-menu">
-               <li onClick={() => setCurrentPage('logistic-fuel-request')}><FaList /> View logistic Request</li>
-              <li onClick={() => setCurrentPage('view-fuel-request')}><FaList /> View verified Request</li>
-              <li onClick={() => setCurrentPage('view-aproved')}><FaClipboardCheck/> Approved Request</li>
-            </ul>
-          )}
-        </li>
+        <li onClick={() => setCurrentPage('user-fuel-request')}><FaList />  User Fuel Requisition</li>
+     
       </ul>
       
       <u><h2>Settings</h2></u>

@@ -1,0 +1,35 @@
+.order-status{
+    display: flex;
+    gap: 15px;
+}
+.navigate-request p{
+    font-size: 12px;
+    
+}
+.navigate-request  button{
+    font-size: 12px;
+}
+.search-form button{
+ font-size: 12px;
+ padding: 5px;
+}
+.request-link:hover{
+     color: blue;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+
+/**section of signature***/
+.hod-signature p{
+    font-size: 12px;
+    margin: 0;
+}
+.logistic-signature p{
+    font-size: 12px;
+    margin: 0; 
+}
+.daf-signature p{
+    font-size: 12px;
+    margin: 0;   
+}

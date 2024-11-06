@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import { FaHome, FaUser, FaList, FaClipboardList, FaBurn, FaSignOutAlt, FaBars, FaTimes } from 'react-icons/fa';
+import { FaHome, FaUser , FaList, FaClipboardList, FaBurn, FaSignOutAlt, FaBars, FaTimes } from 'react-icons/fa';
 import Navbar from './adminNavbar/Navigationbar';
-import Navigation from '../navbar/Navbar'
+import Navigation from '../navbar/Navbar';
 import Footer from '../footer/Footer';
 import AdminOverview from './AdminOverview';
-import ViewUser from './user/users';
+import ViewUser  from './user/users';
 import UserRole from './roles/AddRole';
 import ViewS from './service/ViewServices';
 import ViewP from './position/viewPosition';
 import ViewD from './department/viewDepartment';
-import UserProfile from './user/profile'
+import UserProfile from '../UserProfile/profile';
 import './css/adminDashboard.css';
 
 const AdminDashboard = () => {
@@ -25,7 +25,7 @@ const AdminDashboard = () => {
       case 'adminoverview':
         return <AdminOverview />;
       case 'view-Users':
-        return <ViewUser />;
+        return <ViewUser  />;
       case 'user-roles':
         return <UserRole />;
       case 'view-service':
@@ -35,7 +35,7 @@ const AdminDashboard = () => {
       case 'view-department':
         return <ViewD />;
       case 'user-profile':
-        return <UserProfile />  
+        return <UserProfile />;
       default:
         return <AdminOverview />;
     }
@@ -44,23 +44,22 @@ const AdminDashboard = () => {
   return (
     <div className={`admin-dashboard ${isMenuOpen ? 'open' : ''}`}>
       <div>
+        <Navigation />
+        <div className="menu-toggle" onClick={handleMenuToggle}>
+          {isMenuOpen ? <FaTimes /> : <FaBars />}
+        </div>
+      </div>
 
-     
-      <div>
-      <Navigation />
-      <div className="menu-toggle" onClick={handleMenuToggle}>
-        {isMenuOpen ? <FaTimes /> : <FaBars />}
-      </div>
-      </div>
-    
-      <Navbar setCurrentPage={setCurrentPage} isMenuOpen={isMenuOpen} />
+      <Navbar setCurrentPage={setCurrentPage} isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+      
       <div className="Admincontent-page">
         <div className="Admincontent">
           {renderContent()}
+       
         </div>
         <Footer />
       </div>
-      </div>
+    
     </div>
   );
 };

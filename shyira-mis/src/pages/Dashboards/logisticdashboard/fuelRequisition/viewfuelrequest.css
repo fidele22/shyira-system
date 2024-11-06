@@ -117,18 +117,26 @@
   width: 100px;
   font-size: 16px;
 }
+/***********buttons**********/
 .cancel-request-btn{
   background-color: red;
   position: absolute;
-  font-size: 16px;
+  font-size: 12px;
 }
 .verify-btn{
   background-color: blue;
-  font-size: 20px;
+  font-size: 15px;
+}
+.save{
+  background-color: blue;
+  font-size: 15px;
+  padding:1;
+  height: auto;
+  width: auto;
 }
 .close-btn{
-  background-color: rgb(226, 93, 93);
-  font-size: 20px;
+  background-color: rgb(172, 39, 39);
+  font-size: 12px;
 }
 .file-uploaded a{
   background-color:green;

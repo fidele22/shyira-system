@@ -57,21 +57,10 @@ const Navbar = ({ setCurrentPage }) => {
         <li onClick={() => setCurrentPage('requisition')}><FaBoxOpen /> Request Item</li>
 
         <li onClick={() => setCurrentPage('fuel-request')}><FaBoxOpen /> Request Fuel</li>
-       
-      
-        <li onClick={() => toggleDropdown('fuelrequisitionsstatus')} className="dropdown">
-        <FaGasPump /> Fuel Requisition Decision
-          {dropdownsOpen.fuelrequisitionsstatus && (
-            <ul className="dropdown-menu">
-          <li onClick={() => setCurrentPage('recieved-request')}><FaClipboardList /> Received Requistion</li> 
-             <li onClick={() => setCurrentPage('view-request-jected')}><FaGasPump size={24} />Rejected Requistion</li>
-            </ul>
-          )}
-        </li>
       </ul>
       <u><h2>Settings</h2></u>
       <ul>
-        <li onClick={() => setCurrentPage('logistic-profile')}><FaUser /> Profile</li>
+        <li onClick={() => setCurrentPage('user-profile')}><FaUser /> Profile</li>
         <li onClick={() => setCurrentPage('logistic-profil')}> <FaLifeRing />Help Center</li>
         <li onClick={handleLogout}>
           <FaSignOutAlt /> Logout

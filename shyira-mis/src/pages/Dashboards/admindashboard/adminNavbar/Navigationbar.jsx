@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import axios from 'axios';
-import { FaHome, FaUser, FaList, FaClipboardList, FaBurn, FaSignOutAlt } from 'react-icons/fa';
+import { FaHome, FaUser , FaList, FaClipboardList, FaBurn, FaSignOutAlt } from 'react-icons/fa';
 import './Navigationbar.css';
 
-const Navbar = ({ setCurrentPage, isMenuOpen }) => {
+const Navbar = ({ setCurrentPage, isMenuOpen, setIsMenuOpen }) => {
+  const navbarRef = useRef(null);
+
   const handleLogout = async () => {
     try {
       await axios.post('http://localhost:5000/api/logout');
@@ -14,22 +16,42 @@ const Navbar = ({ setCurrentPage, isMenuOpen }) => {
     }
   };
 
+  const handleLinkClick = (page) => {
+    setCurrentPage(page);
+    setIsMenuOpen(false); // Close the navbar
+  };
+
+  // Close navbar when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (navbarRef.current && !navbarRef.current.contains(event.target)) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [setIsMenuOpen]);
+
   return (
-    <div className={`adminavbar ${isMenuOpen ? 'open' : ''}`}>
+    <div ref={navbarRef} className={`adminavbar ${isMenuOpen ? 'open' : ''}`}>
       <h2>Admin Dashboard</h2>
       <ul>
-        <li onClick={() => setCurrentPage('adminoverview')}><FaHome /> Overview</li>
-        <li onClick={() => setCurrentPage('view-Users')}><FaUser /> Users</li>
-        <li onClick={() => setCurrentPage('user-roles')}><FaHome /> User Roles</li>
-        <li onClick={() => setCurrentPage('view-service')}><FaList /> Services</li>
-        <li onClick={() => setCurrentPage('view-position')}><FaClipboardList /> Positions</li>
-        <li onClick={() => setCurrentPage('view-department')}><FaBurn /> Departments</li>
+        <li onClick={() => handleLinkClick('adminoverview')}><FaHome /> Overview</li>
+        <li onClick={() => handleLinkClick('view-Users')}><FaUser  /> Users</li>
+        <li onClick={() => handleLinkClick('user-roles')}><FaHome /> User Roles</li>
+        <li onClick={() => handleLinkClick('view-service')}><FaList /> Services</li>
+        <li onClick={() => handleLinkClick('view-position')}><FaClipboardList /> Positions</li>
+        <li onClick={() => handleLinkClick('view-department')}><FaBurn /> Departments</li>
       </ul>
+
       <h2>Settings</h2>
       <ul>
-        <li onClick={() => setCurrentPage('user-profile')}><FaUser /> Profile</li>
-        <li onClick={() => setCurrentPage('logistic-profile')}><FaBurn /> Help Center</li>
-        <li  className='logout-button' onClick={handleLogout}><FaSignOutAlt /> Logout</li>
+        <li onClick={() => handleLinkClick('user-profile')}><FaUser  /> Profile</li>
+        <li onClick={() => handleLinkClick('logistic-profile')}><FaBurn /> Help Center</li>
+        <li className='logout-button' onClick={handleLogout}><FaSignOutAlt /> Logout</li>
       </ul>
     </div>
   );

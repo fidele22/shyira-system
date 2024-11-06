@@ -134,7 +134,14 @@ const LogisticRequestForm = () => {
       setModalMessage('Submit requisition to logistic successfully');
       setIsSuccess(true); // Set the success state
       setShowModal(true); // Show the modal
-      // Refresh the list after posting
+      // Clear form fields after successful submission
+
+      setDepartment(''); // Reset department field
+
+      setDate(''); // Reset date field
+  
+      setItems([]); // Reset items array
+      
     } catch (error) {
       console.error('Error submitting requisition:', error);
       

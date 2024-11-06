@@ -13,7 +13,7 @@ import RequestStatus from './requestStatus/requestStatus'
 
 //import ViewFuelRequest from './fuelRequest/viewfuelRequest'
 import Items from './items/viewItems'
-import HodProfile from './Profile/HodProfile'
+import UserProfile from '../UserProfile/profile'
 import './hodDashboard.css';
 import ViewItems from './request/ViewItems';
 
@@ -46,8 +46,8 @@ const LogisticDashboard = () => {
       case 'view-request-jected':
         return <RejectedRequest/>  
 
-      case 'logistic-profile':
-          return <HodProfile />;
+      case 'user-profile':
+          return <UserProfile />;
 
       default:
         return <Overview />;
@@ -68,7 +68,6 @@ const LogisticDashboard = () => {
         </div>
         <Footer />
       </div>
-    
     </div>
   );
 };

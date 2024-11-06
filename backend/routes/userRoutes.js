@@ -6,6 +6,7 @@ const { upload, registerUser, loginUser, getUsers, updateUser, deleteUser, authe
 const User = require('../models/user'); // Make sure to import your User model
 
 router.post('/register', upload.single('signature'), registerUser);
+
 router.post('/login', loginUser);
 router.get('/', getUsers);
 router.put('/:id', updateUser);

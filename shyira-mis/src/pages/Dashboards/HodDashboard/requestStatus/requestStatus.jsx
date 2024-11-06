@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import RequisitionApproved from './approvedRequest';
 import RequisitionVerified from './verifiedRequest';
 import RequistionsMade from './requestSent'
-//import OrderMade from './'
-//import './orderstatus.css'
+
+import './styling.css'
 
 const RequestStatus = () => {
 

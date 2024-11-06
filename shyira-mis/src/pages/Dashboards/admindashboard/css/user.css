@@ -29,4 +29,26 @@
     color: red;
     cursor: pointer;
   }
+  /***responsiviness*********/
+
+  @media (min-width: 601px) and (max-width: 800px) {
+
+    .view-items {
+      width:790px; /* Full width on small screens **/
+   
+      margin-left: -8rem; 
+      margin-top: -7%;
+    
+    }
+  }
   
+@media (min-width: 300px) and (max-width: 600px) {
+
+  .view-items {
+    width:620px; /* Full width on small screens **/
+ 
+    margin-left: -1rem; 
+    margin-top: -7%;
+  
+  }
+}

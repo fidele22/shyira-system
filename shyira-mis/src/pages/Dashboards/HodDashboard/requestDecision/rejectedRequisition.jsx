@@ -144,7 +144,8 @@ const ApprovedRequests = () => {
       
 
       <div className="approved-navigate-request">
-      <h2>Rejected Requisitions</h2>
+      <h3>Rejected Requisitions</h3>
+      <img src="/image/rejectedstamp.png" alt="" />
       <form onSubmit={handleSearchRequest} >
         <div className='search-date'>
           <label htmlFor="date">Search by date</label>

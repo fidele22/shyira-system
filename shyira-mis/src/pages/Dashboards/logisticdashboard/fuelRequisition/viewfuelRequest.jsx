@@ -105,7 +105,7 @@ const FuelRequisitionForm = () => {
         <div className="fuel-request-details-overlay">
           <div className="fixed-nav-bar">
             <button  type="button" className='edit-btn' onClick={handleEditClick}>Edit</button>
-            {isEditing && <button type="button"  onClick={handleSaveClick}>Save</button>}
+            {isEditing && <button type="button" className='save'  onClick={handleSaveClick}>Save</button>}
             <button type="button" className='verify-btn' onClick={handleVerifyClick}>Verify</button>
             <button type="button" className='close-btn' onClick={handleCloseClick}>Close</button>
           </div>

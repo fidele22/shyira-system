@@ -2,7 +2,7 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const multer = require('multer');
 const router = express.Router();
-
+const path = require('path');
 const jwt = require('jsonwebtoken');
 const JWT_SECRET = 'your_jwt_secret';
 const User = require('../models/user');

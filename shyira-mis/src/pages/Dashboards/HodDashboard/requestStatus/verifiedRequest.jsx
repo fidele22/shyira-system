@@ -145,13 +145,13 @@ const handleSearchSubmit = (e) => {
   if (!user) return <p>Loading...</p>;
 
   return (
-    <div className={`verified-requist ${selectedRequest ? 'dim-background' : ''}`}>
+    <div className={`requist ${selectedRequest ? 'dim-background' : ''}`}>
        
       <div className="verified-request-navigation">
-      <h2>Your Requisition for Items Verified</h2>
+      <h4>Your Requisition for Items Verified</h4>
       <form onSubmit={handleSearchSubmit} className="search-form">
       
-        <div className='search-date'>
+        <div className='search-by-date'>
         <label htmlFor="">Search by date</label>
         <input
           type="date"
@@ -166,7 +166,7 @@ const handleSearchSubmit = (e) => {
       </form>
      
       
-        <ul>
+        <ul className='request-link'>
           {forwardedRequests.slice().reverse().map((request, index) => (
             <li key={index}>
               <p onClick={() => handleRequestClick(request._id)}>
@@ -190,15 +190,15 @@ const handleSearchSubmit = (e) => {
           <img src="/image/logo2.png" alt="Logo" className="logo" />
           </div>
           <div className="request-recieved-heading">
-            <h1>WESTERN PROVINCE</h1>
-            <h1>DISTRIC: NYABIHU</h1>
-            <h1>HEALTH FACILITY: SHYIRA DISTRICT HOSPITAL</h1>
-            <h1>DEPARTMENT: <span>{selectedRequest.department}</span>  </h1>
+            <h4>DISTRIC: NYABIHU</h4>
+            <h4>HEALTH FACILITY: SHYIRA DISTRICT HOSPITAL</h4>
+            <h4>WESTERN PROVINCE</h4>
+            <h4>DEPARTMENT: <span>{selectedRequest.department}</span>  </h4>
            
 
           </div>
 
-            <h2>REQUISITON FORM</h2>
+            <h3>REQUISITON FORM</h3>
               
                 <table>
                   <thead>

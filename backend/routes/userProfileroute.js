@@ -1,68 +1,58 @@
 
 const express = require('express');
 const router = express.Router();
+const authMiddleware = require('../middlewares/userAthu')
 const User = require('../models/user');
 //const middleware= require('../middlewares/userAthu')
 const upload = require('../middlewares/upload');
+const multer = require('multer');
+const path = require('path');
 
-// Update user route with signature upload
-router.put('/:id', upload.single('signature'), async (req, res) => {
-  try {
-    const { positionName, serviceName, departmentName, firstName, lastName, phone, email, role } = req.body;
-    const userId = req.params.id;
-    let updateData = {
-      firstName,
-      lastName,
-      phone,
-      email,
-      role,
-      positionName,
-      departmentName,
-      serviceName
-    };
-  
-    // If a file is uploaded, add the path to updateData
-    if (req.file) {
-      updateData.signature = req.file.path;
-    }
-
-    const updatedUser = await User.findByIdAndUpdate(userId, updateData, { new: true });
-
-    res.status(200).json(updatedUser);
-  } catch (error) {
-    console.error(error);
-    res.status(400).json({ error: error.message });
-  }
+// Configure Multer for file uploads (signatures)
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/signatures/');
+  },
+  filename: function (req, file, cb) {
+    cb(null, `${req.user.id}_${Date.now()}${path.extname(file.originalname)}`);
+  },
 });
 
 
-// Update user profile
-router.put('/profile', async (req, res) => {
+
+router.get('/profile', authMiddleware, async (req, res) => {
+
   try {
-    const userId = req.user._id; // Ensure you're using the correct user ID
 
-    // Validate that the user exists in the database
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
+    const user = await User.findById(req.userId);
 
-    // Update the user's fields
-    user.firstName = req.body.firstName || user.firstName;
-    user.lastName = req.body.lastName || user.lastName;
-    user.phone = req.body.phone || user.phone;
-    // Add more fields as needed...
+    if (!user) return res.status(404).send('User  not found');
 
-    // Save the updated user
-    const updatedUser = await user.save();
+    res.json(user);
 
-    // Respond with updated user data
-    res.json(updatedUser);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Server error' });
+  } catch (err) {
+
+    res.status(500).send(err.message);
+
   }
+
+});
+router.put('/update-profile', authMiddleware, async (req, res) => {
+
+  try {
+
+    const user = await User.findByIdAndUpdate(req.userId, req.body, { new: true });
+
+    if (!user) return res.status(404).send('User  not found');
+
+    res.json(user);
+
+  } catch (err) {
+
+    res.status(500).send(err.message);
+
+  }
+
 });
 
 module.exports = router;
-

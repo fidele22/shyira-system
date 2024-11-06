@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { FaTimes, FaCheckCircle,FaTimesCircle } from 'react-icons/fa';
+import { FaTimes, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import axios from 'axios';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
-import './css.css'; // Import CSS for styling
+import './styling.css'; // Import CSS for styling
 
 const ApprovedRequests = () => {
   const [requests, setRequests] = useState([]);
@@ -21,7 +21,6 @@ const ApprovedRequests = () => {
 
   useEffect(() => {
     fetchApprovedRequests();
-  
     fetchLogisticUsers();
     fetchDafUsers();
   }, []);
@@ -51,23 +50,21 @@ const ApprovedRequests = () => {
 
   const fetchApprovedRequests = async () => {
     try {
-      // Get the current tab's ID from sessionStorage
       const currentTab = sessionStorage.getItem('currentTab');
 
       if (!currentTab) {
         setError('No tab ID found in sessionStorage');
         return;
       }
- 
-      // Retrieve the token using the current tab ID
+
       const token = sessionStorage.getItem(`token_${currentTab}`);
       if (!token) {
         setError('Token not found');
         return;
-      } 
+      }
 
       const response = await axios.get('http://localhost:5000/api/approve/approved', {
-        headers: { Authorization: `Bearer ${token}` } // Send token with request
+        headers: { Authorization: `Bearer ${token}` }
       });
       setRequests(response.data);
     } catch (err) {
@@ -76,9 +73,7 @@ const ApprovedRequests = () => {
       setLoading(false);
     }
   };
-  
- 
-    
+
   const filterRequests = () => {
     const { department, date } = searchParams;
     const filtered = requests.filter(request =>
@@ -108,15 +103,14 @@ const ApprovedRequests = () => {
       const response = await axios.post(`http://localhost:5000/api/approve/receive/${requestId}`);
       console.log(response.data.message);
       setModalMessage('To Sign reception requisition Successful!!');
-      setIsSuccess(true); // Set the success state
-      setShowModal(true); // Show the modal
-      fetchApprovedRequests(); // Refresh the list after reposting
+      setIsSuccess(true);
+      setShowModal(true);
+      fetchApprovedRequests();
     } catch (error) {
       console.error('Error marking request as received:', error);
-   
       setModalMessage('Failed to sign reception requisition');
-      setIsSuccess(false); // Set the success state
-      setShowModal(true); // Show the modal
+      setIsSuccess (false);
+      setShowModal(true);
     }
   };
 
@@ -159,63 +153,45 @@ const ApprovedRequests = () => {
 
   return (
     <div className={`requist ${selectedRequest ? 'dim-background' : ''}`}>
-     
       <div className="approved-navigate-request">
-      <h2>Approved Requistion, view and sign to recieve</h2>
-      <form onSubmit={handleSearchRequest} className="search-form">
-        
-        <div className='search-date'>
-          <label htmlFor="date">Search by date</label>
-          <input
-            type="date"
-            name="date"
-            placeholder="Search by date"
-            value={searchParams.date}
-            onChange={handleSearchChange}
-          />
-        </div>
-
-        <button type="submit" className='search-btn'>Search</button>
-      </form>
-
-        <ul>
-          {filteredRequests.slice().reverse().map((request, index) => (
-            <li key={index}>
-              <p onClick={() => handleRequestClick(request._id)}>
-                Requisition Form from department of <b>{request.department}</b> done on {new Date(request.createdAt).toDateString()}
-          
-                <label><FaCheckCircle /> Approved</label>
-                <button className='mark-received-btn' onClick={() => handleReceivedClick(request._id)}>Mark as Received</button> 
-              </p>
-
-            </li>
-          ))}
-        </ul>
-      </div>
- {/* Modal pop message on success or error message */}
- {showModal && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            {isSuccess ? (
-              <div className="modal-success">
-                <FaCheckCircle size={54} color="green" />
-                <p>{modalMessage}</p>
-              </div>
-            ) : (
-              <div className="modal-error">
-                <FaTimesCircle size={54} color="red" />
-                <p>{modalMessage}</p>
-              </div>
-            )}
-            <button onClick={() => setShowModal(false)}>Close</button>
+        <h4>Approved Requistion, view and sign to recieve</h4>
+        <form onSubmit={handleSearchRequest} className="search-form">
+          <div className='search-by-date'>
+            <label htmlFor="date">Search by date</label>
+            <input
+              type="date"
+              name="date"
+              placeholder="Search by date"
+              value={searchParams.date}
+              onChange={handleSearchChange}
+            />
           </div>
+
+          <button type="submit" className='search-btn'>Search</button>
+        </form>
+        <div className="navigate-request">
+          <ul>
+            {filteredRequests.slice().reverse().map((request, index) => (
+              <li key={index}>
+                <p onClick={() => handleRequestClick(request._id)}>
+                  Requisition Form from department of <b>{request.department}</b> done on {new Date(request.createdAt).toDateString()}
+
+                  <label><FaCheckCircle /> Approved</label>
+                </p>
+              </li>
+            ))}
+          </ul>
         </div>
-      )}
+      </div>
+
+
 
       {selectedRequest && (
         <div className="approved-request-overlay">
           <div className="form-navigation">
             <button className='request-dowload-btn' onClick={downloadPDF}>Download PDF</button>
+            <button className='mark-received-btn' onClick={() => handleReceivedClick(selectedRequest._id)}>Mark as Received</button>
+            <button></button>
             <label className='request-close-btn' onClick={() => setSelectedRequest(null)}><FaTimes /></label>
           </div>
           <div className="request-details">
@@ -224,11 +200,12 @@ const ApprovedRequests = () => {
                 <img src="/image/logo2.png" alt="Logo" className="logo" />
               </div>
               <div className="request-recieved-heading">
-                <h1>WESTERN PROVINCE</h1>
-                <h1>DISTRICT: NYABIHU</h1>
-                <h1>HEALTH FACILITY: SHYIRA DISTRICT HOSPITAL</h1>
-                <h1>DEPARTMENT: {selectedRequest.department}</h1>
+                <h4>WESTERN PROVINCE</h4>
+                <h4>DISTRICT: NYABIHU</h4>
+                <h4>HEALTH FACILITY: SHYIRA DISTRICT HOSPITAL</h4>
+                <h4>DEPARTMENT: {selectedRequest.department}</h4>
               </div>
+              <u><h3>REQUISITON FORM</h3></u>  
               <table>
                 <thead>
                   <tr>
@@ -246,17 +223,17 @@ const ApprovedRequests = () => {
                       <td>{item.itemName}</td>
                       <td>{item.quantityRequested}</td>
                       <td>{item.quantityReceived}</td>
-                      <td>{item.observation}</td>
+                      <td>{ item.observation}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
               <div>
-             
+
               </div>
               <div className="approved-signature-section">
-                <div>
-                  <h3>HOD Name:</h3>
+                <div className='hod-signature'>
+                  <h5>Name of Head of Department:</h5>
                   <label>Prepared By:</label>
                   <p>{selectedRequest.hodName}</p>
                   {selectedRequest.hodSignature ? (
@@ -266,7 +243,7 @@ const ApprovedRequests = () => {
                   )}
                 </div>
                 <div className='logistic-signature'>
-                  <h3>Logistic Office:</h3>
+                  <h5>Logistic Office:</h5>
                   <label>Verified By:</label>
                   {logisticUsers.map(user => (
                     <div key={user._id} className="logistic-user">
@@ -280,7 +257,7 @@ const ApprovedRequests = () => {
                   ))}
                 </div>
                 <div className="daf-signature">
-                  <h3>DAF:</h3>
+                  <h5>DAF:</h5>
                   <label>Approved By:</label>
                   {dafUsers.map(user => (
                     <div key={user._id} className="logistic-user">
@@ -295,6 +272,27 @@ const ApprovedRequests = () => {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+
+
+            {showModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            {isSuccess ? (
+              <div className="modal-success">
+                <FaCheckCircle size={54} color="green" />
+                <p>{modalMessage}</p>
+              </div>
+            ) : (
+              <div className="modal-error">
+                <FaTimesCircle size={54} color="red" />
+                <p>{modalMessage}</p>
+              </div>
+            )}
+            <button onClick={() => setShowModal(false)}>Close</button>
           </div>
         </div>
       )}

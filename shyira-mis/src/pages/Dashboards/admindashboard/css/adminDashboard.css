@@ -16,62 +16,10 @@
     font-size: 16px;
   
   }
-  /***********responsiving on small devices*****************/
-/********* Responsive styles *********/
-@media (max-width: 768px) {
-
-  .Admincontent {
-    width: 100%;
-    margin-left: 0;
-    padding: 20px;
+  .menu-toggle{
+    position: fixed;
   }
 
-  .add-new-user-btn {
-    font-size: 14px;
-  }
-
-  .items-table th, .items-table td {
-    font-size: 12px;
-    padding: 8px;
-  }
-
-  .pagination button {
-    font-size: 16px;
-  }
-}
-  @media (max-width: 600px) {
-   .admin-dashboard{
-    width: 100%;
-    padding: 0;
-    margin-left: 0%;
-    margin-top: 0%;
-    background-color: #007bff;
-   }
-    .Admincontent {
-      width: 100%;
-      margin-left: 0;  /* Removes unnecessary margin */
-      padding: 0;      /* Ensures no extra padding */
-    }
-    .adminavbar {
-      width: 100%;  /* Full width */
-      height: 100vh;
-      margin: 0;   /* Ensures no margin */
-      padding: 0;  /* Removes padding */
-      transform: translateX(-100);  /* Ensures navbar is visible */
-    }
-    .adminavbar.open {
-      transform: translateX(0);
-    }
-  
-    .menu-toggle {
-      display: block;
-      font-size: 24px;
-      position: absolute;
-      top: 10px;
-      left: 20px;
-    }
-  }
-  
 
  /****************styling editing******************/ 
  .editing-userdata-ovelay{
@@ -191,22 +139,43 @@
     color: white;
     border-color: #007bff;
   }
-  
-  @media (max-width: 768px) {
-    .items-table th, .items-table td {
-      font-size: 14px;
-      padding: 6px;
+ 
+  /***********responsiving on small devices*****************/
+  @media (min-width: 601px) and (max-width: 800px) {
+
+    .admin-dashboard {
+      width: 690px; /* Full width on small screens **/
+      background-color: #007bff;
+      margin-left: 0rem; 
+      margin-top: 0%;
+      position: absolute;
     }
   
-    .edit-btn, .delete-btn {
-      padding: 6px 10px;
-      font-size: 12px;
+    .Admincontent-page {
+        width: 792px;
+        position: absolute;
+        margin-top: 0rem;
+        margin-left: 0rem;
     }
   
-    .page-btn {
-      padding: 6px 10px;
-      font-size: 12px;
-      margin: 0 3px;
-    }
   }
   
+
+
+@media (min-width: 300px) and (max-width: 600px) {
+
+  .admin-dashboard {
+    width: 690px; /* Full width on small screens **/
+    background-color: #007bff;
+    margin-left: -8rem; 
+    margin-top: -4%;
+ 
+  }
+
+  .Admincontent-page {
+      width: 730px;
+      margin-top: -17rem;
+      margin-left: -6rem;
+  }
+
+}

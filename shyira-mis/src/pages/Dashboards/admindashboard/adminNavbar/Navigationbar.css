@@ -69,17 +69,18 @@
 }
 
 /* Responsive styles */
-@media (max-width: 768px) {
+@media (max-width: 800px) {
   .adminavbar {
     width: 100%;
-    height: 100vh; /* Full height on mobile */
-    transform: translateX(-150%); /* Hide off-screen initially */
+    height: 100vh; 
+    transform: translateX(-150%); 
     position: fixed;
     top: 0;
     left: 0;
   }
 
   .adminavbar.open {
+    width: 50%;
     transform: translateX(0);
   }
 
@@ -88,7 +89,7 @@
     position: absolute;
     top: 10px;
     left: 20px;
-    z-index: 1002; /* Ensure it’s above the sidebar */
+    z-index: 1002; 
   }
 
   .adminavbar h2 {
@@ -99,13 +100,23 @@
     font-size: 16px;
   }
 }
-@media (max-width: 480px) {
+
+@media (min-width: 300px) and (max-width: 600px) {
+
+
+  .menu-toggle {
+    display: block;
+    position:fixed;
+    top: -2%;
+    left: 20px;
+    z-index: 1002; 
+  }
   .adminavbar {
     width: 100%;
-    height: 100vh; /* Full height on mobile */
-    transform: translateX(-100%); /* Hide off-screen initially */
+    height: 100vh; 
+    transform: translateX(-150%); 
     position: fixed;
-    top: 0;
-    left: 0;
+    top: -2%;
+    left: -3.5%;
   }
 }

@@ -1,7 +1,8 @@
-// frontend/src/components/FuelRequisitionForm.js
 import React, { useEffect, useState } from 'react';
+import { FaEye, FaEdit,FaTimes, FaTimesCircle, FaCheck,
+  FaCheckCircle, FaCheckDouble, FaCheckSquare } from 'react-icons/fa';
 import axios from 'axios';
-import '../../logisticdashboard/fuelRequisition/viewfuelrequest.css';
+
 
 const FuelRequisitionForm = () => {
   const [requisitions, setRequisitions] = useState([]);
@@ -28,22 +29,6 @@ const FuelRequisitionForm = () => {
     fetchRequisitions();
   }, []);
 
-  useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        const response = await axios.get('http://localhost:5000/api/users/profile', {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        });
-        setUser(response.data);
-      } catch (error) {
-        console.error('Error fetching profile:', error);
-      }
-    };
-
-    fetchUserProfile();
-  }, []);
 
   const handleRequestClick = async (requestId) => {
     try {
@@ -76,11 +61,12 @@ const FuelRequisitionForm = () => {
       const response = await axios.put(`http://localhost:5000/api/fuel-requisition/${selectedRequest._id}`, formData);
       setSelectedRequest(response.data);
       setIsEditing(false);
-      
     } catch (error) {
       console.error('Error updating requisition:', error);
     }
   };
+
+
 
   const handleCloseClick = () => {
     setSelectedRequest(null);
@@ -91,14 +77,15 @@ const FuelRequisitionForm = () => {
 
   return (
     <div className="fuel-requisition-form">
-      <h2>List of Fuel Requisition</h2>
+      <h3>List of Fuel Requisition you sent waited to be verified <span>[Pending..]</span></h3>
       <div className="navigate-request">
         <ul>
           {requisitions.slice().reverse().map((request, index) => (
             <li key={index}>
               <p onClick={() => handleRequestClick(request._id)}>
                 Requisition Form from {request.department} done on {new Date(request.createdAt).toDateString()}
-                <span>{!request.clicked ? 'New Request' : ''}</span>
+                {/** <span>{!request.clicked ? 'New Request' : ''}</span>*/}
+                
               </p>
             </li>
           ))}
@@ -110,12 +97,11 @@ const FuelRequisitionForm = () => {
           <div className="fixed-nav-bar">
             <button  type="button" className='edit-btn' onClick={handleEditClick}>Edit</button>
             {isEditing && <button type="button"  onClick={handleSaveClick}>Save</button>}
-            <button type="button" className='verify-btn' onClick={handleVerifyClick}>Verify</button>
             <button type="button" className='close-btn' onClick={handleCloseClick}>Close</button>
           </div>
 
           <div className="fuel-request-details-content">
-            <h3>Fuel Requisition Form</h3>
+            <h2>Fuel Requisition Form</h2>
             <form>
               <div className="view-form-group">
                 <label>Requester Name: <span>{selectedRequest.requesterName || ''}</span></label>
@@ -137,7 +123,16 @@ const FuelRequisitionForm = () => {
                 </div>
                 <div className="right-side">
                   <label>Quantity Requested (liters):</label>
-                  <span>{selectedRequest.quantityRequested || ''}</span>
+                  {isEditing ? (
+                    <input
+                      type="number"
+                      name="quantityRequested"
+                      value={formData.quantityRequested || ''}
+                      onChange={handleInputChange}
+                    />
+                  ) : (
+                    <span>{selectedRequest.quantityRequested|| ''}</span>
+                  )}
                 </div>
               </div>
               <div className="view-form-group">
@@ -147,40 +142,35 @@ const FuelRequisitionForm = () => {
                 </div>
                 <div className="left-side">
                   <label>Quantity Received (liters):</label>
-                  {isEditing ? (
-                    <input
-                      type="number"
-                      name="quantityReceived"
-                      value={formData.quantityReceived || ''}
-                      onChange={handleInputChange}
-                    />
-                  ) : (
-                    <span>{selectedRequest.quantityReceived || ''}</span>
-                  )}
+                
+                    {/* <span>{selectedRequest.quantityReceived || ''}</span> */}
+              
                 </div>
               </div>
               <div className="view-form-group">
-                <div className="right-side">
-                  <label>Destination:</label>
-                  <span>{selectedRequest.destination || ''}</span>
-                </div>
+              
                 <div className="left-side">
                   <label>Reason:</label>
                   <span>{selectedRequest.reason || ''}</span>
                 </div>
                 <div className="detail-row">
-                      <label>File Upload:</label>
-                      {formData.file && (
-                        <a href={`http://localhost:5000/uploads/${formData.file}`} target="_blank" rel="noopener noreferrer">
-                          View Uploaded File
-                        </a>
-                      )}
+                {selectedRequest && selectedRequest.file ? (
+  <div className='file-uploaded'>
+    <label>Previous Destination file:</label>
+    <a href={`http://localhost:5000/${selectedRequest.file}`} target="_blank" rel="noopener noreferrer">
+    <FaEye /> View File
+    </a>
+  </div>
+) : (
+  <p>No file uploaded</p>
+)}
                     </div>
               </div>
               <hr />
-              <div className="signatures">
+              <div className="fuel-signatures">
                 <div className="hod">
-                  <p>Prepared By:</p>
+                  <h3>Head of department</h3>
+                  <label>Prepared By:</label>
                   <span>{selectedRequest.hodName || ''}</span>
                   <img src={`http://localhost:5000/${selectedRequest.hodSignature}`} alt="HOD Signature" />
                 </div>

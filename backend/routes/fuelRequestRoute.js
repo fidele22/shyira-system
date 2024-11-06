@@ -98,6 +98,7 @@ router.get('/', async (req, res) => {
   }
 });
 
+
 // Route to fetch a single fuel requisition by ID
 router.get('/:id', async (req, res) => {
   try {
@@ -126,7 +127,7 @@ router.put('/:id', async (req, res) => {
     }
 
 
-    await updatedRequisition.save();
+    //await updatedRequisition.save();
 
     res.status(200).json(updatedRequisition);
   } catch (error) {

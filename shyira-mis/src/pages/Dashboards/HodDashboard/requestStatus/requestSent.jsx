@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaQuestionCircle, FaCheckCircle,FaEdit,FaTimesCircle, FaTimes, FaTrash } from 'react-icons/fa';
+import { FaQuestionCircle, FaCheckCircle,FaEdit,FaCheck,FaTimesCircle, FaTimes, FaTrash } from 'react-icons/fa';
 import axios from 'axios';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
@@ -201,16 +201,15 @@ const LogisticRequestForm = () => {
 
   return (
     <div className={`requist ${selectedRequest ? 'dim-background' : ''}`}>
-      <h2>Your Requisition waited to be verified</h2>
+      <h4>Your Requisition waited to be verified</h4>
 
       <form onSubmit={handleSearchSubmit} className="search-form">
      
-        <div className='search-date'>
+        <div className='search-by-date'>
         <label htmlFor="">Search by date</label>
         <input
           type="date"
           name="date"
-          placeholder="Search by date"
           value={searchParams.date}
           onChange={handleSearchChange}
         />
@@ -226,7 +225,7 @@ const LogisticRequestForm = () => {
        
         <p onClick={() => handleRequestClick(request._id)}>
           Requisition Form from <b>{request.department}</b> done on {new Date(request.createdAt).toDateString()}
-       
+          <label htmlFor="" ><FaCheck color='red'/> Sent</label>
          
         </p>
 
@@ -329,15 +328,15 @@ const LogisticRequestForm = () => {
             <label htmlFor="">{new Date(editFormData.date).toDateString()}</label>
             </div>
          
-            <h1>WESTERN PROVINCE</h1>
-            <h1>DISTRIC: NYABIHU</h1>
-            <h1>HEALTH FACILITY: SHYIRA DISTRICT HOSPITAL</h1>
-            <h1>DEPARTMENT: <span>{editFormData.department}</span> </h1>
+            <h4>WESTERN PROVINCE</h4>
+            <h4>DISTRIC: NYABIHU</h4>
+            <h4>HEALTH FACILITY: SHYIRA DISTRICT HOSPITAL</h4>
+            <h4>DEPARTMENT: <span>{editFormData.department}</span> </h4>
           
 
           </div>
            
-            <u><h2>REQUISITON FORM</h2></u>  
+            <u><h3>REQUISITON FORM</h3></u>  
                <table>
                   <thead>
                     <tr>
@@ -362,7 +361,7 @@ const LogisticRequestForm = () => {
                 </table>
 
                 <div className="signature-section">
-                  <div className="hod">
+                  <div className="hod-signature">
                   <label htmlFor="hodName">Name of HOD:</label>
                     {selectedRequest.hodName && <p>{selectedRequest.hodName}</p>}
                     {selectedRequest.hodSignature ? (
@@ -372,25 +371,12 @@ const LogisticRequestForm = () => {
                     )}
 
                   </div>
-                  {/*<div className="logistic-signature">
-                    <label>Logistic office:</label>
-                  <h3>{user.firstName} {user.lastName}</h3>
-                  {user.signature && <img src={`http://localhost:5000/${user.signature}`} alt="Signature" />}
-                  </div>*/}
+              
                   
                   
 
                 </div>
                 <hr />
-                </div>
-               
-
-             
-                <div className="buttons">
-               
-               
-
-               
                 </div>
                
                

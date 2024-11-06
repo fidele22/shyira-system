@@ -3,7 +3,7 @@ import { FaEdit, FaTrash,FaTimes,FaTimesCircle,FaCheckCircle } from 'react-icons
 import axios from 'axios';
 import AddUser from './AddUser'; // Import the AddUser component
 import '../css/adminDashboard.css';
-import '../css/new.css'
+import '../css/user.css'
 
 const ViewItems = () => {
   const [searchTerm, setSearchTerm] = useState('');

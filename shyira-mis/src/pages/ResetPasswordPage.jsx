@@ -25,19 +25,19 @@ const ResetPassword = () => {
     }
 
     try {
-      const response = await axios.post(`http://10.20.0.99:5000/api/reset-password/${token}`, { password });
+      const response = await axios.post(`http://localhost:5000/api/reset-password/${token}`, { password });
       console.log(response.data);
-      setModalMessage('Requisition submitted successfully!');
+      setModalMessage('Reset password successfully!');
       setIsSuccess(true); // Set the success state
       setShowModal(true); // Show the modal
          // Redirect to login page or home page after success
          setTimeout(() => {
           navigate('/'); // Redirect to login or another page
-        }, 2000); // 2 seconds delay before redirection
+        }, 5000); // 5 seconds delay before redirection
   
     } catch (error) {
       console.error(error);
-      setModalMessage('Requisition submitted successfully!');
+      setModalMessage('password reset failed');
       setIsSuccess(true); // Set the success state
       setShowModal(true); // Show the modal
     }

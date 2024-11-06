@@ -104,40 +104,6 @@ router.post('/submit', authMiddleware, async (req, res) => {
 });
 
 
-//send repair requisition
-//router.post('/submitrepair', authMiddleware, async (req, res) => {
-//  try {
-//    const { department, hodName, hodSignature, destination,carplaque, date } = req.body;
-//
-//    if (!carplaque) {
-//      return res.status(400).json({ error: 'carplaque field is missing.' });
-//    }
-//
-//    const userId = req.userId; // Extracted from token
-//
-//    if (!userId) {
-//      return res.status(400).json({ error: 'User ID is required.' });
-//    }
-//
-//   
-//    const newRequistion = new UserRepairRequest({
-//      userId: userId,
-//      department,
-//      carplaque,
-//      destination,
-//      hodName,
-//      hodSignature,
-//      date,
-//    });
-//
-//    await newRequistion.save();
-//    res.status(201).json({ message: 'Requisition created successfully!' });
-//
-//  } catch (error) {
-//    console.error('Error processing request:', error);
-//    res.status(500).json({ error: 'Internal server error' });
-//  }
-//});
 
 // user fetch its requisition according to its ID
 router.get('/sent', authMiddleware, async (req, res) => {
@@ -238,7 +204,6 @@ router.put('/:id', async (req, res) => {
     if (!updatedRequest) {
       return res.status(404).json({ message: 'Request not found' });
     }
-
     
     res.json(updatedRequest);
   } catch (error) {
