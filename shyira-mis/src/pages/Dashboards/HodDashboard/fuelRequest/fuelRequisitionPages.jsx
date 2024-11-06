@@ -3,8 +3,10 @@ import axios from 'axios';
 import { FaEye , FaEdit,FaSpinner, FaTimes, FaTimesCircle, FaCheck, FaCheckCircle, FaCheckDouble, FaCheckSquare } from 'react-icons/fa';
 import MakeRequistFuel from './fuelrequest'; 
 import ViewfuelStatus from '../fuelRequestStatus/fuelrequeststatus';
-import ReceivedDecision from '../requestDecision/recievedRequisition'
-import RejectedDecision from '../requestDecision/rejectedRequisition'
+import ReceivedDecision from '../fuelRequest/recievedFuelUserRequest';
+import RejectedDecision from '../fuelRequest/rejectedFuelUserRequest';
+
+
 //import ItemRequisitionStatus from './RequisitionStatus';
 
 

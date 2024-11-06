@@ -6,9 +6,8 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   max-width: 900px; /* Increased width for larger screens */
   width: 100%;
-
   flex-wrap: wrap;
- margin-left: 1%;/* Allows content to wrap to the next line */
+  margin-left: 1%;/* Allows content to wrap to the next line */
 }
 
 .left-content,

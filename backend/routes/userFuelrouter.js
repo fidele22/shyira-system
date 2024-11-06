@@ -45,6 +45,25 @@ const RejectedFuelRequest = require('../models/rejectuserfuelRequest');
     }
   });
 
+// Get rejected requisitions for perticular user
+
+router.get('/rejectedfueluser',authMiddleware, async (req, res) => {
+  try {
+
+    const userId = req.userId;
+    
+    const rejectedUserFuelRequests = await RejectedFuelRequest.find({ userId: userId });
+
+    if (!rejectedUserFuelRequests || rejectedUserFuelRequests.length === 0) {
+      return res.status(404).json({ message: 'No rejected requests found on this user' });
+    }
+
+    res.json(rejectedUserFuelRequests); // Sends the correct data variable
+  } catch (error) {
+    console.error('Error fetching requests:', error);
+    res.status(500).json({ message: error.message });
+  }
+});
 
 // Get all rejected requisitions
 
@@ -79,7 +98,21 @@ router.get('/rejected/:id', async (req, res) => {
   }
 });
 
+// get all received fuel requisitions for the logged-in user
+router.get('/recievedfuel', authMiddleware, async (req, res) => {
+  try {
+    const receivedFuelRequest = await RecievedFuelRequest.find({ userId: req.userId }); // Assuming each requisition has a userId field
 
+    if (!receivedFuelRequest || receivedFuelRequest.length === 0) {
+      return res.status(404).json({ message: 'No received requests found for this user.' });
+    }
+
+    res.json(receivedFuelRequest);
+  } catch (error) {
+    console.error('Error fetching requests:', error);
+    res.status(500).json({ message: error.message });
+  }
+});
   // get all recieved fuel requestion 
   router.get('/recievedfuel', async (req, res) => {
     try {
