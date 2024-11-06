@@ -82,6 +82,14 @@ const LogisticRequestForm = () => {
       setModalMessage('Submit requisition to logistic successfully');
       setIsSuccess(true);
       setShowModal(true);
+
+      // Clear the form fields after successful submission
+
+        setSupplierName('');
+
+        setItems([]);
+
+        setDate('');
    
 
     } catch (error) {

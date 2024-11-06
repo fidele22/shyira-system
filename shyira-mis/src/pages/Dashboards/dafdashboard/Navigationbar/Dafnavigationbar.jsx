@@ -35,7 +35,8 @@ const Navbar = ({ setCurrentPage }) => {
       <ul>
         <li onClick={() => setCurrentPage('overview')}><FaHome /> Overview</li>
         <li onClick={() => setCurrentPage('view-stock-items')}> <FaList /> stock Items</li>
-        <li onClick={() => setCurrentPage('view-logistic-request')}><FaList /> Logistic Requisition </li>
+        <li onClick={() => setCurrentPage('view-logistic-request')}><FaBoxOpen /> Logistic Item Requisition </li>
+        <li onClick={() => setCurrentPage('Fuel-logistic-Order')}><FaGasPump /> Logistic Fuel Requisition </li>
         <li onClick={() => setCurrentPage('user-item-request')}><FaList /> User Item Requisition</li>  
         <li onClick={() => setCurrentPage('user-fuel-request')}><FaList />  User Fuel Requisition</li>
      

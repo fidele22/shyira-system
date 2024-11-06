@@ -1,3 +1,6 @@
 .user-fuel-status{
     display: flex;
 }
+.fuel-requisition-form{
+    border-radius: 7px;
+}

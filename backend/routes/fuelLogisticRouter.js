@@ -6,7 +6,7 @@ const ApprovedLogisticOrder = require('../models/logisticFuelApproved')
 const fuelOrder = require('../models/logisticfuelrequest'); 
 const ApprovedfuelOrder = require('../models/logisticFuelApproved')
 const RecievedFuelOrder = require('../models/logisticFuelReceived')
-
+const RejectedFuelOrder = require('../models/logisticfuelRejected')
 // fuel logistic requisition 
 
 
@@ -56,8 +56,29 @@ router.get('/', async (req, res) => {
       res.status(500).json({ message: 'Server Error' });
     }
   });
+  router.put('/:id', async (req, res) => {
+    try {
+      const updateData = { ...req.body };
+      
+      // Ensure clicked field is updated
+      if (req.body.clicked !== undefined) {
+        updateData.clicked = req.body.clicked;
+      }
+    
+      const updatedRequest = await fuelOrder.findByIdAndUpdate(req.params.id, updateData, { new: true });
+      if (!updatedRequest) {
+        return res.status(404).json({ message: 'Request not found' });
+      }
   
-  // Route to fetch all logistic requests
+      
+      res.json(updatedRequest);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+
+  // Route to fetch all approved fuel logistic requests
 router.get('/fuel-order', async (req, res) => {
   try {
     const fuellogisticorders = await ApprovedfuelOrder.find();
@@ -140,6 +161,39 @@ router.post('/recieved-fuel/:id', async (req, res) => {
   }
 });
 
+// Route to handle rejection of a logistic fuel request
+
+
+
+router.post('/rejectFuelOrder/:id', async (req, res) => {
+  try {
+   const requestId = req.params.id;
+    if (!mongoose.Types.ObjectId.isValid(requestId)) {
+      return res.status(400).json({ message: 'Invalid ID' });
+    }
+
+    const request = await fuelOrder.findById(requestId);
+    if (!request) {
+      return res.status(404).json({ message: 'Request not found' });
+    }
+
+    // Save to the rejected fuel order  collection
+    const rejectedfuelOrder = new RejectedFuelOrder(request.toObject());
+    await rejectedfuelOrder.save();
+
+    // Optionally, remove from the original collection
+    await fuelOrder.findByIdAndDelete(requestId);
+
+    res.json(rejectedfuelOrder);
+  } catch (error) {
+
+      console.error('Error saving rejected order:', error);
+
+      res.status(500).json({ message: 'Failed to save rejected order' });
+
+  }
+
+});
 
 
   module.exports = router;

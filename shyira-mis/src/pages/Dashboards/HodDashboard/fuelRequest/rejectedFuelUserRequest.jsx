@@ -40,9 +40,9 @@ const RejectedFuelRequisitionForm = () => {
           setRejectedRequisitions([]);
         }
         setLoading(false);
-      } catch (error) {
+      } catch (err) {
         console.error('Error fetching requisitions:', error);
-        setError('Failed to fetch requisitions');
+        setError(err.response ? err.response.data.message : 'Error fetching requests');
         setLoading(false);
       }
     };

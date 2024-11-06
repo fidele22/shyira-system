@@ -12,10 +12,6 @@ import RejectedDecision from '../fuelRequest/rejectedFuelUserRequest';
 
 const UserFuelRequesition = () => {
 
-  const [error, setError] = useState(null);
-  const [user, setUser] = useState(null);
-
-
   const [activeComponent, setActiveComponent] = useState('form'); // State for switching between components
 
   return (

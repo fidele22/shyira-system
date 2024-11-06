@@ -8,7 +8,7 @@ import RecieveduserRequest from '../logisticdashboard/receivedRequisitions/itemR
 import ViewLogisticRequest from './requestOfLogistic/orderpages'
 import RecievedLogisticOrder from '../logisticdashboard/OrderSupply/RecievedOrder'
 import UserFuelRequest from './UserfuelRequest/userfuelrequestpage'
-import ViewLogisticFuel from './UserfuelRequest/logisticfuelrequest'
+import LogisticFuelOrder from './LogisticFuelOrders/logisticFuelOrderPages'
 import ViewItems from '../DGdashboard/StockItem/viewitems'
 import DafProfile from './DafProfile'
 import './DafDashboard.css';
@@ -33,8 +33,8 @@ const LogisticDashboard = () => {
          return <RecievedLogisticOrder />
      case 'view-logistic-request':
           return <ViewLogisticRequest />
-     case 'logistic-fuel-request':
-          return <ViewLogisticFuel />     
+     case 'Fuel-logistic-Order':
+          return <LogisticFuelOrder />     
      case 'user-fuel-request':
           return <UserFuelRequest />;
           

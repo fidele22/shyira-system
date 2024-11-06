@@ -33,7 +33,7 @@ const ForwardedRequests = () => {
 
   const fetchForwardedRequests = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/LogisticRequest');
+      const response = await axios.get('http://localhost:5000/api/logisticFuel');
       setForwardedRequests(response.data);
     } catch (error) {
       console.error('Error fetching forwarded requests:', error);
@@ -79,7 +79,7 @@ const ForwardedRequests = () => {
   const handleUpdateSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`http://localhost:5000/api/LogisticRequest/${selectedRequest._id}`, formData);
+      const response = await axios.put(`http://localhost:5000/api/logisticFuel/${selectedRequest._id}`, formData);
       setSelectedRequest(response.data);
       setIsEditing(false);
       setForwardedRequests(prevRequests =>
@@ -93,16 +93,19 @@ const ForwardedRequests = () => {
   };
 
  //
- const handleVerifySubmit = async (e) => {
+ const handleApproveSubmit = async (e) => {
   e.preventDefault();
   try {
        // Forward the updated request to the approved collection
-       const response = await axios.post(`http://localhost:5000/api/LogisticRequest/verified/${selectedRequest._id}`);
+       const response = await axios.post(`http://localhost:5000/api/logisticFuel/verified/${selectedRequest._id}`);
        setSelectedRequest(response.data);
     
        setModalMessage('logistic requestion verified successfully');
        setIsSuccess(true); // Set the success state
        setShowModal(true); // Show the modal
+
+         // Optionally refresh the list
+    fetchForwardedRequests();
   } catch (error) {
     console.error('Error for approving request:', error);  
     setModalMessage('Failed to verify requisition');
@@ -110,6 +113,32 @@ const ForwardedRequests = () => {
     setShowModal(true); // Show the modal
   }
 } 
+
+//reject fuel order
+
+const handleRejectSubmit = async () => {
+
+    if (!selectedRequest) return;
+    try {
+        const response = await axios.post(`http://localhost:5000/api/logisticFuel/rejectFuelOrder/${selectedRequest._id}`);
+
+        setModalMessage('Request rejected successfully');
+        setIsSuccess(true);
+        setShowModal(true);
+        // Optionally refresh the list
+        fetchForwardedRequests();
+
+    } catch (error) {
+
+        console.error('Error rejecting request:', error);
+        setModalMessage('Failed to reject request');
+        setIsSuccess(false);
+        setShowModal(true);
+
+    }
+
+};
+
   //fetching signature
   const [error, setError] = useState(null);
   const [user, setUser] = useState(null);
@@ -157,13 +186,13 @@ const ForwardedRequests = () => {
   return (
     <div className={`verified-requist ${selectedRequest ? 'dim-background' : ''}`}>
 
-      <div className="verified-request-navigation">
-      <h2>Requisition from logistic office </h2>
+      <div className="request-navigation">
+      <h2>Requisition from logistic office for fuel status</h2>
         <ul>
           {forwardedRequests.slice().reverse().map((request, index) => (
             <li key={index}>
               <p onClick={() => handleRequestClick(request._id)}>
-          Requisition Form from <b>logistic</b> done on {new Date(request.date).toDateString()}
+          Requisition Form from <b>logistic office</b>  order of FUEL done on {new Date(request.createdAt).toDateString()}
           {/*    <span>{!request.clicked ? 'New Request' : ''}</span> 
         */}
       </p>
@@ -176,23 +205,23 @@ const ForwardedRequests = () => {
           <div className="request-details">
             {isEditing ? (
               <form >
-                <h2>Edit Request</h2>
+                <h2>Edit Logistic Fuel Order</h2>
                 <div className="request-recieved-heading">
             <h1>WESTERN PROVINCE</h1>
             <h1>DISTRIC: NYABIHU</h1>
             <h1>HEALTH FACILITY: SHYIRA DISTRICT HOSPITAL</h1>
             <h1>DEPARTMENT:  LOGISTIC OFFICE</h1>
+            <h1>SUPPLIER NAME:</h1>
 
           </div>
                 <table>
                   <thead>
                     <tr>
-                      <th>No</th>
-                      <th>Item Name</th>
-                      <th>Quantity Requested</th>
-                      <th>Price</th> 
-                      
-                      <th>Total Amount</th>
+                 <th>No</th>
+                <th>desitination</th>
+                <th>Quantity Requested(liters)</th>
+                <th>Price Per Liter</th>
+                <th>Price Total</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -203,8 +232,8 @@ const ForwardedRequests = () => {
                           <input
                             type="text"
                             name="itemName"
-                            value={item.itemName}
-                            onChange={(e) => handleItemChange(idx, e)}
+                            value={item.desitination}
+                           
                           />
                         </td>
                         <td>
@@ -219,7 +248,7 @@ const ForwardedRequests = () => {
                           <input
                             type="number"
                             name="price"
-                            value={item.price}
+                            value={item.pricePerUnit}
                             onChange={(e) => handleItemChange(idx, e)}
                           />
                         </td>
@@ -227,7 +256,7 @@ const ForwardedRequests = () => {
                           <input
                             type="number"
                             name="totalAmount"
-                            value={item.totalAmount}
+                            value={item.totalPrice}
                             onChange={(e) => handleItemChange(idx, e)}
                           />
                         </td>
@@ -236,13 +265,14 @@ const ForwardedRequests = () => {
                   </tbody>
                 </table>
                 
-                <button className='approve-request-btn' onClick={handleUpdateSubmit}>Update Request</button>
-                <button type="button" className='cancel-btn' onClick={handleCancelClick}>Cancel</button>
+                <button className='update-request-btn' onClick={handleUpdateSubmit}>Update Request</button>
+                <button type="button" className='cancel-request-btn' onClick={handleCancelClick}><FaTimes /></button>
               </form>
             ) : (
               <>
                <div className="form-navigation">
-               <button className='verify-requisition' onClick={handleVerifySubmit}>Verify Request</button>
+               <button className='verify-requisition' onClick={handleApproveSubmit}>Approve Order</button>
+               <button className='reject-request' onClick={handleRejectSubmit}>Reject Order</button>
                {/* <button className='edit-btn' onClick={handleEditClick}>Edit</button> */}
                <button></button>
              <label className='request-close-btn' onClick={() => setSelectedRequest(null)}><FaTimes /></label>
@@ -258,55 +288,45 @@ const ForwardedRequests = () => {
             <h1>DISTRIC: NYABIHU</h1>
             <h1>HEALTH FACILITY: SHYIRA DISTRICT HOSPITAL</h1>
             <h1>DEPARTMENT: LOGISTIC OFFICE </h1>
-
+            <h1>SUPPLIER NAME:{selectedRequest.supplierName}</h1>
           </div>
 
-            <h2>REQUISITON FORM OF LOGISTIC</h2>
+            <h2>REQUISITON FORM OF LOGISTIC FOR FUEL</h2>
               
                 <table>
                   <thead>
                     <tr>
-                      <th>No</th>
-                      <th>Item Name</th>
-                      <th>Quantity Requested</th>
-                      <th>Price</th>
-                      <th>Total Amount</th>
+                    <th>No</th>
+                <th>desitination</th>
+                <th>Quantity Requested(liters)</th>
+                <th>Price Per Liter</th>
+                <th>Price Total</th>
                     </tr>
                   </thead>
                   <tbody>
                     {selectedRequest.items.map((item, idx) => (
                       <tr key={idx}>
                         <td>{idx + 1}</td>
-                        <td>{item.itemName}</td>
+                        <td>{item.desitination}</td>
                         <td>{item.quantityRequested}</td>
-                        <td>{item.price}</td>
-                        <td>{item.totalAmount}</td>
+                        <td>{item.pricePerUnit}</td>
+                        <td>{item.totalPrice}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
 
                 <div className="daf-signature-section">
-                  <div className='logistic-signature'>
-                  <h3>Logistic Office:</h3>
-                  <label htmlFor="">Prepared By:</label>
-                    {logisticUsers.map(user => (
-                      <div key={user._id} className="logistic-user">
-                        <p>{user.firstName} {user.lastName}</p>
-                        {user.signature ? (
-                          <img src={`http://localhost:5000/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
-                        ) : (
-                          <p>No signature available</p>
-                        )}
-                      </div>
-                    ))}
+                <div className="hod">
+                  <h3>Logistic Office</h3>
+                  <label>Prepared By:</label>
+                  <span>{selectedRequest.hodName || ''}</span><br />
+                  <img src={`http://localhost:5000/${selectedRequest.hodSignature}`} alt="HOD Signature" />
+                
+                    
+                   
                   </div>
-                 {/*<div className="daf-signature">
-                    <h3>Daf signature:</h3>
-                  <p>{us er.firstName} {user.lastName}</p>
-                  {user.signature && <img src={`http://localhost:5000/${user.signature}`} alt="Signature" />}
-                  </div>*/}
-                  
+              
                 </div>
                
                 
@@ -337,7 +357,7 @@ const ForwardedRequests = () => {
         </div>
       )}
 
-
+ 
     </div>
   );
 };
