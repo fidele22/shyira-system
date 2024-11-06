@@ -104,7 +104,7 @@ router.get('/approved', authMiddleware, async (req, res) => {
         const receivedRequests = await RecievedRequest.find({ userId: userId });
     
         if (receivedRequests.length === 0) {
-          return res.status(404).json({ message: 'No rejected requests found for this user' });
+          return res.status(404).json({ message: 'No Recieved item requesition found on you' });
         }
     
         res.json(receivedRequests);

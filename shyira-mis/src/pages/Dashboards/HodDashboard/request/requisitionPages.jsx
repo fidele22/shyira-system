@@ -3,8 +3,8 @@ import axios from 'axios';
 import { FaEye , FaEdit,FaSpinner, FaTimes, FaTimesCircle, FaCheck, FaCheckCircle, FaCheckDouble, FaCheckSquare } from 'react-icons/fa';
 import MakeRequisition from './MakeRequist'; 
 import ViewStatus from '../requestStatus/requestStatus';
-import ReceivedDecision from '../requestDecision/recievedRequisition'
-import RejectedDecision from '../requestDecision/rejectedRequisition'
+import ReceivedDecision from '../ItemrequestDecision/recievedRequisition'
+import RejectedDecision from '../ItemrequestDecision/rejectedRequisition'
 //import ItemRequisitionStatus from './RequisitionStatus';
 
 

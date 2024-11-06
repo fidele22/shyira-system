@@ -141,8 +141,9 @@ const handleSearchSubmit = (e) => {
   });
   setFilteredRequests(filtered);
 };
+if (loading) return <p>Loading...</p>;
+  if (error) return <p>{error}</p>;
 
-  if (!user) return <p>Loading...</p>;
 
   return (
     <div className={`requist ${selectedRequest ? 'dim-background' : ''}`}>

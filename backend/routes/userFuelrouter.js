@@ -104,7 +104,7 @@ router.get('/recievedfuel', authMiddleware, async (req, res) => {
     const receivedFuelRequest = await RecievedFuelRequest.find({ userId: req.userId }); // Assuming each requisition has a userId field
 
     if (!receivedFuelRequest || receivedFuelRequest.length === 0) {
-      return res.status(404).json({ message: 'No received requests found for this user.' });
+      return res.status(404).json({ message: 'No received requests found for you.' });
     }
 
     res.json(receivedFuelRequest);
@@ -120,7 +120,7 @@ router.get('/recievedfuel', authMiddleware, async (req, res) => {
       const recievedFuelRequest = await RecievedFuelRequest.find();
   
       if (!recievedFuelRequest || recievedFuelRequest.length === 0) {
-        return res.status(404).json({ message: 'No recieved requests found for this user.' });
+        return res.status(404).json({ message: 'No recieved fuel requesition found in system.' });
       }
      
       res.json(recievedFuelRequest);

@@ -17,7 +17,7 @@ router.get('/user-verified', authMiddleware, async (req, res) => {
     const userRequests = await ItemRequisitionVerified.find({ userId: userId });
 
     if (!userRequests || userRequests.length === 0) {
-      return res.status(404).json({ message: 'No Pending requests found for this user.' });
+      return res.status(404).json({ message: 'No Verified item requests found on you.' });
     }
    
     res.json(userRequests);
@@ -46,6 +46,27 @@ router.get('/fuel', async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
+
+//getting requisition for partcular user
+router.get('/user-fuel-verified', authMiddleware, async (req, res) => {
+  try {
+    const userId = req.userId; // Ensure userId is an ObjectId
+
+    // Query by userId and status
+    const userFuelRequests = await FuelRequestVerified.find({ userId: userId });
+
+    if (!userFuelRequests || userFuelRequests.length === 0) {
+      return res.status(404).json({ message: 'No Verified fuel requests found on you.' });
+    }
+   
+    res.json(userFuelRequests);
+  } catch (error) {
+    console.error('Error fetching requests:', error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+
 // Fetch all verified requests
 router.get('/items', async (req, res) => {
   try {

@@ -98,6 +98,23 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.get('/pendingfuel', authMiddleware, async (req, res) => {
+  try {
+    const userId = req.userId; // Ensure userId is an ObjectId
+
+    // Query by userId and status
+    const pendingFuelRequest = await FuelRequisition.find({ userId: userId });
+
+    if (!pendingFuelRequest || pendingFuelRequest.length === 0) {
+      return res.status(404).json({ message: 'No pending fuel requesition found for you.' });
+    }
+   
+    res.json(pendingFuelRequest);
+  } catch (error) {
+    console.error('Error fetching requests:', error);
+    res.status(500).json({ message: error.message });
+  }
+}); 
 
 // Route to fetch a single fuel requisition by ID
 router.get('/:id', async (req, res) => {
@@ -166,9 +183,7 @@ router.post('/verify/:id', async (req, res) => {
   }
 });
 
-// router to proced on daf dashboard
 
-// GET route to fetch all fuel requisitions
 
 
 module.exports = router;

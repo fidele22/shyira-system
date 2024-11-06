@@ -16,12 +16,28 @@ const FuelRequisitionForm = () => {
   useEffect(() => {
     const fetchRequisitions = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/fuel-requisition');
+           // Get the current tab's ID from sessionStorage
+       const currentTab = sessionStorage.getItem('currentTab');
+
+       if (!currentTab) {
+         setError('No tab ID found in sessionStorage');
+         return;
+       }
+  
+       // Retrieve the token using the current tab ID
+       const token = sessionStorage.getItem(`token_${currentTab}`);
+       if (!token) {
+         setError('Token not found');
+         return;
+       } 
+        const response = await axios.get('http://localhost:5000/api/fuel-requisition/pendingfuel', {
+          headers: { Authorization: `Bearer ${token}` } // Send token with request
+        });
         setRequisitions(response.data);
         setLoading(false);
-      } catch (error) {
+      } catch (err) {
         console.error('Error fetching requisitions:', error);
-        setError('Failed to fetch requisitions');
+        setError(err.response ? err.response.data.message : 'Error fetching requests');
         setLoading(false);
       }
     };
