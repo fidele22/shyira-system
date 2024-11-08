@@ -36,7 +36,7 @@ const ApprovedRequests = () => {
 
   const fetchLogisticUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/users/logistic-users');
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/logistic-users`);
       setLogisticUsers(response.data);
     } catch (error) {
       console.error('Error fetching logistic users:', error);
@@ -45,7 +45,7 @@ const ApprovedRequests = () => {
 
   const fetchDafUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/users/daf-users');
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/daf-users`);
       setDafUsers(response.data);
     } catch (error) {
       console.error('Error fetching daf users:', error);

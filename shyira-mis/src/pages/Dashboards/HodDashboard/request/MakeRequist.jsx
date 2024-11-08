@@ -17,7 +17,7 @@ const LogisticRequestForm = () => {
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/stocks');
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/stocks`);
         setItemOptions(response.data);
         const quantities = response.data.reduce((acc, item) => {
           acc[item._id] = item.quantity; // Assuming the response includes 'quantity' field
@@ -66,7 +66,7 @@ const LogisticRequestForm = () => {
           return;
         }
 
-        const response = await axios.get('http://localhost:5000/api/users/profile', {
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/profile`, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },
@@ -108,7 +108,7 @@ const LogisticRequestForm = () => {
         return;
       }
 
-      const response = await axios.post('http://localhost:5000/api/UserRequest/submit', {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/UserRequest/submit`, {
         department,
         items: JSON.stringify(items),
         date,
@@ -290,7 +290,7 @@ const LogisticRequestForm = () => {
                 <label htmlFor="hodName">Name of {user.positionName}</label>
                 <p>{user.firstName} {user.lastName}</p>
                 {user.signature ? (
-                  <img src={`http://localhost:5000/${user.signature}`} alt="Signature" />
+                  <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt="Signature" />
                 ) : (
                   <p>No signature available</p>
                 )}
