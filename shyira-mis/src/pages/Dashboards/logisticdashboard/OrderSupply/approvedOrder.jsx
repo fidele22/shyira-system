@@ -228,7 +228,7 @@ const handleReceivedClick = async (requestId) => {
                     <div key={user._id} className="logistic-user">
                       <p>{user.firstName} {user.lastName}</p>
                       {user.signature ? (
-                        <img src={`http://localhost:5000/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
+                        <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
                       ) : (
                         <p>No signature available</p>
                       )}
@@ -243,7 +243,7 @@ const handleReceivedClick = async (requestId) => {
                     <div key={user._id} className="daf-user">
                       <p>{user.firstName} {user.lastName}</p>
                       {user.signature ? (
-                        <img src={`http://localhost:5000/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
+                        <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
                       ) : (
                         <p>No signature available</p>
                       )}
@@ -257,7 +257,7 @@ const handleReceivedClick = async (requestId) => {
                     <div key={user._id} className="daf-user">
                       <p>{user.firstName} {user.lastName}</p>
                       {user.signature ? (
-                        <img src={`http://localhost:5000/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
+                        <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
                       ) : (
                         <p>No signature available</p>
                       )}

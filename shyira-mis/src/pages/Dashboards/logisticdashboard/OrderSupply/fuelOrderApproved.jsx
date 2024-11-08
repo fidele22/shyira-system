@@ -176,7 +176,7 @@ const ForwardedRequests = () => {
                 <h4>Logistic Office</h4>
                 <label>Prepared By:</label>
                 <span>{selectedRequest.hodName || ''}</span><br />
-                <img src={`http://localhost:5000/${selectedRequest.hodSignature}`} alt="HOD Signature" />
+                <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" />
               </div>
 
 
@@ -187,7 +187,7 @@ const ForwardedRequests = () => {
                     <div key={user._id} className="daf-user">
                       <p>{user.firstName} {user.lastName}</p>
                       {user.signature ? (
-                        <img src={`http://localhost:5000/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
+                        <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
                       ) : (
                         <p>No signature available</p>
                       )}

@@ -307,7 +307,7 @@ const RequisitionForm = () => {
                 <p>{user.firstName} {user.lastName}</p>
                
                 {user.signature ? (
-                  <img src={`http://localhost:5000/${user.signature}`} alt="Signature" />
+                  <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt="Signature" />
                 ) : (
                   <p>No signature available</p>
                 )}
