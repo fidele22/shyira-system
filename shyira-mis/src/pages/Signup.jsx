@@ -46,7 +46,7 @@ const togglePasswordVisibility = () => {
     e.preventDefault();
     if (validateLoginForm()) {
       try {
-        const res = await axios.post('http://localhost:5000/api/login', { email, password });
+        const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/login`, { email, password });
         console.log('Login response:', res.data); // Check what is returned
         const { token, role } = res.data;
   
@@ -108,7 +108,7 @@ const togglePasswordVisibility = () => {
   useEffect(() => {
     const fetchDepartments = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/departments');
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/departments`);
         setDepartments(response.data);
       } catch (error) {
         console.error('Error fetching departments:', error);
@@ -120,7 +120,7 @@ const togglePasswordVisibility = () => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/services');
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/services`);
         setServices(response.data);
       } catch (error) {
         console.error('Error fetching services:', error);
@@ -132,7 +132,7 @@ const togglePasswordVisibility = () => {
   useEffect(() => {
     const fetchPositions = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/positions');
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/positions`);
         setPositions(response.data);
       } catch (error) {
         console.error('Error fetching positions:', error);
@@ -203,7 +203,7 @@ const togglePasswordVisibility = () => {
           formDataToSend.append(key, formData[key]);
         }
 
-        const response = await axios.post('http://localhost:5000/api/users/register', formDataToSend, {
+        const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/users/register`, formDataToSend, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
 

@@ -30,7 +30,7 @@ const ForwardedRequests = () => {
   }, []);
   const fetchLogisticUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/users/logistic-users');
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/logistic-users`);
       setLogisticUsers(response.data);
     } catch (error) {
       console.error('Error fetching logistic users:', error);
@@ -39,7 +39,7 @@ const ForwardedRequests = () => {
 
   const fetchForwardedRequests = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/forwardedrequests/items');
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/forwardedrequests/items`);
       setForwardedRequests(response.data);
     } catch (error) {
       console.error('Error fetching forwarded requests:', error);
@@ -85,7 +85,7 @@ const ForwardedRequests = () => {
   const handleUpdateSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`http://localhost:5000/api/forwardedrequests/${selectedRequest._id}`, formData);
+      const response = await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/forwardedrequests/${selectedRequest._id}`, formData);
       setSelectedRequest(response.data);
       setIsEditing(false);
       setForwardedRequests(prevRequests =>
@@ -110,7 +110,7 @@ const ForwardedRequests = () => {
  const handleApproveSubmit = async (e) => {
   e.preventDefault();
   try {
-    await axios.post(`http://localhost:5000/api/forwardedrequests/approved/${selectedRequest._id}`);
+    await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/forwardedrequests/approved/${selectedRequest._id}`);
      
     setModalMessage('requistion Approved successfully');
     setIsSuccess(true); // Set the success state
@@ -148,7 +148,7 @@ useEffect(() => {
       }
 
       // Use Axios to fetch user profile
-      const response = await axios.get('http://localhost:5000/api/users/profile', {
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/profile`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },

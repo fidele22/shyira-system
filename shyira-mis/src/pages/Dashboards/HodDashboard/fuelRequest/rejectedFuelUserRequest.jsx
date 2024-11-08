@@ -29,7 +29,7 @@ const RejectedFuelRequisitionForm = () => {
               return;
             } 
 
-        const response = await axios.get('http://localhost:5000/api/userfuelrequest/rejectedfueluser', {
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/userfuelrequest/rejectedfueluser`, {
          headers: { Authorization: `Bearer ${token}` } // Send token with request
        });
         
@@ -51,7 +51,7 @@ const RejectedFuelRequisitionForm = () => {
 
   const handleRequestClick = async (requestId) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/userfuelrequest/rejected/${requestId}`);
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/userfuelrequest/rejected/${requestId}`);
       setSelectedRequest(response.data);
     } catch (error) {
       console.error('Error fetching request details:', error);

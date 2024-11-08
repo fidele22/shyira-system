@@ -36,7 +36,7 @@ const ApprovedRequests = () => {
 
   const fetchLogisticUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/users/logistic-users');
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/logistic-users`);
       setLogisticUsers(response.data);
     } catch (error) {
       console.error('Error fetching logistic users:', error);
@@ -45,7 +45,7 @@ const ApprovedRequests = () => {
 
   const fetchDafUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/users/daf-users');
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/daf-users`);
       setDafUsers(response.data);
     } catch (error) {
       console.error('Error fetching daf users:', error);
@@ -53,7 +53,7 @@ const ApprovedRequests = () => {
   };
   const fetchDgUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/users/DG-users');
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/DG-users`);
       setDgUsers(response.data);
     } catch (error) {
       console.error('Error fetching daf users:', error);
@@ -62,7 +62,7 @@ const ApprovedRequests = () => {
 
   const fetchApprovedRequests = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/LogisticRequest/approved-order');
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/LogisticRequest/approved-order`);
       setRequests(response.data);
       setFilteredRequests(response.data); 
     } catch (error) {
@@ -73,7 +73,7 @@ const ApprovedRequests = () => {
 
 const handleReceivedClick = async (requestId) => {
     try {
-      const response = await axios.post(`http://localhost:5000/api/LogisticRequest/received/${requestId}`);
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/LogisticRequest/received/${requestId}`);
       setModalMessage('Reception sign and update stock successfully');
       setIsSuccess(true); // Set the success state
       setShowModal(true); // Show the modal
@@ -87,15 +87,15 @@ const handleReceivedClick = async (requestId) => {
   };
   const handleRequestClick = async (requestId) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/LogisticRequest/approved/${requestId}`);
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/LogisticRequest/approved/${requestId}`);
       setSelectedRequest(response.data);
       setApprovedRequests(response.data);
 
       // Fetch associated file attachments
-      const attachmentsResponse = await axios.get(`http://localhost:5000/api/LogisticRequest/attachments/${requestId}`);
+      const attachmentsResponse = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/LogisticRequest/attachments/${requestId}`);
       setFileAttachments(attachmentsResponse.data);
 
-      await axios.put(`http://localhost:5000/api/approve/${requestId}`, { clicked: true });
+      await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/approve/${requestId}`, { clicked: true });
       fetchApprovedRequests();
     } catch (error) {
       console.error('Error fetching request details:', error);

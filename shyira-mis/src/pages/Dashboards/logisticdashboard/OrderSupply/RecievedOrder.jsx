@@ -34,7 +34,7 @@ const ApprovedRequests = () => {
 
   const fetchLogisticUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/users/logistic-users');
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/logistic-users`);
       setLogisticUsers(response.data);
     } catch (error) {
       console.error('Error fetching logistic users:', error);
@@ -43,7 +43,7 @@ const ApprovedRequests = () => {
 
   const fetchDafUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/users/daf-users');
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/daf-users`);
       setDafUsers(response.data);
     } catch (error) {
       console.error('Error fetching daf users:', error);
@@ -51,7 +51,7 @@ const ApprovedRequests = () => {
   };
   const fetchDgUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/users/DG-users');
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/DG-users`);
       setDgUsers(response.data);
     } catch (error) {
       console.error('Error fetching daf users:', error);
@@ -65,7 +65,7 @@ const ApprovedRequests = () => {
 
   const fetchApprovedRequests = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/LogisticRequest/received-order');
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/LogisticRequest/received-order`);
       setRequests(response.data);
       setFilteredRequests(response.data);
     } catch (error) {
@@ -94,7 +94,7 @@ const ApprovedRequests = () => {
 
   const handleRequestClick = async (requestId) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/LogisticRequest/received/${requestId}`);
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/LogisticRequest/received/${requestId}`);
       setSelectedRequest(response.data);
     } catch (error) {
       console.error('Error fetching request details:', error);

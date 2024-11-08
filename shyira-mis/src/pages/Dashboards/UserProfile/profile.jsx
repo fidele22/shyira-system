@@ -13,7 +13,7 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchUser  = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/profile/profile', {
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/profile/profile`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -32,7 +32,7 @@ const UserProfile = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put('http://localhost:5000/api/profile/update-profile', user, {
+      const response = await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/profile/update-profile`, user, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

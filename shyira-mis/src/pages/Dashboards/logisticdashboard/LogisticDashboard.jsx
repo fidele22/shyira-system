@@ -10,7 +10,7 @@ import FuelOrder from './OrderSupply/fuelorder'
 import OrderStatus from './OrderSupply/orderstatus'
 import ReceivedOrder from './OrderSupply/RecievedOrder'
 import ViewCars from './fuelRequisition/viewcars'
-import LogisticProfile from './LogisticProfile'
+import LogisticProfile from '../UserProfile/profile'
 import StockReport from './StockReport/ItemReport';
 import ViewRequisition from './UserRequisitions/RequisitionsPages';
 import ViewFuelRequest from './fuelRequisition/fuelRequisitionPages'

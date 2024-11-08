@@ -24,7 +24,7 @@ const ForwardedRequests = () => {
 
   const fetchLogisticUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/users/logistic-users');
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/logistic-users`);
       setLogisticUsers(response.data);
     } catch (error) {
       console.error('Error fetching logistic users:', error);
@@ -33,7 +33,7 @@ const ForwardedRequests = () => {
 
   const fetchForwardedRequests = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/LogisticRequest');
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/LogisticRequest`);
       setForwardedRequests(response.data);
     } catch (error) {
       console.error('Error fetching forwarded requests:', error);
@@ -79,7 +79,7 @@ const ForwardedRequests = () => {
   const handleUpdateSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`http://localhost:5000/api/LogisticRequest/${selectedRequest._id}`, formData);
+      const response = await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/LogisticRequest/${selectedRequest._id}`, formData);
       setSelectedRequest(response.data);
       setIsEditing(false);
       setForwardedRequests(prevRequests =>
@@ -97,7 +97,7 @@ const ForwardedRequests = () => {
   e.preventDefault();
   try {
        // Forward the updated request to the approved collection
-       const response = await axios.post(`http://localhost:5000/api/LogisticRequest/verified/${selectedRequest._id}`);
+       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/LogisticRequest/verified/${selectedRequest._id}`);
        setSelectedRequest(response.data);
     
        setModalMessage('logistic requestion verified successfully');
@@ -134,7 +134,7 @@ const ForwardedRequests = () => {
         }
 
         // Use Axios to fetch user profile
-        const response = await axios.get('http://localhost:5000/api/users/profile', {
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/profile`, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },

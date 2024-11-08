@@ -1,0 +1,19 @@
+/* customAlert.css */
+.custom-swal {
+    width: 300px; /* Set a specific width */
+    padding: 10px; /* Reduce padding */
+    font-size: 14px; /* Adjust font size */
+  }
+  
+  .custom-swal .swal2-title {
+    font-size: 18px; /* Adjust title font size */
+  }
+  
+  .custom-swal .swal2-content {
+    font-size: 14px; /* Adjust content font size */
+  }
+  
+  .custom-swal .swal2-confirm {
+    padding: 5px 10px; /* Reduce button padding */
+    font-size: 14px; /* Adjust button font size */
+  }

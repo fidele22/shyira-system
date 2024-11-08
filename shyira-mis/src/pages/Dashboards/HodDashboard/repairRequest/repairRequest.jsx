@@ -36,7 +36,7 @@ const LogisticRequestForm = () => {
           setError('Token not found');
           return;
         }
-        const response = await axios.get('http://10.20.0.99:5000/api/users/profile', {
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/profile`, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },
@@ -49,7 +49,7 @@ const LogisticRequestForm = () => {
     };
     const fetchCars = async () => {
       try {
-        const response = await fetch('http://10.20.0.99:5000/api/forms-data/cars');
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/forms-data/cars`);
         const data = await response.json();
         setCars(data);
       } catch (error) {
@@ -87,7 +87,7 @@ const LogisticRequestForm = () => {
     formData.append('hodSignature', user && user.signature ? user.signature : '');
 
     try {
-      const response = await axios.post('http://10.20.0.99:5000/api/RepairRequisition/repair-submit', {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/RepairRequisition/repair-submit`, {
         department,
         desitination,
         carplaque,

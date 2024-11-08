@@ -16,7 +16,7 @@ function CarRegistrationForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:5000/api/forms-data/cars', {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/forms-data/cars`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

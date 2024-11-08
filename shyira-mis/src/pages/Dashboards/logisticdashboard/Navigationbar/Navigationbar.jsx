@@ -21,7 +21,7 @@ const Navbar = ({ setCurrentPage }) => {
 
   const handleLogout = async () => {
     try {
-      await axios.post('http://localhost:5000/api/logout'); // Notify the server of the logout
+      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/logout`); // Notify the server of the logout
   
       // Remove token from local storage or cookies
       localStorage.removeItem('authToken'); // Adjust based on how you store tokens

@@ -23,7 +23,7 @@ const [positions, setPositions] = useState([]);
 useEffect(() => {
   const fetchDepartments = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/departments');
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/departments`);
       setDepartments(response.data);
     } catch (error) {
       console.error('Error fetching items:', error);
@@ -36,7 +36,7 @@ useEffect(() => {
 useEffect(() => {
   const fetchServices = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/services');
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/services`);
       setServices(response.data);
     } catch (error) {
       console.error('Error fetching items:', error);
@@ -49,7 +49,7 @@ useEffect(() => {
 useEffect(() => {
   const fetchPositions = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/positions');
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/positions`);
       setPositions(response.data);
     } catch (error) {
       console.error('Error fetching items:', error);
@@ -85,7 +85,7 @@ const handleSubmitRegisterUser = async (e) => {
     formDataToSend.append('password', formData.password);
     formDataToSend.append('confirmPassword', formData.confirmPassword);
 
-    const response = await axios.post('http://localhost:5000/api/users/register', formDataToSend, {
+    const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/users/register`, formDataToSend, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },

@@ -30,7 +30,7 @@ const ApprovedRequests = () => {
 
   const fetchLogisticUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/users/logistic-users');
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/logistic-users`);
       setLogisticUsers(response.data);
     } catch (error) {
       console.error('Error fetching logistic users:', error);
@@ -39,7 +39,7 @@ const ApprovedRequests = () => {
 
   const fetchDafUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/users/daf-users');
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/daf-users`);
       setDafUsers(response.data);
     } catch (error) {
       console.error('Error fetching daf users:', error);
@@ -63,7 +63,7 @@ const ApprovedRequests = () => {
              return;
            } 
     
-      const response = await axios.get('http://localhost:5000/api/approve/rejected-request', {
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/approve/rejected-request`, {
         headers: { Authorization: `Bearer ${token}` } // Send token with request
       });
 
@@ -88,11 +88,11 @@ const ApprovedRequests = () => {
 
   const handleRequestClick = async (requestId) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/approve/rejected/${requestId}`);
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/approve/rejected/${requestId}`);
       setSelectedRequest(response.data);
 
       // Update the clicked status to true
-      await axios.put(`http://localhost:5000/api/approve/rejected/${requestId}`, { clicked: true });
+      await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/approve/rejected/${requestId}`, { clicked: true });
 
       // Refresh the requests list
       fetchApprovedRequests();

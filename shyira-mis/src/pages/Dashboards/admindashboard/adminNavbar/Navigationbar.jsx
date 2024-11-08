@@ -8,14 +8,14 @@ const Navbar = ({ setCurrentPage, isMenuOpen, setIsMenuOpen }) => {
 
   const handleLogout = async () => {
     try {
-      await axios.post('http://localhost:5000/api/logout');
-      localStorage.removeItem('authToken');
+      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/logout`); 
+      sessionStorage.removeItem('currentTab'); // Remove the current session tab ID
+      sessionStorage.clear(); // Clear all session storage data if needed
       window.location.href = '/';
     } catch (error) {
       console.error('Logout failed:', error);
     }
   };
-
   const handleLinkClick = (page) => {
     setCurrentPage(page);
     setIsMenuOpen(false); // Close the navbar

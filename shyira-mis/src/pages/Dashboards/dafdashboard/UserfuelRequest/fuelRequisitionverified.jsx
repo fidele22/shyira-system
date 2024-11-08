@@ -18,7 +18,7 @@ const FuelRequisitionForm = () => {
   useEffect(() => {
     const fetchRequisitions = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/forwardedrequests/fuel');
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/forwardedrequests/fuel`);
         setRequisitions(response.data);
         setLoading(false);
       } catch (error) {
@@ -34,7 +34,7 @@ const FuelRequisitionForm = () => {
   useEffect(() => {
     const fetchLogisticUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/users/logistic-users');
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/logistic-users`);
         setLogisticUsers(response.data);
       } catch (error) {
         console.error('Error fetching logistic users:', error);
@@ -46,7 +46,7 @@ const FuelRequisitionForm = () => {
 
   const handleRequestClick = async (requestId) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/forwardedrequests/fuel/${requestId}`);
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/forwardedrequests/fuel/${requestId}`);
       setSelectedRequest(response.data);
       setFormData(response.data);
       setIsEditing(false);
@@ -72,7 +72,7 @@ const FuelRequisitionForm = () => {
 
   const handleSaveClick = async () => {
     try {
-      const response = await axios.put(`http://localhost:5000/api/forwardedrequests/updatefuel/${selectedRequest._id}`, formData);
+      const response = await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/forwardedrequests/updatefuel/${selectedRequest._id}`, formData);
       setSelectedRequest(response.data);
       alert('Fuel requisition updated successful')
       setIsEditing(false);
@@ -83,7 +83,7 @@ const FuelRequisitionForm = () => {
   };
   const handleApproveClick = async () => {
     try {
-      const response = await axios.post(`http://localhost:5000/api/forwardedrequests/approvefuel/${selectedRequest._id}`, formData);
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/forwardedrequests/approvefuel/${selectedRequest._id}`, formData);
       setSelectedRequest(response.data);
       alert('Requisition approved successfully.');
     } catch (error) {

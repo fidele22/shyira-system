@@ -10,7 +10,7 @@ import RecievedLogisticOrder from '../logisticdashboard/OrderSupply/RecievedOrde
 import UserFuelRequest from './UserfuelRequest/userfuelrequestpage'
 import LogisticFuelOrder from './LogisticFuelOrders/logisticFuelOrderPages'
 import ViewItems from '../DGdashboard/StockItem/viewitems'
-import DafProfile from './DafProfile'
+import DafProfile from '../UserProfile/profile'
 import './DafDashboard.css';
 
 

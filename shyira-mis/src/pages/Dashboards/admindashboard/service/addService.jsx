@@ -16,7 +16,7 @@ const ServiceForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://10.20.0.99:5000/api/services/addService', formData);
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/services/addService`, formData);
       console.log('Service created:', response.data);
       alert('Service added Successfuly')
       setFormData({ name: '', description: '' }); // Clear form after submission

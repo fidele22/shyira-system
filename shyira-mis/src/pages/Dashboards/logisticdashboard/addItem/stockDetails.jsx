@@ -22,7 +22,7 @@ const StockDetails = ({ item,onClose}) => {
 
   const fetchStockDetails = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/getStockHistory/${item._id}`);
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/getStockHistory/${item._id}`);
       setStockDetails(response.data);
       setShowDetails(true);
       setShowHistory(false); // Close history if it was open
@@ -33,7 +33,7 @@ const StockDetails = ({ item,onClose}) => {
 
   const fetchStockHistory = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/stocks/history/${item._id}`, {
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/stocks/history/${item._id}`, {
         params: { startDate, endDate }
       });
       setStockHistory(response.data);
@@ -66,7 +66,7 @@ const StockDetails = ({ item,onClose}) => {
 
   const handleUpdateStock = async () => {
     try {
-      await axios.put(`http://localhost:5000/api/stocks/${editedStock._id}`, editedStock);
+      await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/stocks/${editedStock._id}`, editedStock);
       setStockDetails(stockDetails.map((entry) => (entry._id === editedStock._id ? editedStock : entry)));
       setModalMessage('Update stock done successful');
       setIsSuccess(true); // Set the success state

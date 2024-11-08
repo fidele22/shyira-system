@@ -12,7 +12,7 @@ const ApprovedRequests = () => {
 
   const fetchApprovedRequests = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/approve');
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/approve`);
       setApprovedRequests(response.data);
     } catch (error) {
       console.error('Error fetching approved requests:', error);

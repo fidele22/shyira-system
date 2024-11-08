@@ -26,7 +26,7 @@ const ForwardedRequests = () => {
 
   const fetchLogisticUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/users/logistic-users');
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/logistic-users`);
       setLogisticUsers(response.data);
     } catch (error) {
       console.error('Error fetching logistic users:', error);
@@ -35,7 +35,7 @@ const ForwardedRequests = () => {
 
   const fetchForwardedRequests = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/LogisticRequest/verified');
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/LogisticRequest/verified`);
       setForwardedRequests(response.data);
       setFilteredRequests(response.data);
     } catch (error) {
@@ -82,7 +82,7 @@ const ForwardedRequests = () => {
   const handleUpdateSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`http://localhost:5000/api/LogisticRequest/update-verified/${selectedRequest._id}`, formData);
+      const response = await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/LogisticRequest/update-verified/${selectedRequest._id}`, formData);
       setSelectedRequest(response.data);
       setIsEditing(false);
       setForwardedRequests(prevRequests =>
@@ -121,7 +121,7 @@ const ForwardedRequests = () => {
         }
 
         // Use Axios to fetch user profile
-        const response = await axios.get('http://localhost:5000/api/users/profile', {
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/profile`, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },

@@ -32,7 +32,7 @@ const ForwardedRequests = () => {
   }, []);
   const fetchLogisticUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/users/logistic-users');
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/logistic-users`);
       setLogisticUsers(response.data);
     } catch (error) {
       console.error('Error fetching logistic users:', error);
@@ -65,7 +65,7 @@ const ForwardedRequests = () => {
        return;
      } 
 
-      const response = await axios.get('http://localhost:5000/api/forwardedrequests/user-verified', {
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/forwardedrequests/user-verified`, {
         headers: { Authorization: `Bearer ${token}` } // Send token with request
       });
       setForwardedRequests(response.data);
@@ -106,7 +106,7 @@ const ForwardedRequests = () => {
         }
 
         // Use Axios to fetch user profile
-        const response = await axios.get('http://localhost:5000/api/users/profile', {
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/profile`, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },

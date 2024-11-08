@@ -25,7 +25,7 @@ const FuelStockList = () => {
 
   const fetchFuelStocks = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/fuel');
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/fuel`);
       setFuelStocks(response.data);
     } catch (error) {
       console.error('Error fetching fuel stocks:', error);
@@ -35,7 +35,7 @@ const FuelStockList = () => {
 
   const fetchHistory = async (page, limit) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/fuel/fuel-history?page=${page}&limit=${limit}`);
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/fuel/fuel-history?page=${page}&limit=${limit}`);
       setHistory(response.data.history);
       setTotalPages(Math.ceil(response.data.total / limit));
       setLoading(false);
@@ -57,7 +57,7 @@ const FuelStockList = () => {
   const handleAddFuelStock = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/fuel/add-fuel', newFuelStock);
+      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/fuel/add-fuel`, newFuelStock);
       alert('Fuel data added successfully');
       setNewFuelStock({
         fuelType: '',

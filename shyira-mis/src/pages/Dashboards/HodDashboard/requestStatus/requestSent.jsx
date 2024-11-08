@@ -56,7 +56,7 @@ const LogisticRequestForm = () => {
        setError('Token not found');
        return;
      }
-      const response = await axios.get('http://localhost:5000/api/UserRequest/sent', {
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/UserRequest/sent`, {
         headers: { Authorization: `Bearer ${token}` } // Send token with request
       });
       setRequests(response.data);
@@ -71,7 +71,7 @@ const LogisticRequestForm = () => {
   
   const handleRequestClick = async (requestId) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/UserRequest/${requestId}`);
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/UserRequest/${requestId}`);
       setSelectedRequest(response.data);
       setEditFormData(response.data);
       setIsEditing(false);
@@ -86,7 +86,7 @@ const LogisticRequestForm = () => {
   const handleUpdateSubmit = async () => {
   
     try {
-      await axios.put(`http://localhost:5000/api/UserRequest/${selectedRequest._id}`, editFormData, { clicked: true });
+      await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/UserRequest/${selectedRequest._id}`, editFormData, { clicked: true });
       
       setModalMessage('Requisition Updated successfull!!');
       setIsSuccess(true); // Set the error state
@@ -182,7 +182,7 @@ const LogisticRequestForm = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/users/profile', {
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/profile`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
           }

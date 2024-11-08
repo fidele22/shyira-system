@@ -30,7 +30,7 @@ const DashboardOverview = () => {
       }
 
       try {
-        const response = await fetch('http://localhost:5000/api/users/profile', {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/profile`, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },
@@ -54,7 +54,7 @@ const DashboardOverview = () => {
  // count requisition from different users
     const fetchRequestCount = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/UserRequest/count');
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/UserRequest/count`);
         if (response.ok) {
           const data = await response.json();
           setRequestCount(data.count);
@@ -68,7 +68,7 @@ const DashboardOverview = () => {
 
     const fetchItemVerifiedCount = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/forwardedrequests/count-verified-item');
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/forwardedrequests/count-verified-item`);
         if (response.ok) {
           const data = await response.json();
           setRequestVerifiedCount(data.count);
@@ -81,7 +81,7 @@ const DashboardOverview = () => {
     };
     const fetchItemApprovedCount = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/countrequisitions/number');
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/countrequisitions/number`);
         if (response.ok) {
           const data = await response.json();
           setRequestApprovedCount(data.count);

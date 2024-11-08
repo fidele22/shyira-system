@@ -65,8 +65,6 @@ app.use('/files', express.static(path.join(__dirname, process.env.UPLOAD_FILE ||
 app.get('/', (req, res) => {
   res.send('Static file serving test');
 });
-
-
 // Use auth routes
 app.use('/api/departments', departmentRoutes);
 app.use('/api/services', serviceRoutes);

@@ -19,7 +19,7 @@ function CarList() {
   
     const fetchCars = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/forms-data/cars');
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/forms-data/cars`);
         const data = await response.json();
         setCars(data);
       } catch (error) {
@@ -29,7 +29,7 @@ function CarList() {
   
     const handleDelete = async (id) => {
       try {
-        await fetch(`http://localhost:5000/api/forms-data/cars/${id}`, {
+        await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/forms-data/cars/${id}`, {
           method: 'DELETE'
         });
         fetchCars(); // Refresh car list after deletion
@@ -51,7 +51,7 @@ function CarList() {
     const handleEditSubmit = async (e) => {
       e.preventDefault();
       try {
-        await fetch(`http://localhost:5000/api/forms-data/cars/${editCarId}`, {
+        await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/forms-data/cars/${editCarId}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'

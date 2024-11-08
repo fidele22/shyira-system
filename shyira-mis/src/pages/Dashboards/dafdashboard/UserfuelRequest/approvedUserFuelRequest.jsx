@@ -14,7 +14,7 @@ const FuelRequisitionForm = () => {
   useEffect(() => {
     const fetchLogisticUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/users/logistic-users');
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/logistic-users`);
         setLogisticUsers(response.data);
       } catch (error) {
         console.error('Error fetching logistic users:', error);
@@ -26,7 +26,7 @@ const FuelRequisitionForm = () => {
   useEffect(() => {
     const fetchRequisitions = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/userfuelrequest/approveduserfuel');
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/userfuelrequest/approveduserfuel`);
         setRequisitions(response.data);
         setLoading(false);
       } catch (error) {
@@ -41,7 +41,7 @@ const FuelRequisitionForm = () => {
   useEffect(() => {
     const fetchDafUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/users/daf-users');
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/daf-users`);
         setDafUsers(response.data);
       } catch (error) {
         console.error('Error fetching daf users:', error);
@@ -52,7 +52,7 @@ const FuelRequisitionForm = () => {
 
   const handleRequestClick = async (requestId) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/userfuelrequest/${requestId}`);
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/userfuelrequest/${requestId}`);
       setSelectedRequest(response.data);
       setQuantityReceived(response.data.quantityReceived || ''); // Set initial quantity received
     } catch (error) {
@@ -63,7 +63,7 @@ const FuelRequisitionForm = () => {
   const handleUpdateQuantity = async () => {
     try {
       const updatedData = { ...selectedRequest, quantityReceived: quantityReceived };
-      const response = await axios.put(`http://localhost:5000/api/userfuelrequest/${selectedRequest._id}`, updatedData);
+      const response = await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/userfuelrequest/${selectedRequest._id}`, updatedData);
       setSelectedRequest(response.data);
       alert('Quantity received updated successfully!');
     } catch (error) {
@@ -74,7 +74,7 @@ const FuelRequisitionForm = () => {
 
   const handleRejectRequest = async () => {
     try {
-      await axios.post(`http://localhost:5000/api/userfuelrequest/reject/${selectedRequest._id}`);
+      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/userfuelrequest/reject/${selectedRequest._id}`);
       setRequisitions(requisitions.filter(req => req._id !== selectedRequest._id));
       setSelectedRequest(null);
       alert('Requisition rejected successfully!');

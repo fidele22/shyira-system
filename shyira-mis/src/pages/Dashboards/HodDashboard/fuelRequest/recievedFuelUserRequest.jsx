@@ -14,7 +14,7 @@ const FuelRequisitionForm = () => {
   useEffect(() => {
     const fetchLogisticUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/users/logistic-users');
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/logistic-users`);
         setLogisticUsers(response.data);
       } catch (error) {
         console.error('Error fetching logistic users:', error);
@@ -41,7 +41,7 @@ const FuelRequisitionForm = () => {
               return;
             } 
      
-       const response = await axios.get('http://localhost:5000/api/userfuelrequest/recievedfuel', {
+       const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/userfuelrequest/recievedfuel`, {
          headers: { Authorization: `Bearer ${token}` } // Send token with request
        });
        setRequisitions(response.data);
@@ -58,7 +58,7 @@ const FuelRequisitionForm = () => {
   useEffect(() => {
     const fetchDafUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/users/daf-users');
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/daf-users`);
         setDafUsers(response.data);
       } catch (error) {
         console.error('Error fetching daf users:', error);
@@ -69,7 +69,7 @@ const FuelRequisitionForm = () => {
 
   const handleRequestClick = async (requestId) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/userfuelrequest/receivedfuel/${requestId}`);
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/userfuelrequest/receivedfuel/${requestId}`);
       setSelectedRequest(response.data);
      
     } catch (error) {

@@ -29,7 +29,7 @@ const DashboardOverview = () => {
       }
 
       try {
-        const response = await fetch('http://localhost:5000/api/users/profile', {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/profile`, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },
@@ -68,7 +68,7 @@ const DashboardOverview = () => {
       } 
  
       try {
-        const response = await axios.get('http://localhost:5000/api/approve/dashboard/stats', {
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/approve/dashboard/stats`, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },

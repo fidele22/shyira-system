@@ -33,13 +33,13 @@ const StockHistoryTable = () => {
     const queryParams = startDate && endDate ? `?start=${startDate}&end=${endDate}` : '';
 
       // Fetch current month's stock history
-      const currentResponse = await axios.get(`http://localhost:5000/api/stocks/history/${year}/${month}${queryParams}`);
+      const currentResponse = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/stocks/history/${year}/${month}${queryParams}`);
       setCurrentStock(currentResponse.data);
       
       // Fetch previous month's stock history
       const previousMonth = month === 1 ? 12 : month - 1;
       const previousYear = month === 1 ? year - 1 : year;
-      const previousResponse = await axios.get(`http://localhost:5000/api/stocks/history/${previousYear}/${previousMonth}${queryParams}`);
+      const previousResponse = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/stocks/history/${previousYear}/${previousMonth}${queryParams}`);
       setPreviousStock(previousResponse.data);
 
       aggregateStockData(currentResponse.data, previousResponse.data);

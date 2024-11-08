@@ -16,7 +16,7 @@ const ServiceForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/departments/addDepart', formData);
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/departments/addDepart`, formData);
       console.log('Department created:', response.data);
       alert('Department added Successfuly')
       setFormData({ name: '', description: '' }); // Clear form after submission

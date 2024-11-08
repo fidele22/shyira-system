@@ -32,7 +32,7 @@ const FuelRequisitionForm = () => {
          setError('Token not found');
          return;
        } 
-        const response = await axios.get('http://localhost:5000/api/fuel-requisition/pendingfuel', {
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/fuel-requisition/pendingfuel`, {
           headers: { Authorization: `Bearer ${token}` } // Send token with request
         });
         setRequisitions(response.data);
@@ -50,7 +50,7 @@ const FuelRequisitionForm = () => {
 
   const handleRequestClick = async (requestId) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/fuel-requisition/${requestId}`);
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/fuel-requisition/${requestId}`);
       setSelectedRequest(response.data);
       setFormData(response.data);
       setIsEditing(false);
@@ -76,7 +76,7 @@ const FuelRequisitionForm = () => {
 
   const handleSaveClick = async () => {
     try {
-      const response = await axios.put(`http://localhost:5000/api/fuel-requisition/${selectedRequest._id}`, formData);
+      const response = await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/fuel-requisition/${selectedRequest._id}`, formData);
       setSelectedRequest(response.data);
       setIsEditing(false);
     } catch (error) {

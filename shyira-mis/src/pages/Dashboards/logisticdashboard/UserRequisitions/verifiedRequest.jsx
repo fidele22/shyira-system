@@ -40,7 +40,7 @@ const LogisticRequestForm = () => {
 
   const fetchRequests = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/UserRequest');
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/UserRequest`);
       setRequests(response.data);
       setFilteredRequests(response.data); // Initialize filteredRequests with all requests
     } catch (error) {
@@ -99,7 +99,7 @@ const LogisticRequestForm = () => {
   const handleUpdateSubmit = async () => {
   
     try {
-      await axios.put(`http://localhost:5000/api/UserRequest/${selectedRequest._id}`, editFormData, { clicked: true });
+      await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/UserRequest/${selectedRequest._id}`, editFormData, { clicked: true });
       
       setModalMessage('Requisition Updated successfull!!');
       setIsSuccess(true); // Set the error state
@@ -119,7 +119,7 @@ const LogisticRequestForm = () => {
 const handleVerifySubmit = async () => {
   
   try {
-    await axios.put(`http://localhost:5000/api/UserRequest/verified/${selectedRequest._id}`, { clicked: true });
+    await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/UserRequest/verified/${selectedRequest._id}`, { clicked: true });
   
     setModalMessage('Requisition Verified and removed on this list successfull!');
     setIsSuccess(true); // Set the error state
@@ -204,7 +204,7 @@ const handleVerifySubmit = async () => {
         }
 
         // Use Axios to fetch user profile
-        const response = await axios.get('http://localhost:5000/api/users/profile', {
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/profile`, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },
@@ -223,7 +223,7 @@ const handleVerifySubmit = async () => {
 
   const handleRejectClick = async (requestId) => {
     try {
-      await axios.put(`http://localhost:5000/api/UserRequest/rejected/${requestId}`, { clicked: true });
+      await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/UserRequest/rejected/${requestId}`, { clicked: true });
       
       setModalMessage(' requisition rejected Successful!!');
       setIsSuccess(true); // Set the success state

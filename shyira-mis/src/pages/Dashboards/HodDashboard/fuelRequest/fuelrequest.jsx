@@ -30,14 +30,14 @@ const RequisitionForm = () => {
   useEffect(() => {
     const fetchOptions = async () => {
       try {
-        const carResponse = await axios.get('http://localhost:5000/api/forms-data/cars');
+        const carResponse = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/forms-data/cars`);
         setCarOptions(carResponse.data);
 
-        const reasonResponse = await axios.get('http://localhost:5000/api/forms-data/reasons');
+        const reasonResponse = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/forms-data/reasons`);
         setReasonOptions(reasonResponse.data);
 
               // Fetch fuel types and set the first one as default
-              const fuelResponse = await axios.get('http://localhost:5000/api/fuel');
+              const fuelResponse = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/fuel`);
               if (fuelResponse.data.length > 0) {
                 setFuelType(fuelResponse.data[0].fuelType);
               }
@@ -95,7 +95,7 @@ const RequisitionForm = () => {
           return;
         }
  
-      const response = await axios.post('http://localhost:5000/api/fuel-requisition/submit', formData, {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/fuel-requisition/submit`, formData, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',
@@ -146,7 +146,7 @@ const RequisitionForm = () => {
         }
 
         // Use Axios to fetch user profile
-        const response = await axios.get('http://localhost:5000/api/users/profile', {
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/profile`, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },

@@ -13,7 +13,7 @@ const RejectedFuelRequisitionForm = () => {
   useEffect(() => {
     const fetchRequisitions = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/userfuelrequest/rejectedfuel');
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/userfuelrequest/rejectedfuel`);
         
         if (Array.isArray(response.data)) {
           setRejectedRequisitions(response.data);
@@ -33,7 +33,7 @@ const RejectedFuelRequisitionForm = () => {
 
   const handleRequestClick = async (requestId) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/userfuelrequest/rejected/${requestId}`);
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/userfuelrequest/rejected/${requestId}`);
       setSelectedRequest(response.data);
     } catch (error) {
       console.error('Error fetching request details:', error);

@@ -29,7 +29,7 @@ const ApprovedRequests = () => {
 
   const fetchLogisticUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/users/logistic-users');
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/logistic-users`);
       setLogisticUsers(response.data);
     } catch (error) {
       console.error('Error fetching logistic users:', error);
@@ -38,7 +38,7 @@ const ApprovedRequests = () => {
   //fetch daf username and signature
   const fetchDafUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/users/daf-users');
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/daf-users`);
       setDafUsers(response.data);
     } catch (error) {
       console.error('Error fetching daf users:', error);
@@ -47,7 +47,7 @@ const ApprovedRequests = () => {
   //fetching recieved request from approved collection
   const fetchApprovedRequests = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/UserRequest/recieved-request');
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/UserRequest/recieved-request`);
      
       setRequests(response.data);
       setFilteredRequests(response.data); 
@@ -58,13 +58,13 @@ const ApprovedRequests = () => {
   //fetch with clicking 
   const handleRequestClick = async (requestId) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/UserRequest/recieved-request/${requestId}`);
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/UserRequest/recieved-request/${requestId}`);
       setSelectedRequest(response.data);
       setApprovedRequests(response.data);
    
 
       // Update the clicked status to true
-      await axios.put(`http://localhost:5000/api/UserRequest/recieved-request/${requestId}`, { clicked: true });
+      await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/UserRequest/recieved-request/${requestId}`, { clicked: true });
 
       // Refresh the requests list
       fetchApprovedRequests();
@@ -210,7 +210,7 @@ const ApprovedRequests = () => {
              <label>prepared By:</label> 
             <p>{selectedRequest.hodName}</p>
              {selectedRequest.hodSignature ? (
-               <img src={`http://localhost:5000/${selectedRequest.hodSignature}`} alt="HOD Signature" />
+               <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" />
              ) : (
                <p>No HOD signature available</p>
              )}
@@ -222,7 +222,7 @@ const ApprovedRequests = () => {
                       <div key={user._id} className="logistic-user">
                         <p>{user.firstName} {user.lastName}</p>
                         {user.signature ? (
-                          <img src={`http://localhost:5000/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
+                          <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
                         ) : (
                           <p>No signature available</p>
                         )}
@@ -236,7 +236,7 @@ const ApprovedRequests = () => {
                       <div key={user._id} className="logistic-user">
                         <p>{user.firstName} {user.lastName}</p>
                         {user.signature ? (
-                          <img src={`http://localhost:5000/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
+                          <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
                         ) : (
                           <p>No signature available</p>
                         )}
@@ -249,7 +249,7 @@ const ApprovedRequests = () => {
              <label>Recieved By:</label> 
             <p>{selectedRequest.hodName}</p>
              {selectedRequest.hodSignature ? (
-               <img src={`http://localhost:5000/${selectedRequest.hodSignature}`} alt="HOD Signature" />
+               <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" />
              ) : (
                <p>No HOD signature available</p>
              )}

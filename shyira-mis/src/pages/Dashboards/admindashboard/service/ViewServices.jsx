@@ -17,7 +17,7 @@ const ViewService = () => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/services');
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/services`);
         setServices(response.data);
       } catch (error) {
         console.error('Error fetching items:', error);
@@ -35,13 +35,13 @@ const ViewService = () => {
 
   const handleUpdate = async () => {
     try {
-      await axios.put(`http://localhost:5000/api/services/${editService._id}`, {
+      await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/services/${editService._id}`, {
         name: serviceName,
       });
       setEditService(null);
       setServiceName('');
       // Fetch updated positions
-      const response = await axios.get('http://localhost:5000/api/services');
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/services`);
       setServices(response.data);
     } catch (error) {
       console.error('Error updating position:', error);
@@ -50,10 +50,10 @@ const ViewService = () => {
 
   const handleDelete = async (id) => {
     try {
-      const response = await axios.delete(`http://localhost:5000/api/services/${id}`);
+      const response = await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/services/${id}`);
       console.log('Delete response:', response.data); // Log the response
       // Fetch updated positions
-      const fetchUpdatedPositions = await axios.get('http://localhost:5000/api/services');
+      const fetchUpdatedPositions = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/services`);
       setServices(fetchUpdatedPositions.data);
     } catch (error) {
       console.error('Error deleting position:', error);
