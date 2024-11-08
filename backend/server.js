@@ -1,8 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const cors = require('cors'); // Make sure this line is present
+const cors = require('cors'); 
 const path = require('path');
-require('dotenv').config(); // Load environment variables from .env file
+require('dotenv').config(); 
 const MongoStore = require('connect-mongo');
 const session = require('express-session');
 const connectDB = require('./config/db');
@@ -16,7 +16,6 @@ const userRequest =require('./routes/requsitionRoute');
 const userProfileRoutes = require('./routes/userProfileroute')
 const forwardedRequestsRouter = require('./routes/requesttodaf');
 const countRequisitionRouter = require('./routes/countRequisitions')
-
 const stockRoutes = require('./routes/stockRoutes');
 const stockItem = require ('./models/stockItems')
 const StockHistory = require('./models/stockHistory');
@@ -28,9 +27,7 @@ const userfuelRouter = require ('./routes/userFuelrouter')
 const addCarRoute = require ('./routes/carplaque')
 const fuelStock = require ('./routes/fuelstock')
 const StockData = require('./models/stockData')
-
 const RepairRequisition = require('./routes/RepairRequisition')
-
 const userdataRoutes =require ('./routes/userData')
 
 
@@ -39,10 +36,10 @@ app.use(express.json()); // Or use body-parser's JSON parser
 app.use(bodyParser.json()); // If using body-parser
 
 app.use(cors({
-  origin: 'http://localhost:3000', // Replace with your frontend's local address and port
+  origin: 'http://localhost:3000', 
   methods: 'GET,POST,PUT,DELETE',
   allowedHeaders: 'Content-Type,Authorization',
-  credentials: true, // If you're using cookies or authorization headers
+  credentials: true, 
 }));
 
 connectDB();

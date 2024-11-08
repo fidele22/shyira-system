@@ -71,6 +71,7 @@ router.post('/add', async (req, res) => {
     res.status(500).send({ success: false, error: error.message });
   }
 });
+
 // DELETE /api/stocks/:id - Delete stock item and related stock data and stock histories
 router.delete('/:id', async (req, res) => {
   try {

@@ -151,7 +151,8 @@ const ViewItems = () => {
           'Content-Type': 'multipart/form-data'
         }
       });
-    
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users`);
+      setUsers(response.data);
         // Show success message using SweetAlert2
         Swal.fire ({
           title: 'Success!',
