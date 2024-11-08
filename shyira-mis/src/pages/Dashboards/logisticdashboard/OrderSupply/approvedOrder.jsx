@@ -5,6 +5,7 @@ import { FaQuestionCircle, FaEdit,FaTimes, FaTimesCircle, FaCheck,
 import axios from 'axios';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
+import Swal from 'sweetalert2'; 
 import { useDropzone } from 'react-dropzone';
 import './modelMessage.css'  // Import Dropzone for file attachment
 
@@ -74,15 +75,30 @@ const ApprovedRequests = () => {
 const handleReceivedClick = async (requestId) => {
     try {
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/LogisticRequest/received/${requestId}`);
-      setModalMessage('Reception sign and update stock successfully');
-      setIsSuccess(true); // Set the success state
-      setShowModal(true); // Show the modal
+      // Show success message using SweetAlert2
+      Swal.fire ({
+        title: 'Success!',
+        text: 'Reception sign and update stock successfully',
+        icon: 'success',
+        confirmButtonText: 'OK',
+        customClass: {
+          popup: 'custom-swal', // Apply custom class to the popup
+        }
+      });
       fetchApprovedRequests(); // Refresh the list after posting
     } catch (error) {
       console.error('Error marking request as received:', error);
-      setModalMessage('Failed to mark request as received');
-      setIsSuccess(false); // Set the error state
-      setShowModal(true); // Show the modal
+         // Show success message using SweetAlert2
+         Swal.fire ({
+          title: 'Error!',
+          text: 'Failed to mark request as received',
+          icon: 'error',
+          confirmButtonText: 'OK',
+          customClass: {
+            popup: 'custom-swal', // Apply custom class to the popup
+          }
+        });
+     
     }
   };
   const handleRequestClick = async (requestId) => {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaQuestionCircle, FaEdit, FaTimes, FaCheckCircle, FaTimesCircle, FaTrash, FaCheck } from 'react-icons/fa';
 import axios from 'axios';
+import Swal from 'sweetalert2'; 
 
 // Import CSS for styling
 // import './ViewRequest.css';
@@ -54,23 +55,6 @@ const ForwardedRequests = () => {
   const handleRequestClick = (requestId) => {
     const request = approvedRequests.find(req => req._id === requestId);
     setSelectedRequest(request);
-  };
-
-  const handleReceivedClick = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/logisticFuel/recieved-fuel/${selectedRequest._id}`);
-      setModalMessage('Sign reception of Fuel order and update fuel stock successful');
-      setIsSuccess(true);
-      setShowModal(true);
-      // Refresh the list
-      fetchApprovedRequests();
-    } catch (error) {
-      console.error('Error for approving request:', error);
-      setModalMessage('Failed to sign reception order');
-      setIsSuccess(false);
-      setShowModal(true);
-    }
   };
 
   const fetchUserProfile = async () => {
@@ -129,7 +113,7 @@ const ForwardedRequests = () => {
         <div className="request-details-overlay">
           <div className="request-details">
             <div className="form-navigation">
-              <button className='mark-received-btn' onClick={handleReceivedClick}>Mark as Received</button>
+         
               <label className='request-close-btn' onClick={() => setSelectedRequest(null)}><FaTimes /></label>
             </div>
             <div className="image-request-recieved">

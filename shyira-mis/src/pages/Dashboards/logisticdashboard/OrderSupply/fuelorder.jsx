@@ -3,6 +3,7 @@ import axios from 'axios';
 import { FaQuestionCircle, FaEdit,FaTimes, FaTimesCircle, FaCheck,
   FaCheckCircle, FaCheckDouble, FaCheckSquare } from 'react-icons/fa';
 import SearchableDropdown from './searchable'
+import Swal from 'sweetalert2'; 
 //import './makeRequist.css'; // Import CSS for styling
 
 const LogisticRequestForm = () => {
@@ -43,7 +44,7 @@ const LogisticRequestForm = () => {
         }
 
         // Use Axios to fetch user profile
-        const response = await axios.get('http://localhost:5000/api/users/profile', {
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/profile`, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },
@@ -71,7 +72,7 @@ const LogisticRequestForm = () => {
     };
   
     try {
-      const response = await axios.post('http://localhost:5000/api/logisticFuel/fuel-order', payload, {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/logisticFuel/fuel-order`, payload, {
         headers: {
           'Authorization': `Bearer ${sessionStorage.getItem('token')}`,
           'Content-Type': 'application/json'
@@ -79,9 +80,16 @@ const LogisticRequestForm = () => {
       });
   
       console.log(response.data);
-      setModalMessage('Submit requisition to logistic successfully');
-      setIsSuccess(true);
-      setShowModal(true);
+        // Show success message using SweetAlert2
+        Swal.fire ({
+          title: 'Success!',
+          text: 'Fuel order sent successfully',
+          icon: 'success',
+          confirmButtonText: 'OK',
+          customClass: {
+            popup: 'custom-swal', // Apply custom class to the popup
+          }
+        });
 
       // Clear the form fields after successful submission
 
@@ -94,9 +102,16 @@ const LogisticRequestForm = () => {
 
     } catch (error) {
       console.error('Error submitting requisition:', error);
-      setModalMessage('Failed to submit requisition');
-      setIsSuccess(false);
-      setShowModal(true);
+        // Show success message using SweetAlert2
+        Swal.fire ({
+          title: 'Error!',
+          text: 'Failed to submit fuel order',
+          icon: 'error',
+          confirmButtonText: 'OK',
+          customClass: {
+            popup: 'custom-swal', // Apply custom class to the popup
+          }
+        });
     }
   };
   

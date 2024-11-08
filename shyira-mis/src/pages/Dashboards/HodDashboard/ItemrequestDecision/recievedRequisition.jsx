@@ -219,7 +219,7 @@ if (error) return <p>{error}</p>;
              <label>prepared By:</label> 
             <p>{selectedRequest.hodName}</p>
              {selectedRequest.hodSignature ? (
-               <img src={`http://localhost:5000/${selectedRequest.hodSignature}`} alt="HOD Signature" />
+               <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" />
              ) : (
                <p>No HOD signature available</p>
              )}
@@ -231,7 +231,7 @@ if (error) return <p>{error}</p>;
                       <div key={user._id} className="logistic-user">
                         <p>{user.firstName} {user.lastName}</p>
                         {user.signature ? (
-                          <img src={`http://localhost:5000/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
+                          <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
                         ) : (
                           <p>No signature available</p>
                         )}
@@ -245,7 +245,7 @@ if (error) return <p>{error}</p>;
                       <div key={user._id} className="logistic-user">
                         <p>{user.firstName} {user.lastName}</p>
                         {user.signature ? (
-                          <img src={`http://localhost:5000/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
+                          <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
                         ) : (
                           <p>No signature available</p>
                         )}
@@ -258,7 +258,7 @@ if (error) return <p>{error}</p>;
              <label>Recieved By:</label> 
             <p>{selectedRequest.hodName}</p>
              {selectedRequest.hodSignature ? (
-               <img src={`http://localhost:5000/${selectedRequest.hodSignature}`} alt="HOD Signature" />
+               <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" />
              ) : (
                <p>No HOD signature available</p>
              )}

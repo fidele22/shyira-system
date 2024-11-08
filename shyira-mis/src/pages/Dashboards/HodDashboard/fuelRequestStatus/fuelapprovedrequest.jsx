@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FaEye, FaEdit,FaTimes, FaTimesCircle, FaCheck,
   FaCheckCircle, FaCheckDouble, FaCheckSquare } from 'react-icons/fa';
 import axios from 'axios';
+import Swal from 'sweetalert2'; 
 //import './viewfuelrequest.css';
 
 const FuelRequisitionForm = () => {
@@ -100,10 +101,29 @@ const FuelRequisitionForm = () => {
     try {
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/approve/fuel-recieved/${selectedRequest._id}`, formData);
       setSelectedRequest(response.data);
-      alert('Sign as received done well!!!.');
+       // Show success message using SweetAlert2
+       Swal.fire ({
+        title: 'Success!',
+        text: 'Sign reception  successfully',
+        icon: 'success',
+        confirmButtonText: 'OK',
+        customClass: {
+          popup: 'custom-swal', // Apply custom class to the popup
+        }
+      });
     } catch (error) {
       console.error('Error verifying requisition:', error);
-      alert('Failed to sign requisition.');
+        // Show success message using SweetAlert2
+        Swal.fire ({
+          title: 'Error!',
+          text: 'Failed to sign reception.',
+          icon: 'error',
+          confirmButtonText: 'OK',
+          customClass: {
+            popup: 'custom-swal', // Apply custom class to the popup
+          }
+        });
+      
     }
   };
 
@@ -186,7 +206,7 @@ const FuelRequisitionForm = () => {
                 {selectedRequest && selectedRequest.file ? (
   <div className='file-uploaded'>
     <label>Previous Destination file:</label>
-    <a href={`http://localhost:5000/${selectedRequest.file}`} target="_blank" rel="noopener noreferrer">
+    <a href={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.file}`} target="_blank" rel="noopener noreferrer">
     <FaEye /> View File
     </a>
   </div>
@@ -202,7 +222,7 @@ const FuelRequisitionForm = () => {
                 <h3>Head Of department:</h3>
                   <label>Prepared By:</label>
                   <span>{selectedRequest.hodName || ''}</span>
-                  <img src={`http://localhost:5000/${selectedRequest.hodSignature}`} alt="HOD Signature" />
+                  <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" />
                 </div>
              
               <div className='logistic-signature'>
@@ -212,7 +232,7 @@ const FuelRequisitionForm = () => {
                       <div key={user._id} className="logistic-user">
                         <p>{user.firstName} {user.lastName}</p>
                         {user.signature ? (
-                          <img src={`http://localhost:5000/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
+                          <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
                         ) : (
                           <p>No signature available</p>
                         )}
@@ -226,7 +246,7 @@ const FuelRequisitionForm = () => {
                 <div key={user._id} className="logistic-user">
                         <p>{user.firstName} {user.lastName}</p>
                         {user.signature ? (
-                          <img src={`http://localhost:5000/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
+                          <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
                         ) : (
                           <p>No signature available</p>
                         )}
