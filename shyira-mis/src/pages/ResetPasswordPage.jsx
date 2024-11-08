@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useParams,useNavigate } from 'react-router-dom';
 import { FaQuestionCircle, FaEdit,FaTimes, FaTimesCircle, FaCheck,
   FaCheckCircle, FaCheckDouble, FaCheckSquare } from 'react-icons/fa';
+  import Swal from 'sweetalert2'; 
 import './stylingpages/resetPassword.css'
 import axios from 'axios';
 
@@ -27,9 +28,15 @@ const ResetPassword = () => {
     try {
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/reset-password/${token}`, { password });
       console.log(response.data);
-      setModalMessage('Reset password successfully!');
-      setIsSuccess(true); // Set the success state
-      setShowModal(true); // Show the modal
+      Swal.fire ({
+        title: 'Success!',
+        text: 'Reset password successfully',
+        icon: 'success',
+        confirmButtonText: 'OK',
+        customClass: {
+          popup: 'custom-swal', // Apply custom class to the popup
+        }
+      });
          // Redirect to login page or home page after success
          setTimeout(() => {
           navigate('/'); // Redirect to login or another page
@@ -37,9 +44,15 @@ const ResetPassword = () => {
   
     } catch (error) {
       console.error(error);
-      setModalMessage('password reset failed');
-      setIsSuccess(true); // Set the success state
-      setShowModal(true); // Show the modal
+      Swal.fire ({
+        title: 'Error!',
+        text: 'Failed to reset password',
+        icon: 'error',
+        confirmButtonText: 'OK',
+        customClass: {
+          popup: 'custom-swal', // Apply custom class to the popup
+        }
+      });
     }
   };
 

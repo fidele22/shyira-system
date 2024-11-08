@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2'; 
 import './stylingpages/Forgetpassword.css'; // Import CSS for styling
 
 const ForgotPassword = () => {
@@ -11,12 +12,26 @@ const ForgotPassword = () => {
     e.preventDefault();
     try {
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/forgot-password`, { email });
-      setMessage(response.data);
-      setMessageType('success'); // Set message type to success
+      Swal.fire ({
+        title: 'Success!',
+        text: 'Reset password link successful sent to your email',
+        icon: 'success',
+        confirmButtonText: 'OK',
+        customClass: {
+          popup: 'custom-swal', // Apply custom class to the popup
+        }
+      });// Set message type to success
     } catch (error) {
       console.error(error);
-      setMessage('Error sending reset link.');
-      setMessageType('error'); // Set message type to error
+      Swal.fire ({
+        title: 'Error!',
+        text: 'Error of sending reset link',
+        icon: 'error',
+        confirmButtonText: 'OK',
+        customClass: {
+          popup: 'custom-swal', // Apply custom class to the popup
+        }
+      });
     }
   };
 
