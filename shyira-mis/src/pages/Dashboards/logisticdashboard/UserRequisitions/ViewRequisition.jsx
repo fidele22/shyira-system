@@ -3,6 +3,7 @@ import { FaQuestionCircle, FaCheckCircle,FaEdit,FaTimesCircle, FaTimes, FaTrash 
 import axios from 'axios';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
+import Swal from 'sweetalert2'; 
 import './recievedRequest.css'; // Import CSS for styling
 
 const LogisticRequestForm = () => {
@@ -101,18 +102,32 @@ const LogisticRequestForm = () => {
     try {
       await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/UserRequest/${selectedRequest._id}`, editFormData, { clicked: true });
       
-      setModalMessage('Requisition Updated successfull!!');
-      setIsSuccess(true); // Set the error state
-      setShowModal(true); // Show the modal
+       // Show success message using SweetAlert2
+       Swal.fire ({
+        title: 'Success!',
+        text: 'requisition updated successfully',
+        icon: 'success',
+        confirmButtonText: 'OK',
+        customClass: {
+          popup: 'custom-swal', // Apply custom class to the popup
+        }
+      });
       fetchRequests(); // Refresh the list of requests
       setSelectedRequest(null); // Close the details view
 
      
     } catch (error) {
       console.error('Error updating request:', error);
-      setModalMessage('Failed to Update requisition!');
-      setIsSuccess(false); // Set the error state
-      setShowModal(true); // Show the modal
+       // Show error message using SweetAlert2
+       Swal.fire({
+        title: 'Error!',
+        text: 'Failed to update requisition',
+        icon: 'error',
+        confirmButtonText: 'OK',
+        customClass: {
+          popup: 'custom-swal', // Apply custom class to the popup
+        }
+      });
     }
   };
 //send verified
@@ -121,17 +136,31 @@ const handleVerifySubmit = async () => {
   try {
     await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/UserRequest/verified/${selectedRequest._id}`, { clicked: true });
   
-    setModalMessage('Requisition Verified and removed on this list successfull!');
-    setIsSuccess(true); // Set the error state
-    setShowModal(true); // Show the modal
+      // Show success message using SweetAlert2
+      Swal.fire ({
+        title: 'Success!',
+        text: 'requisition verified successfully',
+        icon: 'success',
+        confirmButtonText: 'OK',
+        customClass: {
+          popup: 'custom-swal', // Apply custom class to the popup
+        }
+      });
     fetchRequests(); // Refresh the list of requests
     setSelectedRequest(null); // Close the details view
 
   } catch (error) {
     console.error('Error updating request:', error);
-    setModalMessage('Failed to verify requisition!!');
-    setIsSuccess(false); // Set the error state
-    setShowModal(true); // Show the modal
+      // Show error message using SweetAlert2
+      Swal.fire({
+        title: 'Error!',
+        text: 'Failed to verify requisition',
+        icon: 'error',
+        confirmButtonText: 'OK',
+        customClass: {
+          popup: 'custom-swal', // Apply custom class to the popup
+        }
+      });
   }
 };
 

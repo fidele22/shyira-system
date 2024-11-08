@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaQuestionCircle,FaTimesCircle, FaEdit, FaCheckCircle,FaTimes, FaTrash,FaCheck } from 'react-icons/fa';
 import axios from 'axios';
+import Swal from 'sweetalert2'; 
 import './ViewRequest.css'; // Import CSS for styling
 
 
@@ -94,15 +95,28 @@ const ForwardedRequests = () => {
 
       // Forward the updated request to the approved collection
      // await axios.post(`http://localhost:5000/api/forwardedrequests/approved/${selectedRequest._id}`);
-     
-      setModalMessage('requistion updated successfully');
-      setIsSuccess(true); // Set the success state
-      setShowModal(true); // Show the modal
+      // Show error message using SweetAlert2
+      Swal.fire({
+        title: 'Success!',
+        text: 'requisition updated successfuly',
+        icon: 'success',
+        confirmButtonText: 'OK',
+        customClass: {
+          popup: 'custom-swal', // Apply custom class to the popup
+        }
+      });
     } catch (error) {
       console.error('Error updating request:', error);
-      setModalMessage('Failed to update requisition');
-      setIsSuccess(false); // Set the success state
-      setShowModal(true); // Show the modal
+        // Show error message using SweetAlert2
+        Swal.fire({
+          title: 'Error!',
+          text: 'Failed to update requisition',
+          icon: 'error',
+          confirmButtonText: 'OK',
+          customClass: {
+            popup: 'custom-swal', // Apply custom class to the popup
+          }
+        });
     }
   };
 
@@ -112,15 +126,29 @@ const ForwardedRequests = () => {
   try {
     await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/forwardedrequests/approved/${selectedRequest._id}`);
      
-    setModalMessage('requistion Approved successfully');
-    setIsSuccess(true); // Set the success state
-    setShowModal(true); // Show the modal
+      // Show error message using SweetAlert2
+      Swal.fire({
+        title: 'Success',
+        text: 'requisition approved successful!!',
+        icon: 'success',
+        confirmButtonText: 'OK',
+        customClass: {
+          popup: 'custom-swal', // Apply custom class to the popup
+        }
+      });
     fetchForwardedRequests('')
   } catch (error) {
     console.error('Error updating request:', error);
-    setModalMessage('Failed to Approve requisition');
-    setIsSuccess(false); // Set the success state
-    setShowModal(true); // Show the modal
+       // Show error message using SweetAlert2
+       Swal.fire({
+        title: 'Error!',
+        text: 'Failed to approve requisition',
+        icon: 'error',
+        confirmButtonText: 'OK',
+        customClass: {
+          popup: 'custom-swal', // Apply custom class to the popup
+        }
+      });
   }
 };
 

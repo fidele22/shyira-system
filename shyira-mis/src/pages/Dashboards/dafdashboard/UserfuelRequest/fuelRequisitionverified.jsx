@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { FaEye, FaEdit,FaTimes, FaTimesCircle, FaCheck,
   FaCheckCircle, FaCheckDouble, FaCheckSquare } from 'react-icons/fa';
 import axios from 'axios';
+import Swal from 'sweetalert2'; 
 //import './viewfuelrequest.css';
 
 const FuelRequisitionForm = () => {
@@ -74,21 +75,62 @@ const FuelRequisitionForm = () => {
     try {
       const response = await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/forwardedrequests/updatefuel/${selectedRequest._id}`, formData);
       setSelectedRequest(response.data);
-      alert('Fuel requisition updated successful')
+      
+      // Show error message using SweetAlert2
+      Swal.fire({
+        title: 'Success',
+        text: 'Fuel requisition updated successful!!',
+        icon: 'success',
+        confirmButtonText: 'OK',
+        customClass: {
+          popup: 'custom-swal', // Apply custom class to the popup
+        }
+      });
       setIsEditing(false);
       
     } catch (error) {
       console.error('Error updating requisition:', error);
+       
+      // Show error message using SweetAlert2
+      Swal.fire({
+        title: 'Error!',
+        text: 'Failed to update fuel requisition',
+        icon: 'error',
+        confirmButtonText: 'OK',
+        customClass: {
+          popup: 'custom-swal', // Apply custom class to the popup
+        }
+      });
     }
   };
   const handleApproveClick = async () => {
     try {
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/forwardedrequests/approvefuel/${selectedRequest._id}`, formData);
       setSelectedRequest(response.data);
-      alert('Requisition approved successfully.');
+       
+      // Show error message using SweetAlert2
+      Swal.fire({
+        title: 'Error!',
+        text: 'Fuel requisition approved successful!!',
+        icon: 'error',
+        confirmButtonText: 'OK',
+        customClass: {
+          popup: 'custom-swal', // Apply custom class to the popup
+        }
+      });
     } catch (error) {
       console.error('Error verifying requisition:', error);
-      alert('Failed to approve requisition.');
+       
+      // Show error message using SweetAlert2
+      Swal.fire({
+        title: 'Success',
+        text: 'Failed to approve fuel requisition',
+        icon: 'success',
+        confirmButtonText: 'OK',
+        customClass: {
+          popup: 'custom-swal', // Apply custom class to the popup
+        }
+      });
     }
   };
 
@@ -179,7 +221,7 @@ const FuelRequisitionForm = () => {
                 {selectedRequest && selectedRequest.file ? (
   <div className='file-uploaded'>
     <label>Previous Destination file:</label>
-    <a href={`http://localhost:5000/${selectedRequest.file}`} target="_blank" rel="noopener noreferrer">
+    <a href={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.file}`} target="_blank" rel="noopener noreferrer">
     <FaEye /> View File
     </a>
   </div>
@@ -194,7 +236,7 @@ const FuelRequisitionForm = () => {
                   <h3>Head of department</h3>
                   <label>Prepared By:</label>
                   <span>{selectedRequest.hodName || ''}</span>
-                  <img src={`http://localhost:5000/${selectedRequest.hodSignature}`} alt="HOD Signature" />
+                  <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" />
                 </div>
                 <div className='logistic-signature'>
                   <h3>Logistic Office:</h3>
@@ -203,7 +245,7 @@ const FuelRequisitionForm = () => {
                       <div key={user._id} className="logistic-user">
                         <span>{user.firstName} {user.lastName}</span>
                         {user.signature ? (
-                          <img src={`http://localhost:5000/${user.signature}`}  />
+                          <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`}  />
                         ) : (
                           <p>No signature available</p>
                         )}

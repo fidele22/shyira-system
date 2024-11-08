@@ -109,7 +109,7 @@ const RejectedFuelRequisitionForm = () => {
                   {selectedRequest && selectedRequest.file ? (
                     <div className="file-uploaded">
                       <label>Previous Destination file:</label>
-                      <a href={`http://localhost:5000/${selectedRequest.file}`} target="_blank" rel="noopener noreferrer">
+                      <a href={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.file}`} target="_blank" rel="noopener noreferrer">
                         <FaEye /> View File
                       </a>
                     </div>
@@ -125,7 +125,7 @@ const RejectedFuelRequisitionForm = () => {
                   <label>Prepared By:</label>
                   <span>{selectedRequest.hodName || ''}</span>
                   {selectedRequest.hodSignature && (
-                    <img src={`http://localhost:5000/${selectedRequest.hodSignature}`} alt="HOD Signature" />
+                    <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" />
                   )}
                 </div>
               

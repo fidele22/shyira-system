@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FaQuestionCircle, FaEdit,FaTimes, FaTimesCircle, FaCheck,
   FaCheckCircle, FaCheckDouble, FaCheckSquare } from 'react-icons/fa';
 import axios from 'axios';
+import Swal from 'sweetalert2'; 
 import './fuelrequest.css'; // Make sure to add CSS for styling
 
 const RequisitionForm = () => {
@@ -103,9 +104,16 @@ const RequisitionForm = () => {
       });
   
       console.log('Response:', response.data); // Debugging
-      setModalMessage('Submit requisition to logistic successfully');
-      setIsSuccess(true); // Set the success state
-      setShowModal(true); 
+      // Show success message using SweetAlert2
+      Swal.fire ({
+        title: 'Success!',
+        text: 'Submit fuel requisition to logistic successfully',
+        icon: 'success',
+        confirmButtonText: 'OK',
+        customClass: {
+          popup: 'custom-swal', // Apply custom class to the popup
+        }
+      });
       
       setRequesterName('');
       setCarPlaque('');
@@ -119,9 +127,16 @@ const RequisitionForm = () => {
       setFile(null);
     } catch (error) {
       console.error('Error submitting requisition:', error); // Debugging
-      setModalMessage('Failed to submit requisition');
-      setIsSuccess(false); // Set the success state
-      setShowModal(true); 
+        // Show error message using SweetAlert2
+        Swal.fire({
+          title: 'Error!',
+          text: 'Failed to submit fuel requisition',
+          icon: 'error',
+          confirmButtonText: 'OK',
+          customClass: {
+            popup: 'custom-swal', // Apply custom class to the popup
+          }
+        });
       
     }
   };
