@@ -78,7 +78,7 @@ const handleReceivedClick = async (requestId) => {
       // Show success message using SweetAlert2
       Swal.fire ({
         title: 'Success!',
-        text: 'Reception sign and update stock successfully',
+        text: 'Reception sign and update item stock successfully',
         icon: 'success',
         confirmButtonText: 'OK',
         customClass: {
@@ -304,25 +304,7 @@ const handleReceivedClick = async (requestId) => {
           </div> 
         </div> 
       )}
-       {/* Modal pop message on success or error message */}
-       {showModal && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            {isSuccess ? (
-              <div className="modal-success">
-                <FaCheckCircle size={54} color="green" />
-                <p>{modalMessage}</p>
-              </div>
-            ) : (
-              <div className="modal-error">
-                <FaTimesCircle size={54} color="red" />
-                <p>{modalMessage}</p>
-              </div>
-            )}
-            <button onClick={() => setShowModal(false)}>Close</button>
-          </div>
-        </div>
-      )}
+   
 
     </div>
   );

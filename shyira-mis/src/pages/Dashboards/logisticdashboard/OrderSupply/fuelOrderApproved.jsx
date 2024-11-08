@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaQuestionCircle, FaEdit, FaTimes, FaCheckCircle, FaTimesCircle, FaTrash, FaCheck } from 'react-icons/fa';
 import axios from 'axios';
-
+import Swal from 'sweetalert2'; 
 // Import CSS for styling
 // import './ViewRequest.css';
 
@@ -60,16 +60,29 @@ const ForwardedRequests = () => {
     e.preventDefault();
     try {
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/logisticFuel/recieved-fuel/${selectedRequest._id}`);
-      setModalMessage('Sign reception of Fuel order and update fuel stock successful');
-      setIsSuccess(true);
-      setShowModal(true);
+      Swal.fire ({
+        title: 'Success!',
+        text: 'Reception sign and update fuel stock successfully',
+        icon: 'success',
+        confirmButtonText: 'OK',
+        customClass: {
+          popup: 'custom-swal', // Apply custom class to the popup
+        }
+      });
       // Refresh the list
       fetchApprovedRequests();
     } catch (error) {
       console.error('Error for approving request:', error);
-      setModalMessage('Failed to sign reception order');
-      setIsSuccess(false);
-      setShowModal(true);
+         // Show success message using SweetAlert2
+         Swal.fire ({
+          title: 'Error!',
+          text: 'Failed to sign reception of fuel order',
+          icon: 'error',
+          confirmButtonText: 'OK',
+          customClass: {
+            popup: 'custom-swal', // Apply custom class to the popup
+          }
+        });
     }
   };
 

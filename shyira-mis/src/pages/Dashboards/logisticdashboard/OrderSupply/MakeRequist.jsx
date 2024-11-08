@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2'; 
 import { FaQuestionCircle, FaEdit, FaTimes, FaTimesCircle, FaCheck, FaCheckCircle, FaCheckDouble, FaCheckSquare } from 'react-icons/fa';
 import ItemOrderStatus from './orderstatus'; 
 import ItemDecision from './RecievedOrder';
@@ -78,14 +79,29 @@ const LogisticRequestForm = () => {
         },
       });
       console.log(response.data);
-
-      setModalMessage('Requisition submitted successfully!');
-      setIsSuccess(true); // Set the success state
-      setShowModal(true); // Show the modal
+    // Show success message using SweetAlert2
+    Swal.fire ({
+      title: 'Success!',
+      text: 'Requisition submitted successfully!',
+      icon: 'success',
+      confirmButtonText: 'OK',
+      customClass: {
+        popup: 'custom-swal', // Apply custom class to the popup
+      }
+    });
+     
     } catch (error) {
-      setModalMessage('Failed submitting requisition');
-      setIsSuccess(false); // Set the error state
-      setShowModal(true); // Show the modal
+      Swal.fire ({
+        title: 'Error!',
+        text: 'Failed submitting item requisition',
+        icon: 'error',
+        confirmButtonText: 'OK',
+        customClass: {
+          popup: 'custom-swal', // Apply custom class to the popup
+        }
+      });
+       
+
     }
   };
 
