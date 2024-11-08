@@ -294,7 +294,7 @@ const ForwardedRequests = () => {
                   <h3>Logistic Office</h3>
                   <label>Prepared By:</label>
                   <span>{selectedRequest.hodName || ''}</span><br />
-                  <img src={`http://localhost:5000/${selectedRequest.hodSignature}`} alt="HOD Signature" />
+                  <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" />
                 
                     
                    

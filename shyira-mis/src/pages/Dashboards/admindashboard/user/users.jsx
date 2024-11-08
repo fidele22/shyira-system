@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaEdit, FaTrash,FaTimes,FaTimesCircle,FaCheckCircle } from 'react-icons/fa';
 import axios from 'axios';
+import Swal from 'sweetalert2'; 
 import AddUser from './AddUser'; // Import the AddUser component
 import '../css/adminDashboard.css';
 import '../css/user.css'
@@ -151,16 +152,30 @@ const ViewItems = () => {
         }
       });
     
-      setModalMessage('User updated successfully');
-      setIsSuccess(true); // Set the success state
-      setShowModal(true); // Show the modal
+        // Show success message using SweetAlert2
+        Swal.fire ({
+          title: 'Success!',
+          text: 'User data updated successfully',
+          icon: 'success',
+          confirmButtonText: 'OK',
+          customClass: {
+            popup: 'custom-swal', // Apply custom class to the popup
+          }
+        });
       setEditingUser(null);
      
     } catch (error) {
       console.error('Error updating user:', error);
       setModalMessage('Error for updating user');
-      setIsSuccess(false); // Set the success state
-      setShowModal(true); // Show the modal
+      Swal.fire ({
+        title: 'Error!',
+        text: 'Failed for updating user data',
+        icon: 'error',
+        confirmButtonText: 'OK',
+        customClass: {
+          popup: 'custom-swal', // Apply custom class to the popup
+        }
+      });
     }
   };
 
