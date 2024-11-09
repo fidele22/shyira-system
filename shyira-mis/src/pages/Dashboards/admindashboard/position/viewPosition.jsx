@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AddNewPosition from './AddPosition'
-import { FaEdit, FaTrash,FaTimes } from 'react-icons/fa';
+import Swal from 'sweetalert2'; 
+import { FaEdit, FaTrash,FaTimes,FaPlus } from 'react-icons/fa';
 import axios from 'axios';
 import '../css/service.css';
 
@@ -8,6 +9,7 @@ const ViewPosition = () => {
   const [positions, setPositions] = useState([]);
   const [editPosition, setEditPosition] = useState(null);
   const [positionName, setPositionName] = useState('');
+  const [isAddDepartmentVisible, setIsAddDepartmentVisible] = useState(false); 
 
   useEffect(() => {
     const fetchPositions = async () => {
@@ -43,15 +45,49 @@ const ViewPosition = () => {
   };
 
   const handleDelete = async (id) => {
-    try {
+    const { value: isConfirmed } = await Swal.fire({
+  
+      title: 'Are you sure?,',
+      text: "you want to delete this position?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!', 
+      customClass: {
+        popup: 'custom-swal', // Apply custom class to the popup
+      }
+
+    });
+    if (isConfirmed) {
+      try {
       const response = await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/positions/${id}`);
       console.log('Delete response:', response.data); // Log the response
       // Fetch updated positions
       const fetchUpdatedPositions = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/positions`);
       setPositions(fetchUpdatedPositions.data);
+      Swal.fire({
+        title:'Deleted!',
+        text:'Position has been deleted successfully.',
+        icon:'success',
+        customClass:{
+
+          popup: 'custom-swal',
+
+        },
+      }
+      );
     } catch (error) {
       console.error('Error deleting position:', error);
+      Swal.fire(
+
+        'Error!',
+        'Failed to delete this position.',
+        'error'
+
+      );
     }
+  }
   };
   
   return (
@@ -59,6 +95,8 @@ const ViewPosition = () => {
      
       <div className="service-table-data">
       <h1>Positions Managment</h1>
+      <button className="add-department-btn" onClick={() => setIsAddDepartmentVisible(true)}>
+          <FaPlus /> Add new position </button>
         <table className='table'>
           <thead>
             <tr>
@@ -95,10 +133,18 @@ const ViewPosition = () => {
         </div>
         </div>
       )}
-
-      <div className="addnew-position">
-        <AddNewPosition />
-      </div>
+   {isAddDepartmentVisible && (
+        <div className="editing-userdata-overlay">
+          <div className="overlay-content">
+          <button className="close-add-form" onClick={() => setIsAddDepartmentVisible(false)}>
+              <FaTimes />
+            </button>
+            <AddNewPosition onClose={() => setIsAddDepartmentVisible(false)} />
+            
+          </div>
+        </div>
+      )}
+      
     </div>
   );
 };

@@ -19,6 +19,7 @@ import FuelReport from './StockReport/FuelReport'
 //import ApprovedRequests from './Requests/approvedRequest';
 import RequisitionReceive from './receivedRequisitions/itemRequestReceived';
 import './contentCss/LogisticDashboard.css';
+import HelpCenter from '../helpcenter/helpcenter';
 
 const LogisticDashboard = () => {
   const [currentPage, setCurrentPage] = useState('overview');
@@ -60,8 +61,8 @@ const LogisticDashboard = () => {
       case 'view-requisition':
         return <ViewRequisition />;
 
-      //case 'requisition-receive':
-      //  return <RequisitionReceive />;
+      case 'help-center':
+         return <HelpCenter />;
       //  
       default:
         return <Overview />;

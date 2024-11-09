@@ -95,12 +95,13 @@ const FuelRequisitionForm = () => {
     <div className="fuel-requisition-form">
       <h4>List of Fuel Requisition that has been approved</h4>
       <label htmlFor=""> Review your requisition was approved </label>
-      <div className="navigate-request">
+      <div className="order-navigation">
         <ul>
           {requisitions.slice().reverse().map((request, index) => (
             <li key={index}>
               <p onClick={() => handleRequestClick(request._id)}>
                 Requisition Form from {request.department} done on {new Date(request.createdAt).toDateString()}
+              <span className='status-approved'>Approved</span>
               </p>
             </li>
           ))}

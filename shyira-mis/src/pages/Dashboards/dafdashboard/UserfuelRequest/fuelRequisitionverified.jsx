@@ -143,14 +143,16 @@ const FuelRequisitionForm = () => {
 
   return (
     <div className="fuel-requisition-form">
-      <h2>List of Fuel Requisition</h2>
-      <div className="navigate-request">
+      <div className="order-navigation">
+      <div className="navigation-title">
+          <h2>Requisition form of fuel from different users that was verified </h2>
+        </div>
         <ul>
           {requisitions.slice().reverse().map((request, index) => (
             <li key={index}>
               <p onClick={() => handleRequestClick(request._id)}>
                 Requisition Form from {request.department} done on {new Date(request.createdAt).toDateString()}
-                 {/** <span>{!request.clicked ? 'New Request' : ''}</span>*/}
+                <span className='status-verified'>Verified</span>
               </p>
             </li>
           ))}

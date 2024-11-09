@@ -76,7 +76,7 @@ const Navbar = ({ setCurrentPage }) => {
         <li onClick={() => setCurrentPage('logistic-profile')}>
           <FaUser /> Profile
         </li>
-        <li onClick={() => setCurrentPage('logistic-profil')}> <FaLifeRing />Help Center</li>
+        <li onClick={() => setCurrentPage('help-center')}> <FaLifeRing />Help Center</li>
         <li onClick={handleLogout}>
           <FaSignOutAlt /> Logout
         </li>

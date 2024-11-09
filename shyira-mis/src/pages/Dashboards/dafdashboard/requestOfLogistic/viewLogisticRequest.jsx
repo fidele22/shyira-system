@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { FaQuestionCircle, FaEdit, FaTimes,FaCheckCircle, FaTimesCircle,FaTrash,FaCheck } from 'react-icons/fa';
+import { FaQuestionCircle, FaEdit, FaTimes, FaCheckCircle, FaTimesCircle, FaTrash, FaCheck } from 'react-icons/fa';
 import axios from 'axios';
-
-//import './ViewRequest.css'; // Import CSS for styling
-
+import Swal from 'sweetalert2'; 
 
 const ForwardedRequests = () => {
   const [forwardedRequests, setForwardedRequests] = useState([]);
@@ -12,14 +10,9 @@ const ForwardedRequests = () => {
   const [formData, setFormData] = useState({});
   const [logisticUsers, setLogisticUsers] = useState([]);
 
-  const [showModal, setShowModal] = useState(false); // State for modal visibility
-  const [modalMessage, setModalMessage] = useState(''); //
-  const [isSuccess, setIsSuccess] = useState(true);
-
-
   useEffect(() => {
     fetchForwardedRequests();
-    fetchLogisticUsers(); // Fetch logistic users on component mount
+    fetchLogisticUsers();
   }, []);
 
   const fetchLogisticUsers = async () => {
@@ -44,6 +37,51 @@ const ForwardedRequests = () => {
     const request = forwardedRequests.find(req => req._id === requestId);
     setSelectedRequest(request);
     setFormData(request);
+  };
+
+  const handleRejectRequest = async () => {
+    const confirmReject = await Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, reject it!',
+      customClass: {
+        popup: 'custom-swal', // Apply custom class to the popup
+      }
+    });
+
+    if (confirmReject.isConfirmed) {
+      try {
+        await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/LogisticRequest/rejectItemOrder/${selectedRequest._id}`, {
+          // You can send additional data if needed
+        });
+        setForwardedRequests(prevRequests => prevRequests.filter(req => req._id !== selectedRequest._id));
+        setSelectedRequest(null);
+        Swal.fire({
+          title: 'Success',
+          text: 'Rejecting logistic item order successfully',
+          icon: 'success',
+          confirmButtonText: 'OK',
+          customClass: {
+            popup: 'custom-swal',
+          }
+        });
+      } catch (error) {
+        console.error('Error rejecting request:', error);
+        Swal.fire({
+          title: 'Error!',
+          text: 'Failed to rejected item order',
+          icon: 'error',
+          confirmButtonText: 'OK',
+          customClass: {
+            popup: 'custom-swal',
+          }
+        });
+      }
+    }
   };
 
   const handleEditClick = () => {
@@ -85,88 +123,52 @@ const ForwardedRequests = () => {
       setForwardedRequests(prevRequests =>
         prevRequests.map(req => (req._id === response.data._id ? response.data : req))
       );
-    alert('requisition updated successful')
-   
+      alert('Re quisition updated successfully');
     } catch (error) {
       console.error('Error updating request:', error);
     }
   };
 
- //
- const handleVerifySubmit = async (e) => {
-  e.preventDefault();
-  try {
-       // Forward the updated request to the approved collection
-       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/LogisticRequest/verified/${selectedRequest._id}`);
-       setSelectedRequest(response.data);
-    
-       setModalMessage('logistic requestion verified successfully');
-       setIsSuccess(true); // Set the success state
-       setShowModal(true); // Show the modal
-  } catch (error) {
-    console.error('Error for approving request:', error);  
-    setModalMessage('Failed to verify requisition');
-    setIsSuccess(false); // Set the success state
-    setShowModal(true); // Show the modal
-  }
-} 
-  //fetching signature
-  const [error, setError] = useState(null);
-  const [user, setUser] = useState(null);
-
-
-  useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        // Get the current tab's ID from sessionStorage
-        const currentTab = sessionStorage.getItem('currentTab');
-
-        if (!currentTab) {
-          setError('No tab ID found in sessionStorage');
-          return;
+  const handleVerifySubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/LogisticRequest/verified/${selectedRequest._id}`);
+      setSelectedRequest(response.data);
+      Swal.fire({
+        title: 'Success',
+        text: 'Verifying logistic item order successfully',
+        icon: 'success',
+        confirmButtonText: 'OK',
+        customClass: {
+          popup: 'custom-swal',
         }
-
-        // Retrieve the token using the current tab ID
-        const token = sessionStorage.getItem(`token_${currentTab}`);
-        if (!token) {
-          setError('Token not found');
-          return;
+      });
+    } catch (error) {
+      console.error('Error approving request:', error);
+      Swal.fire({
+        title: 'Error!',
+        text: 'Failed to verify item order',
+        icon: 'error',
+        confirmButtonText: 'OK',
+        customClass: {
+          popup: 'custom-swal',
         }
-
-        // Use Axios to fetch user profile
-        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/profile`, {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          },
-        });
-
-        setUser(response.data);
-      } catch (error) {
-        console.error('Error fetching profile:', error);
-        setError('Invalid token or unable to fetch profile data');
-      }
-    };
-
-    fetchUserProfile();
-  }, []);
-
-
-
-  if (!user) return <p>Loading...</p>;
+      });
+    }
+  };
 
   return (
     <div className={`verified-requist ${selectedRequest ? 'dim-background' : ''}`}>
-
-      <div className="verified-request-navigation">
-      <h2>Requisition from logistic office </h2>
+      <div className="order-navigation">
+        <div className="navigation-title">
+          <h2>Requisition from logistic office for item</h2>
+        </div>
         <ul>
           {forwardedRequests.slice().reverse().map((request, index) => (
             <li key={index}>
               <p onClick={() => handleRequestClick(request._id)}>
-          Requisition Form from <b>logistic</b> done on {new Date(request.date).toDateString()}
-          {/*    <span>{!request.clicked ? 'New Request' : ''}</span> 
-        */}
-      </p>
+                Requisition Form from <b>logistic</b> done on {new Date(request.date).toDateString()}
+              </p>
             </li>
           ))}
         </ul>
@@ -175,23 +177,21 @@ const ForwardedRequests = () => {
         <div className="request-details-overlay">
           <div className="request-details">
             {isEditing ? (
-              <form >
+              <form>
                 <h2>Edit Request</h2>
                 <div className="request-recieved-heading">
-            <h1>WESTERN PROVINCE</h1>
-            <h1>DISTRIC: NYABIHU</h1>
-            <h1>HEALTH FACILITY: SHYIRA DISTRICT HOSPITAL</h1>
-            <h1>DEPARTMENT:  LOGISTIC OFFICE</h1>
-
-          </div>
+                  <h1>WESTERN PROVINCE</h1>
+                  <h1>DISTRICT: NYABIHU</h1>
+                  <h1>HEALTH FACILITY: SHYIRA DISTRICT HOSPITAL</h1>
+                  <h1>DEPARTMENT: LOGISTIC OFFICE</h1>
+                </div>
                 <table>
                   <thead>
                     <tr>
                       <th>No</th>
                       <th>Item Name</th>
                       <th>Quantity Requested</th>
-                      <th>Price</th> 
-                      
+                      <th>Price</th>
                       <th>Total Amount</th>
                     </tr>
                   </thead>
@@ -235,34 +235,31 @@ const ForwardedRequests = () => {
                     ))}
                   </tbody>
                 </table>
-                
                 <button className='approve-request-btn' onClick={handleUpdateSubmit}>Update Request</button>
                 <button type="button" className='cancel-btn' onClick={handleCancelClick}>Cancel</button>
               </form>
             ) : (
               <>
-               <div className="form-navigation">
-               <button className='verify-requisition' onClick={handleVerifySubmit}>Verify Request</button>
-               {/* <button className='edit-btn' onClick={handleEditClick}>Edit</button> */}
-               <button></button>
-             <label className='request-close-btn' onClick={() => setSelectedRequest(null)}><FaTimes /></label>
-          </div>
-            <div className="image-request-recieved">
-          <img src="/image/logo2.png" alt="Logo" className="logo" />
-          </div>
-          <div className='date-done'>
-            <label htmlFor="">{new Date(selectedRequest.date).toDateString()}</label>
-            </div>
-          <div className="request-recieved-heading">
-            <h1>WESTERN PROVINCE</h1>
-            <h1>DISTRIC: NYABIHU</h1>
-            <h1>HEALTH FACILITY: SHYIRA DISTRICT HOSPITAL</h1>
-            <h1>DEPARTMENT: LOGISTIC OFFICE </h1>
+                <div className="form-navigation">
+                  <button className='verify-requisition' onClick={handleVerifySubmit}>Verify Request</button>
+                  <button className='reject-request' onClick={handleRejectRequest}>Reject Request</button>
+                  <button></button>
+                  <label className='request-close-btn' onClick={() => setSelectedRequest(null)}><FaTimes /></label>
+                </div>
+                <div className="image-request-recieved">
+                  <img src="/image/logo2.png" alt="Logo" className="logo" />
+                </div>
+                <div className='date-done'>
+                  <label htmlFor="">{new Date(selectedRequest.date).toDateString()}</label>
+                </div>
+                <div className="request-recieved-heading">
+                  <h1>WESTERN PROVINCE</h1>
+                  <h1>DISTRICT: NYABIHU</h1>
+                  <h1>HEALTH FACILITY: SHYIRA DISTRICT HOSPITAL</h1>
+                  <h1>DEPARTMENT: LOGISTIC OFFICE</h1>
+                </div>
 
-          </div>
-
-            <h2>REQUISITON FORM OF LOGISTIC</h2>
-              
+                <h2>REQUISITION FORM OF LOGISTIC</h2>
                 <table>
                   <thead>
                     <tr>
@@ -288,56 +285,26 @@ const ForwardedRequests = () => {
 
                 <div className="daf-signature-section">
                   <div className='logistic-signature'>
-                  <h3>Logistic Office:</h3>
-                  <label htmlFor="">Prepared By:</label>
+                    <h3>Logistic Office:</h3>
+                    <label htmlFor="">Prepared By:</label>
                     {logisticUsers.map(user => (
                       <div key={user._id} className="logistic-user">
                         <p>{user.firstName} {user.lastName}</p>
                         {user.signature ? (
-                          <img src={`http://localhost:5000/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
+                          <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
                         ) : (
                           <p>No signature available</p>
                         )}
                       </div>
                     ))}
                   </div>
-                 {/*<div className="daf-signature">
-                    <h3>Daf signature:</h3>
-                  <p>{us er.firstName} {user.lastName}</p>
-                  {user.signature && <img src={`http://localhost:5000/${user.signature}`} alt="Signature" />}
-                  </div>*/}
-                  
                 </div>
-               
-                
-
-
               </>
             )}
           </div>
         </div>
       )}
-       {/* Modal pop message on success or error message */}
-       {showModal && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            {isSuccess ? (
-              <div className="modal-success">
-                <FaCheckCircle size={54} color="green" />
-                <p>{modalMessage}</p>
-              </div>
-            ) : (
-              <div className="modal-error">
-                <FaTimesCircle size={54} color="red" />
-                <p>{modalMessage}</p>
-              </div>
-            )}
-            <button onClick={() => setShowModal(false)}>Close</button>
-          </div>
-        </div>
-      )}
-
-
+   
     </div>
   );
 };

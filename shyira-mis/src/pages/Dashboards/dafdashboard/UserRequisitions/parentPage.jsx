@@ -4,9 +4,8 @@ import { FaEye , FaEdit,FaSpinner, FaTimes, FaTimesCircle, FaCheck, FaCheckCircl
 import ViewVerifiedRequisition from './ViewRequisition'; 
 import ApprovedRequisition from './ApproveRequisition';
 import RecievedRequisition from '../../logisticdashboard/receivedRequisitions/itemRequestReceived';
-import ReceivedOrder from '../../logisticdashboard/OrderSupply/RecievedOrder';
-//import RejectedOrder from '../requestDecision/rejectedRequisition'
-//import ItemRequisitionStatus from './RequisitionStatus';
+import RejectedItemRequisition from '../../logisticdashboard/receivedRequisitions/ItemRequestRejected';
+
 
 
 const UserRequisitionItem = () => {
@@ -32,7 +31,7 @@ const UserRequisitionItem = () => {
           <FaCheckCircle color='green'/> Recieved requisition
         </button>
 
-        <button className='recieved-item' onClick={() => setActiveComponent('rejected-order')}>
+        <button className='recieved-item' onClick={() => setActiveComponent('rejected-item-requisition')}>
           <FaTimesCircle color='red'/>  Rejected requisition
         </button>
        
@@ -44,8 +43,8 @@ const UserRequisitionItem = () => {
         <ApprovedRequisition />
       )  : activeComponent === 'recieved-Requisition' ? (
         <RecievedRequisition />
-      )  : activeComponent === 'recieved-order' ? (
-        <ReceivedOrder />
+      )  : activeComponent === 'rejected-item-requisition' ? (
+        <RejectedItemRequisition />
       )  :(
         <div>
       <p>Navigate to what you want to look.</p>

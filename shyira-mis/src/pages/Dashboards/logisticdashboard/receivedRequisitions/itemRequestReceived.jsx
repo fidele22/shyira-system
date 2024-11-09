@@ -122,7 +122,7 @@ const ApprovedRequests = () => {
 
   return (
     <div className="approved-requests-page">
-      <h2>requisition for items have been signed that was recieved</h2>
+    
       <form onSubmit={handleSearchRequest} className="search-form">
        <div className='search-department'>
         <label htmlFor="">Search by department</label>
@@ -149,13 +149,16 @@ const ApprovedRequests = () => {
         <button type="submit" className='search-btn'>Search</button>
       </form>
 
-      <div className="approved-navigate-request">
+      <div className="order-navigation">
+        <div className="navigation-title">
+        <h2>Requisition for items have been signed that was recieved</h2>
+        </div>
         <ul>
           {filteredRequests.slice().reverse().map((request, index) => (
             <li key={index}>
               <p onClick={() => handleRequestClick(request._id)}>
               Requisition Form from department of <b>{request.department}</b> done on {new Date(request.createdAt).toDateString()}
-              <span>{request.clicked ? '' : 'New Request: '}</span> <label htmlFor=""><FaCheckDouble />Marked as Recieved</label>
+           <span className='status-badge'><FaCheckDouble />Marked as Recieved</span>
             </p>
             </li>
           ))}

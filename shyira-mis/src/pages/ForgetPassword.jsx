@@ -23,6 +23,7 @@ const ForgotPassword = () => {
       });// Set message type to success
     } catch (error) {
       console.error(error);
+      
       Swal.fire ({
         title: 'Error!',
         text: 'Error of sending reset link',

@@ -4,7 +4,7 @@ import { FaEye , FaEdit,FaSpinner, FaTimes, FaTimesCircle, FaCheck, FaCheckCircl
 import VerifiedOrder from './viewLogisticRequest'; 
 import ApprovedOrder from './approvedLogisticRequest';
 import ReceivedOrder from '../../logisticdashboard/OrderSupply/RecievedOrder'
-//import RejectedOrder from '../requestDecision/rejectedRequisition'
+import RejecteditemOrder from '../../dafdashboard/requestOfLogistic/rejecteditemorder'
 //import ItemRequisitionStatus from './RequisitionStatus';
 
 
@@ -43,6 +43,8 @@ const UserFuelRequesition = () => {
         <ApprovedOrder />
       )  : activeComponent === 'recieved-order' ? (
         <ReceivedOrder />
+      )   : activeComponent === 'rejected-order' ? (
+        <RejecteditemOrder />
       )  :(
         <div>
     <p>Navigate to what you want to look.</p>

@@ -218,7 +218,7 @@ const handleSearchSubmit = (e) => {
   return (
     <div className={`verified-requist ${selectedRequest ? 'dim-background' : ''}`}>
        
-      <div className="verified-request-navigation">
+      <div className="order-navigation">
       <h2>User's Requisition for Items Verified</h2>
       <form onSubmit={handleSearchSubmit} className="search-form">
        <div className='search-department'>
@@ -252,7 +252,7 @@ const handleSearchSubmit = (e) => {
             <li key={index}>
               <p onClick={() => handleRequestClick(request._id)}>
           Requisition Form from department of <b>{request.department}</b> verified  on {new Date(request.updatedAt).toDateString()}
-          <span>{!request.clicked ? 'New Request' : ''}</span> <label htmlFor=""><FaCheck /> Verified</label>
+          <span className='status-verified'>Verified</span>
         </p>
             </li>
           ))}

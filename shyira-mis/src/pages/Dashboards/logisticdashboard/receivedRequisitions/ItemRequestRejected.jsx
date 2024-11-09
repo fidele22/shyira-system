@@ -47,7 +47,7 @@ const ApprovedRequests = () => {
   //fetching recieved request from approved collection
   const fetchApprovedRequests = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/UserRequest/recieved-request`);
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/UserRequest/rejected-user-request`);
      
       setRequests(response.data);
       setFilteredRequests(response.data); 
@@ -58,7 +58,7 @@ const ApprovedRequests = () => {
   //fetch with clicking 
   const handleRequestClick = async (requestId) => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/UserRequest/recieved-request/${requestId}`);
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/UserRequest/rejected-user-request/${requestId}`);
       setSelectedRequest(response.data);
       setApprovedRequests(response.data);
    
@@ -122,7 +122,6 @@ const ApprovedRequests = () => {
 
   return (
     <div className="approved-requests-page">
-      <h2>requisition for items have been signed that was recieved</h2>
       <form onSubmit={handleSearchRequest} className="search-form">
        <div className='search-department'>
         <label htmlFor="">Search by department</label>
@@ -149,13 +148,13 @@ const ApprovedRequests = () => {
         <button type="submit" className='search-btn'>Search</button>
       </form>
 
-      <div className="approved-navigate-request">
+      <div className="order-navigation">
         <ul>
           {filteredRequests.slice().reverse().map((request, index) => (
             <li key={index}>
               <p onClick={() => handleRequestClick(request._id)}>
               Requisition Form from department of <b>{request.department}</b> done on {new Date(request.createdAt).toDateString()}
-              <span>{request.clicked ? '' : 'New Request: '}</span> <label htmlFor=""><FaCheckDouble />Marked as Recieved</label>
+            <span className='badge-status'><FaTimes />Rejected</span>
             </p>
             </li>
           ))}
@@ -215,46 +214,7 @@ const ApprovedRequests = () => {
                <p>No HOD signature available</p>
              )}
            </div>
-           <div className='logistic-signature'>
-                  <h3>Logistic Office:</h3>
-                  <label htmlFor="">Verified By:</label>
-                    {logisticUsers.map(user => (
-                      <div key={user._id} className="logistic-user">
-                        <p>{user.firstName} {user.lastName}</p>
-                        {user.signature ? (
-                          <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
-                        ) : (
-                          <p>No signature available</p>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-         <div className="daf-signature">
-         <h3>DAF:</h3>
-         <label htmlFor="">Approved By:</label>
-         {dafUsers.map(user => (
-                      <div key={user._id} className="logistic-user">
-                        <p>{user.firstName} {user.lastName}</p>
-                        {user.signature ? (
-                          <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
-                        ) : (
-                          <p>No signature available</p>
-                        )}
-                      </div>
-                    ))}
-          </div>  
-          <div className="received-signature">
-          <div >
-             <h3>HOD Name:</h3>
-             <label>Recieved By:</label> 
-            <p>{selectedRequest.hodName}</p>
-             {selectedRequest.hodSignature ? (
-               <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" />
-             ) : (
-               <p>No HOD signature available</p>
-             )}
-           </div>
-            </div>       
+        
          </div>
          </div>
         

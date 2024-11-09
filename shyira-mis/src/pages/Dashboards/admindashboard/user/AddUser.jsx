@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
-
 import Swal from 'sweetalert2'; 
-
 import axios from 'axios';
-
 import '../css/AddUser.css';
 
 
@@ -178,7 +175,7 @@ const AddUser  = () => {
       formDataToSend.append('confirmPassword', formData.confirmPassword);
 
 
-      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/users/register`, formDataToSend, {
+      const response =await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/users/register`, formDataToSend, {
 
         headers: {
 
@@ -190,10 +187,8 @@ const AddUser  = () => {
 
       console.log('User  registered:', response.data);
 
-      sessionStorage.setItem('token', response.data.token);
-
-
-      // Refresh the user list
+     sessionStorage.setItem('token', response.data.token);
+ 
 
       fetchUsers();
 
@@ -203,11 +198,8 @@ const AddUser  = () => {
       Swal.fire({
 
         title: 'Success!',
-
         text: 'User  Registration successfully',
-
         icon: 'success',
-
         confirmButtonText: 'OK',
 
         customClass: {

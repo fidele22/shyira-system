@@ -11,8 +11,9 @@ import UserRequestpage from './userRequisition/userPage'
 import UserRequestRecieved from '../logisticdashboard/receivedRequisitions/itemRequestReceived'
 import ViewItems from './StockItem/viewitems'
 import Logisticrecieved from '../logisticdashboard/OrderSupply/RecievedOrder'
-import DafProfile from './DafProfile'
-//import OrderSupplies from './OrderSupplies';
+import FuelLogisticRequest from './LogisticFuelOrders/logisticFuelOrderPages'
+import DafProfile from '../UserProfile/profile'
+import HelpCenter from '../helpcenter/helpcenter'
 import './DafDashboard.css';
 
 
@@ -25,8 +26,7 @@ const Dashboard = () => {
         return <Overview />;
      case 'view-request':
           return <ViewRequest />;
-      case 'logistic-profile':
-          return <DafProfile />;
+   
       case 'view-stock-items':
           return <ViewItems/>
       case 'user-request':
@@ -41,9 +41,15 @@ const Dashboard = () => {
         return <ViewApproved/>    
       case 'view-logistic-request':
           return <ViewLogisticRequest />
+      case 'fuel-logistic-request':
+          return <FuelLogisticRequest />    
       case 'fuel-requisition':
           return <FuelRequisition />;
-          
+      case 'profile':
+          return <DafProfile />;  
+      case 'help-center':
+          return <HelpCenter />;
+
       default:
         return <Overview />;
     }

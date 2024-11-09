@@ -12,6 +12,7 @@ import Items from './items/viewItems'
 import UserProfile from '../UserProfile/profile'
 import './hodDashboard.css';
 import ViewItems from './request/ViewItems';
+import HelpCenter from '../helpcenter/helpcenter';
 
 
 const LogisticDashboard = () => {
@@ -36,7 +37,8 @@ const LogisticDashboard = () => {
 
       case 'user-profile':
           return <UserProfile />;
-
+      case 'help-center':
+          return <HelpCenter />
       default:
         return <Overview />;
     }

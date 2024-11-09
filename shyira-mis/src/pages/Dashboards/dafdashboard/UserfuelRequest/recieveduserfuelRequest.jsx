@@ -26,7 +26,7 @@ const FuelRequisitionForm = () => {
   useEffect(() => {
     const fetchRequisitions = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/userfuelrequest/recievedfuel`);
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/userfuelrequest/get-recievedfuel`);
         setRequisitions(response.data);
         setLoading(false);
       } catch (error) {
@@ -77,7 +77,8 @@ const FuelRequisitionForm = () => {
           {requisitions.slice().reverse().map((request, index) => (
             <li key={index}>
               <p onClick={() => handleRequestClick(request._id)}>
-                Requisition Form of Fuel requested by {request.hodName} done on {new Date(request.createdAt).toDateString()} recieved
+                Requisition Form of Fuel requested by {request.hodName} done on {new Date(request.createdAt).toDateString()} 
+                <span className='status-badge'>Recieved</span>
               </p>
             </li>
           ))}

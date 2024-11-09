@@ -133,6 +133,12 @@ const DashboardOverview = () => {
             {/* Example: Display upcoming delivery schedules */}
             <label htmlFor="">{requestApprovedCount}</label>
           </div>
+          <div className="widget">
+            {/* <h3>Number of user's requisition approved for item waited to be signed as recieved</h3>
+            <p>Here is the number of requisition has been approved but doesn't signed as recieved by user .</p> */}
+            {/* Example: Display upcoming delivery schedules */}
+            <label htmlFor="">Comming soon!!</label>
+          </div>
         </div>
       </section>
 

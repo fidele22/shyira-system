@@ -56,6 +56,7 @@ const RejectedFuelRequisitionForm = () => {
             <li key={index}>
               <p onClick={() => handleRequestClick(request._id)}>
                 FueL Requisition Form  of user {request.hodName} requested on {new Date(request.createdAt).toDateString()}  and rejected on {new Date(request.rejectedAt).toDateString()}
+              <span className='badge-status'>Rejected</span>
               </p>
             </li>
           ))}

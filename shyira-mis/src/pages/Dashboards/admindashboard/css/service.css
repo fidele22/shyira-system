@@ -4,7 +4,7 @@
 .service-data{
     display: flex;
     text-align: center;
-    margin-left: 2%;
+    margin-left: 25%;
     gap: 100px;
 }
 .service-data h1{
@@ -20,15 +20,16 @@
     background-color: white;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   }
-  .service-table-data button{
-    background-color: #007bff;
-  }
+.add-department-btn{
+  background-color: #007bff;
+}
   .service-table-data button:hover{
     color: white;
   }
   .table td{
     font-size: 12px;
   }
+
   /************ styling adding service form***********/
 
   .add-service-form {
@@ -100,7 +101,16 @@
     .button-container {
       text-align: center;
     }
-   
+    .close-add-form{
+     border-radius: 50%;
+     margin-left: 12rem;
+     font-size: 40px;
+     padding: 4px 2px 0px;
+      
+    }
+    .close-add-form:hover{
+      background-color: rgb(241, 100, 100);
+    }
   /************edit form****************/
   .edit-form{
     background-color: white;
@@ -112,4 +122,27 @@
   }
   .edit-form .cancel-btn{
     background-color: rgb(196, 18, 18);
+  }
+  .editing-userdata-overlay {
+
+    position: fixed; /* Fixed position to cover the entire screen */
+  
+    top: 0;
+  
+    left: 0;
+  
+    right: 0;
+  
+    bottom: 0;
+  
+    background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+  
+    display: flex; /* Center the content */
+  
+    justify-content: center; /* Center horizontally */
+  
+    align-items: center; /* Center vertically */
+  
+    z-index: 1000; /* Ensure it appears above other content */
+  
   }

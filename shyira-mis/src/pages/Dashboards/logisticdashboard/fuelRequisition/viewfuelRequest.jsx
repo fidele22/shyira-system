@@ -86,8 +86,10 @@ const FuelRequisitionForm = () => {
 
   return (
     <div className="fuel-requisition-form">
-      <h2>List of Fuel Requisition</h2>
-      <div className="navigate-request">
+      <div className="order-navigation">
+      <div className="navigation-title">
+          <h2>Requisition of fuel from different users</h2>
+        </div>
         <ul>
           {requisitions.slice().reverse().map((request, index) => (
             <li key={index}>

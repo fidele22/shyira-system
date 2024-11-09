@@ -18,35 +18,6 @@ const storage = multer.diskStorage({
   },
 });
 
-// Update user route with signature upload
-router.put('/:id', upload.single('signature'), async (req, res) => {
-  try {
-    const { positionName, serviceName, departmentName, firstName, lastName, phone, email, role } = req.body;
-    const userId = req.params.id;
-    let updateData = {
-      firstName,
-      lastName,
-      phone,
-      email,
-      role,
-      positionName,
-      departmentName,
-      serviceName
-    };
-  
-    // If a file is uploaded, add the path to updateData
-    if (req.file) {
-      updateData.signature = req.file.path;
-    }
-
-    const updatedUser = await User.findByIdAndUpdate(userId, updateData, { new: true });
-
-    res.status(200).json(updatedUser);
-  } catch (error) {
-    console.error(error);
-    res.status(400).json({ error: error.message });
-  }
-});
 
 
 router.get('/profile', authMiddleware, async (req, res) => {

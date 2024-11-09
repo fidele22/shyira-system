@@ -5,12 +5,13 @@ import Navigation from '../navbar/Navbar';
 import Footer from '../footer/Footer';
 import AdminOverview from './AdminOverview';
 import ViewUser  from './user/users';
-import UserRole from './roles/AddRole';
+import UserRole from './roles/viewRoles';
 import ViewS from './service/ViewServices';
 import ViewP from './position/viewPosition';
 import ViewD from './department/viewDepartment';
 import UserProfile from '../UserProfile/profile';
 import './css/adminDashboard.css';
+import HelpCenter from '../helpcenter/helpcenter';
 
 const AdminDashboard = () => {
   const [currentPage, setCurrentPage] = useState('adminoverview');
@@ -36,6 +37,8 @@ const AdminDashboard = () => {
         return <ViewD />;
       case 'user-profile':
         return <UserProfile />;
+      case 'help-center':
+        return <HelpCenter />  
       default:
         return <AdminOverview />;
     }

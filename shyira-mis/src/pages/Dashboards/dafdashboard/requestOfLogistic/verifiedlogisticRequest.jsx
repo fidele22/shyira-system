@@ -162,7 +162,7 @@ const ForwardedRequests = () => {
     <div className={`verified-requist ${selectedRequest ? 'dim-background' : ''}`}>
     
       <div className="verified-request-navigation">
-      <h2>List of logistic Order Verified Not Approved</h2>
+     
       <form onSubmit={handleSearchRequest} className="search-form">
         <div className='search-date'>
           <label htmlFor="">Search by date</label>
@@ -178,17 +178,22 @@ const ForwardedRequests = () => {
         <button type="submit" className='search-btn'>Search</button>
       </form>
 
+      <div className="order-navigation">
+        <div className="navigation-title">
+          <h2>Requisition of fuel form logistic office received</h2>
+        </div>
         <ul>
           {filteredRequests.slice().reverse().map((request, index) => (
             <li key={index}>
               <p onClick={() => handleRequestClick(request._id)}>
-          Requisition Form from <b>logistic</b> verified on {new Date(request.createdAt).toDateString()}
-         {/*<span>{!request.clicked ? 'New Request' : ''}</span> */} 
-         <label htmlFor=""><FaCheck /> Verified</label>
-        </p>
+                Requisition Form from <b>logistic office</b> order of FUEL done on {new Date(request.createdAt).toDateString()}
+                <span className="status-verified">Verified</span>
+              </p>
             </li>
           ))}
         </ul>
+        /</div>
+    
       </div>
       {selectedRequest && (
         <div className="request-details-overlay">

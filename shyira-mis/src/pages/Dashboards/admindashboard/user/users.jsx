@@ -115,12 +115,47 @@ const ViewItems = () => {
   };
 
   const handleDeleteClick = async (userId) => {
-    try {
+    const { value: isConfirmed } = await Swal.fire({
+  
+      title: 'Are you sure ,you want to delete this user?',
+      text: "You won't be able to recover this user!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!', 
+      customClass: {
+        popup: 'custom-swal', // Apply custom class to the popup
+      }
+
+    });
+    if (isConfirmed) {
+      try {
       await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/users/${userId}`);
       setUsers(users.filter((user) => user._id !== userId));
+
+      Swal.fire({
+        title:'Deleted!',
+        text:'User has been deleted.',
+        icon:'success',
+        customClass:{
+
+          popup: 'custom-swal',
+
+        },
+      }
+      );
     } catch (error) {
       console.error('Error deleting user:', error);
+      Swal.fire(
+
+        'Error!',
+        'Failed to delete this user.',
+        'error'
+
+      );
     }
+  }
   };
 
   const handleChange = (e) => {
@@ -146,7 +181,7 @@ const ViewItems = () => {
     }
     
     try {
-      await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/profile/${editingUser}`, updatedFormData, {
+      await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/userdata/${editingUser}`, updatedFormData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -189,17 +224,36 @@ const ViewItems = () => {
     user.firstName.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const indexOfLastUser = currentPage * usersPerPage;
-  const indexOfFirstUser = indexOfLastUser - usersPerPage;
-  const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
+  const indexOfLastUser  = currentPage * usersPerPage;
 
-  const paginate = pageNumber => setCurrentPage(pageNumber);
+  const indexOfFirstUser  = indexOfLastUser  - usersPerPage;
 
-  const pageNumbers = [];
-  for (let i = 1; i <= Math.ceil(filteredUsers.length / usersPerPage); i++) {
-    pageNumbers.push(i);
-  }
+  const currentUsers = filteredUsers.slice(indexOfFirstUser , indexOfLastUser );
 
+
+  const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
+
+
+  const handleNextPage = () => {
+
+    if (currentPage < totalPages) {
+
+      setCurrentPage(prev => prev + 1);
+
+    }
+
+  };
+
+
+  const handlePreviousPage = () => {
+
+    if (currentPage > 1) {
+
+      setCurrentPage(prev => prev - 1);
+
+    }
+
+  };
   return (
     <div className="view-items">
       <div className="headers">
@@ -238,7 +292,7 @@ const ViewItems = () => {
           <tbody>
             {currentUsers.map((user, index) => (
               <tr key={user._id}>
-                <td>{index + 1}</td>
+                 <td>{indexOfFirstUser + index + 1}</td> 
                 <td>{user.firstName}</td>
                 <td>{user.lastName}</td>
                 <td>{user.positionName}</td>
@@ -261,13 +315,16 @@ const ViewItems = () => {
           </tbody>
         </table>
 
-        <ul className="pagination">
-          {pageNumbers.map(number => (
-            <li key={number}>
-              <button className='pagination-number' onClick={() => paginate(number)}>{number}</button>
-            </li>
-          ))}
-        </ul>
+        <div className="pagination-controls">
+
+<button onClick={handlePreviousPage} disabled={currentPage === 1}>Previous</button>
+
+<span>Page {currentPage} of {totalPages}</span>
+
+<button onClick={handleNextPage} disabled={currentPage === totalPages}>Next</button>
+
+</div>
+
   {/* Add User Form Overlay */}
   {showAddUserForm && (
           <div className="add-overlay">
@@ -334,29 +391,7 @@ const ViewItems = () => {
             </div>
           </div>
         )}
-          
-
-
-         {/* Modal pop message on success or error message */}
- {showModal && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            {isSuccess ? (
-              <div className="modal-success">
-                <FaCheckCircle size={54} color="green" />
-                <p>{modalMessage}</p>
-              </div>
-            ) : (
-              <div className="modal-error">
-                <FaTimesCircle size={54} color="red" />
-                <p>{modalMessage}</p>
-              </div>
-            )}
-            <button onClick={() => setShowModal(false)}>Close</button>
-          </div>
-        </div>
-      )}
-
+        
       </div>
     </div>
   );

@@ -271,7 +271,7 @@ const handleVerifySubmit = async () => {
 
   return (
     <div className={`requist ${selectedRequest ? 'dim-background' : ''}`}>
-      <h2>Requisition from different department</h2>
+
 
       <form onSubmit={handleSearchSubmit}>
         <div className="search-form">
@@ -301,22 +301,25 @@ const handleVerifySubmit = async () => {
         </div>
        
       </form>
+      <div className="order-navigation">
+        <div className="navigation-title">
+          <h2>Requisition of items form different department</h2>
+        </div>
+        <ul>
+          {filteredRequests.slice().reverse().map((request, index) => (
+            <li key={index}>
+              <p onClick={() => handleRequestClick(request._id)}>
+                Requisition Form of item from <b>{request.department}</b> done on {new Date(request.createdAt).toDateString()}
+               
+              </p>
 
-      <div className="navigate-request">
-      <ul>
-    {filteredRequests.slice().reverse().map((request, index) => (
-      <li key={index}>
-       
-        <p onClick={() => handleRequestClick(request._id)}>
-          Requisition Form from {request.department} done on {new Date(request.createdAt).toDateString()}
-          <span>{!request.clicked ? 'New Request' : ''}</span>
-         
-        </p>
-        <p className='mark-received-btn' onClick={() => handleRejectClick(request._id)}>Reject </p> 
-      </li>
+            </li>
+            
+          ))}
+        </ul>
+   
       
-    ))}
-  </ul>
+  
       </div>
    
       {selectedRequest && (

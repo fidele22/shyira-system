@@ -133,7 +133,7 @@ const ApprovedRequests = () => {
 
   return (
     <div className="approved-requests-page">
-      <h2>Approved Order but not signed as Recieved</h2>
+    
       <form onSubmit={handleSearchRequest} className="search-form">
         <div className='search-date'>
           <label htmlFor="">Search by date</label>
@@ -148,19 +148,21 @@ const ApprovedRequests = () => {
         
         <button type="submit" className='search-btn'>Search</button>
       </form>
-
-      <div className="approved-navigate-request">
+      <div className="order-navigation">
+        <div className="navigation-title">
+          <h2>Requisition of item form logistic office approved</h2>
+        </div>
         <ul>
           {filteredRequests.slice().reverse().map((request, index) => (
             <li key={index}>
               <p onClick={() => handleRequestClick(request._id)}>
-                Requisition Form of logistic <b>{request.department}</b> Approved on {new Date(request.createdAt).toDateString()}
-              <label htmlFor=""><FaCheckCircle/> Approved</label>
+                Requisition Form from <b>logistic office</b> order of FUEL done on {new Date(request.createdAt).toDateString()}
+                <span className="status-approved"><FaCheckCircle />Approved</span>
               </p>
-
             </li>
           ))}
         </ul>
+   
       </div>
      
       {selectedRequest && (

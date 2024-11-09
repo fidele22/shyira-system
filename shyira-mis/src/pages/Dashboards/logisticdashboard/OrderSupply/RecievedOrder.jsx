@@ -141,7 +141,6 @@ const ApprovedRequests = () => {
   return (
     <div className={`requist ${selectedRequest ? 'dim-background' : ''}`}>
      
-      <h2>Order marked as Received</h2>
       <form onSubmit={handleSearchRequest}>
         <div className="search-form">
         <div className='search-supplier'>
@@ -170,13 +169,16 @@ const ApprovedRequests = () => {
      
       </form>
 
-      <div className="approved-navigate-request">
+      <div className="order-navigation">
+        <div className="navigation-title">
+          <h2>Requisition of fuel form logistic office received</h2>
+        </div>
         <ul>
-          {currentItems.reverse().map((request, index) => (
+          {currentItems.slice().reverse().map((request, index) => (
             <li key={index}>
               <p onClick={() => handleRequestClick(request._id)}>
-                Requisition Form of logistic from <b>{request.supplierName}</b> done on {new Date(request.date).toDateString()}
-              <label><FaCheckCircle/>Received</label>
+                Requisition Form from <b>logistic office</b> order of ITEMs done on {new Date(request.createdAt).toDateString()}
+                <span className="status-badge">Received</span>
               </p>
             </li>
           ))}

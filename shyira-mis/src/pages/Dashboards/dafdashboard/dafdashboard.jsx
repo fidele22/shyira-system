@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { FaHome, FaUser , FaList, FaClipboardList, FaBurn, FaSignOutAlt, FaBars, FaTimes } from 'react-icons/fa';
 import Navigation from '../navbar/Navbar'
 import Footer from '../footer/Footer'
 import Navbar from './Navigationbar/Dafnavigationbar';
@@ -12,10 +13,17 @@ import LogisticFuelOrder from './LogisticFuelOrders/logisticFuelOrderPages'
 import ViewItems from '../DGdashboard/StockItem/viewitems'
 import DafProfile from '../UserProfile/profile'
 import './DafDashboard.css';
+import HelpCenter from '../helpcenter/helpcenter';
 
 
 const LogisticDashboard = () => {
   const [currentPage, setCurrentPage] = useState('overview');
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const handleMenuToggle = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   const renderContent = () => {
     switch (currentPage) {
@@ -37,22 +45,33 @@ const LogisticDashboard = () => {
           return <LogisticFuelOrder />     
      case 'user-fuel-request':
           return <UserFuelRequest />;
-          
+      case 'help-center':
+        return <HelpCenter />    
       default:
         return <Overview />;
     }
   };
 
   return (
-    <div className="daf-dashboard">
+    <div className={`admin-dashboard ${isMenuOpen ? 'open' : ''}`}>
+    <div>
       <Navigation />
-      <Navbar setCurrentPage={setCurrentPage} />
-
-      <div className="dafcontent">
-        {renderContent()}
-        <Footer />
+      <div className="menu-toggle" onClick={handleMenuToggle}>
+        {isMenuOpen ? <FaTimes /> : <FaBars />}
       </div>
     </div>
+
+    <Navbar setCurrentPage={setCurrentPage} isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+    
+    <div className="Admincontent-page">
+      <div className="Admincontent">
+        {renderContent()}
+     
+      </div>
+      <Footer />
+    </div>
+  
+  </div>
   );
 };
 

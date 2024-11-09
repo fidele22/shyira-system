@@ -147,13 +147,13 @@ const ApprovedRequests = () => {
         <button type="submit" className='search-btn'>Search</button>
       </form>
 
-      <div className="approved-navigate-request">
+      <div className="order-navigation">
         <ul>
           {filteredRequests.slice().reverse().map((request, index) => (
             <li key={index}>
               <p onClick={() => handleRequestClick(request._id)}>
               Requisition Form from department of <b>{request.department}</b> done on {new Date(request.createdAt).toDateString()}
-             {/*<span>{request.clicked ? '' : 'New Request: '}</span>*/}  <label htmlFor=""><FaCheckCircle/> Approved</label>
+             <span className='status-approved'><FaCheckCircle/> Approved</span>
             </p>
             </li>
           ))}

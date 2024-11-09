@@ -50,7 +50,7 @@ const Navbar = ({ setCurrentPage, isMenuOpen, setIsMenuOpen }) => {
       <h2>Settings</h2>
       <ul>
         <li onClick={() => handleLinkClick('user-profile')}><FaUser  /> Profile</li>
-        <li onClick={() => handleLinkClick('logistic-profile')}><FaBurn /> Help Center</li>
+        <li onClick={() => handleLinkClick('help-center')}><FaBurn /> Help Center</li>
         <li className='logout-button' onClick={handleLogout}><FaSignOutAlt /> Logout</li>
       </ul>
     </div>

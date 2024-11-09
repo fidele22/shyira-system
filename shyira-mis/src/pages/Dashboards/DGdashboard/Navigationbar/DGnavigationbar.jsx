@@ -36,17 +36,18 @@ const Navbar = ({ setCurrentPage }) => {
       <ul>
         <li onClick={() => setCurrentPage('overview')}><FaHome /> Overview</li>
         <li onClick={() => setCurrentPage('view-stock-items')}> <FaList /> stock Items</li>
-        <li onClick={() => setCurrentPage('view-logistic-request')}><FaList /> Logistic requisition</li>
-        <li onClick={() => setCurrentPage('user-request')}><FaList />User requisition</li>
+        <li onClick={() => setCurrentPage('view-logistic-request')}><FaClipboardList /> Logistic Item requisition</li>
+        <li onClick={() => setCurrentPage('fuel-logistic-request')}><FaGasPump /> Logistic Fuel requisition</li>
+        <li onClick={() => setCurrentPage('user-request')}><FaBoxOpen /> User itemrequisition</li>
 
         <li onClick={() => setCurrentPage('fuel-requisition')}>
-                <FaClipboardCheck /> Fuel Requisition </li>
+                <FaClipboardCheck /> User Fuel Requisition </li>
           
       </ul>
       
       <u><h2>Settings</h2></u>
       <ul>
-        <li onClick={() => setCurrentPage('logistic-profile')}>< FaUser /> Profile</li>
+        <li onClick={() => setCurrentPage('profile')}>< FaUser /> Profile</li>
         <li onClick={() => setCurrentPage('help-center')}> <FaLifeRing />Help Center</li>
         <li onClick={handleLogout}>
           <FaSignOutAlt /> Logout
