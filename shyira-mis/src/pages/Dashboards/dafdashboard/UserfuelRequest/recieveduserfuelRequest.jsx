@@ -11,6 +11,10 @@ const FuelRequisitionForm = () => {
   const [logisticUsers, setLogisticUsers] = useState([]);
   const [dafUsers, setDafUsers] = useState([]);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(15); // Set items per page
+  const [totalPages, setTotalPages] = useState(1);
+
   useEffect(() => {
     const fetchLogisticUsers = async () => {
       try {
@@ -22,6 +26,11 @@ const FuelRequisitionForm = () => {
     };
     fetchLogisticUsers();
   }, []);
+
+  useEffect(() => {
+    // Update total pages when filteredRequests change
+    setTotalPages(Math.ceil(requisitions.length / itemsPerPage));
+  }, [requisitions, itemsPerPage]);
 
   useEffect(() => {
     const fetchRequisitions = async () => {
@@ -64,6 +73,22 @@ const FuelRequisitionForm = () => {
   const handleCloseClick = () => {
     setSelectedRequest(null);
   };
+ // Pagination helpers
+ const indexOfLastItem = currentPage * itemsPerPage;
+ const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+ const currentItems = requisitions.slice(indexOfFirstItem, indexOfLastItem);
+
+ const nextPage = () => {
+   if (currentPage < totalPages) {
+     setCurrentPage(currentPage + 1);
+   }
+ };
+
+ const prevPage = () => {
+   if (currentPage > 1) {
+     setCurrentPage(currentPage - 1);
+   }
+ };
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
@@ -72,9 +97,9 @@ const FuelRequisitionForm = () => {
     <div className="fuel-requisition-form">
       <h4>List of Fuel Requisition that has been Recieved</h4>
       <label htmlFor=""> Review requisition was recieved </label>
-      <div className="open-request">
+      <div className="order-navigation">
         <ul>
-          {requisitions.slice().reverse().map((request, index) => (
+          {currentItems.slice().reverse().map((request, index) => (
             <li key={index}>
               <p onClick={() => handleRequestClick(request._id)}>
                 Requisition Form of Fuel requested by {request.hodName} done on {new Date(request.createdAt).toDateString()} 
@@ -83,6 +108,11 @@ const FuelRequisitionForm = () => {
             </li>
           ))}
                </ul>
+           <div className="pagination-buttons">
+          <button onClick={prevPage} disabled={currentPage === 1}>Previous</button>
+          <span>Page {currentPage} of {totalPages}</span>
+          <button onClick={nextPage} disabled={currentPage === totalPages}>Next</button>
+        </div>
       </div>
 
       {selectedRequest && (

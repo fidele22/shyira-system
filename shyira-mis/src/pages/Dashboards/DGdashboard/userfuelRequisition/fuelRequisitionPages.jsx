@@ -4,7 +4,7 @@ import { FaEye , FaEdit,FaSpinner, FaTimes, FaTimesCircle, FaCheck, FaCheckCircl
 import VeiwfuelRequisition from './viewfuelRequest'; 
 import FuelRequisitionRecieved from './recieveduserfuelRequest';
 import FuelRequisitionapproved from  './approvedUserFuelRequest'; 
-import FuelRequisitionRejected from './rejecteduserfuelrequest'
+import FuelRequisitionRejected from '../../DGdashboard/userfuelRequisition/rejecteduserfuelrequest'
 //import ItemRequisitionStatus from './RequisitionStatus';
 
 

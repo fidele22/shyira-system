@@ -11,6 +11,10 @@ const FuelRequisitionForm = () => {
   const [logisticUsers, setLogisticUsers] = useState([]);
   const [dafUsers, setDafUsers] = useState([]);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(15); // Set items per page
+  const [totalPages, setTotalPages] = useState(1);
+
   useEffect(() => {
     const fetchLogisticUsers = async () => {
       try {
@@ -22,6 +26,11 @@ const FuelRequisitionForm = () => {
     };
     fetchLogisticUsers();
   }, []);
+
+  useEffect(() => {
+    // Update total pages when filteredRequests change
+    setTotalPages(Math.ceil(requisitions.length / itemsPerPage));
+  }, [requisitions, itemsPerPage]);
 
   useEffect(() => {
     const fetchRequisitions = async () => {
@@ -64,6 +73,22 @@ const FuelRequisitionForm = () => {
   const handleCloseClick = () => {
     setSelectedRequest(null);
   };
+ // Pagination helpers
+ const indexOfLastItem = currentPage * itemsPerPage;
+ const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+ const currentItems = requisitions.slice(indexOfFirstItem, indexOfLastItem);
+
+ const nextPage = () => {
+   if (currentPage < totalPages) {
+     setCurrentPage(currentPage + 1);
+   }
+ };
+
+ const prevPage = () => {
+   if (currentPage > 1) {
+     setCurrentPage(currentPage - 1);
+   }
+ };
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
@@ -74,7 +99,7 @@ const FuelRequisitionForm = () => {
       <label htmlFor=""> Review requisition was recieved </label>
       <div className="open-request">
         <ul>
-          {requisitions.slice().reverse().map((request, index) => (
+          {currentItems.slice().reverse().map((request, index) => (
             <li key={index}>
               <p onClick={() => handleRequestClick(request._id)}>
                 Requisition Form of Fuel requested by {request.hodName} done on {new Date(request.createdAt).toDateString()} 
@@ -83,6 +108,11 @@ const FuelRequisitionForm = () => {
             </li>
           ))}
                </ul>
+           <div className="pagination-buttons">
+          <button onClick={prevPage} disabled={currentPage === 1}>Previous</button>
+          <span>Page {currentPage} of {totalPages}</span>
+          <button onClick={nextPage} disabled={currentPage === totalPages}>Next</button>
+        </div>
       </div>
 
       {selectedRequest && (
@@ -132,7 +162,7 @@ const FuelRequisitionForm = () => {
                   {selectedRequest && selectedRequest.file ? (
                     <div className='file-uploaded'>
                       <label>Previous Destination file:</label>
-                      <a href={`http://localhost:5000/${selectedRequest.file}`} target="_blank" rel="noopener noreferrer">
+                      <a href={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.file}`} target="_blank" rel="noopener noreferrer">
                         <FaEye /> View File
                       </a>
                     </div>
@@ -147,7 +177,7 @@ const FuelRequisitionForm = () => {
                   <h5>Head Of department:</h5>
                   <label>Prepared By:</label>
                   <span>{selectedRequest.hodName || ''}</span>
-                  <img src={`http://localhost:5000/${selectedRequest.hodSignature}`} alt="HOD Signature" />
+                  <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" />
                 </div>
                 <div className='logistic-signature'>
                   <h5>Logistic Office:</h5>
@@ -156,7 +186,7 @@ const FuelRequisitionForm = () => {
                     <div key={user._id} className="logistic-user">
                       <p>{user.firstName} {user.lastName}</p>
                       {user.signature ? (
-                        <img src={`http://localhost:5000/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
+                        <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
                       ) : (
                         <p>No signature available</p>
                       )}
@@ -170,7 +200,7 @@ const FuelRequisitionForm = () => {
                     <div key={user._id} className="logistic-user">
                       <p>{user.firstName} {user.lastName}</p>
                       {user.signature ? (
-                        <img src={`http://localhost:5000/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
+                        <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
                       ) : (
                         <p>No signature available</p>
                       )}
@@ -181,7 +211,7 @@ const FuelRequisitionForm = () => {
                   <h5>Head Of department:</h5>
                   <label>Prepared By:</label>
                   <span>{selectedRequest.hodName || ''}</span>
-                  <img src={`http://localhost:5000/${selectedRequest.hodSignature}`} alt="HOD Signature" />
+                  <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" />
                 </div>
               </div>
               <div className="action-buttons">
