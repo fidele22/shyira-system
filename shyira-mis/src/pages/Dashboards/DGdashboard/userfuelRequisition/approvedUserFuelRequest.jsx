@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FaEye,FaTimes } from 'react-icons/fa';
+import { FaEye } from 'react-icons/fa';
 import axios from 'axios';
 
 const FuelRequisitionForm = () => {
@@ -26,7 +26,7 @@ const FuelRequisitionForm = () => {
   useEffect(() => {
     const fetchRequisitions = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/userfuelrequest/get-recievedfuel`);
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/userfuelrequest/approveduserfuel`);
         setRequisitions(response.data);
         setLoading(false);
       } catch (error) {
@@ -52,14 +52,37 @@ const FuelRequisitionForm = () => {
 
   const handleRequestClick = async (requestId) => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/userfuelrequest/receivedfuel/${requestId}`);
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/userfuelrequest/${requestId}`);
       setSelectedRequest(response.data);
-     
+      setQuantityReceived(response.data.quantityReceived || ''); // Set initial quantity received
     } catch (error) {
       console.error('Error fetching request details:', error);
     }
   };
 
+  const handleUpdateQuantity = async () => {
+    try {
+      const updatedData = { ...selectedRequest, quantityReceived: quantityReceived };
+      const response = await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/userfuelrequest/${selectedRequest._id}`, updatedData);
+      setSelectedRequest(response.data);
+      alert('Quantity received updated successfully!');
+    } catch (error) {
+      console.error('Error updating quantity received:', error);
+      alert('Failed to update quantity received.');
+    }
+  };
+
+  const handleRejectRequest = async () => {
+    try {
+      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/userfuelrequest/reject/${selectedRequest._id}`);
+      setRequisitions(requisitions.filter(req => req._id !== selectedRequest._id));
+      setSelectedRequest(null);
+      alert('Requisition rejected successfully!');
+    } catch (error) {
+      console.error('Error rejecting requisition:', error);
+      alert('Failed to reject requisition.');
+    }
+  };
 
   const handleCloseClick = () => {
     setSelectedRequest(null);
@@ -70,15 +93,15 @@ const FuelRequisitionForm = () => {
 
   return (
     <div className="fuel-requisition-form">
-      <h4>List of Fuel Requisition that has been Recieved</h4>
-      <label htmlFor=""> Review requisition was recieved </label>
-      <div className="open-request">
+      <h4>List of Fuel Requisition that has been approved</h4>
+      <label htmlFor=""> Review your requisition was approved </label>
+      <div className="order-navigation">
         <ul>
           {requisitions.slice().reverse().map((request, index) => (
             <li key={index}>
               <p onClick={() => handleRequestClick(request._id)}>
-                Requisition Form of Fuel requested by {request.hodName} done on {new Date(request.createdAt).toDateString()} 
-                <span className='status-badge'>Recieved</span>
+                Requisition Form from {request.department} done on {new Date(request.createdAt).toDateString()}
+              <span className='status-approved'>Approved</span>
               </p>
             </li>
           ))}
@@ -88,7 +111,8 @@ const FuelRequisitionForm = () => {
       {selectedRequest && (
         <div className="fuel-request-details-overlay">
           <div className="fixed-nav-bar">
-            <button type="button" className='close-btn' onClick={handleCloseClick}><FaTimes /></button>
+
+            <button type="button" className='close-btn' onClick={handleCloseClick}>Close</button>
           </div>
 
           <div className="fuel-request-details-content">
@@ -124,7 +148,12 @@ const FuelRequisitionForm = () => {
                 </div>
                 <div className="left-side">
                   <label>Quantity Received (liters):</label>
-                  <span>{selectedRequest.quantityReceived || ''}</span>
+                  <input
+                    type="number"
+                    value={quantityReceived}
+                    onChange={(e) => setQuantityReceived(e.target.value)}
+                    placeholder="Update Quantity Received"
+                  />
                 </div>
               </div>
               <div className="view-form-group">
@@ -132,7 +161,7 @@ const FuelRequisitionForm = () => {
                   {selectedRequest && selectedRequest.file ? (
                     <div className='file-uploaded'>
                       <label>Previous Destination file:</label>
-                      <a href={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.file}`} target="_blank" rel="noopener noreferrer">
+                      <a href={`http://localhost:5000/${selectedRequest.file}`} target="_blank" rel="noopener noreferrer">
                         <FaEye /> View File
                       </a>
                     </div>
@@ -143,20 +172,20 @@ const FuelRequisitionForm = () => {
               </div>
               <hr />
               <div className="fuel-signatures">
-                <div className="hods">
-                  <h5>Head Of department:</h5>
+                <div className="hod">
+                  <h3>Head Of department:</h3>
                   <label>Prepared By:</label>
                   <span>{selectedRequest.hodName || ''}</span>
-                  <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" />
+                  <img src={`http://localhost:5000/${selectedRequest.hodSignature}`} alt="HOD Signature" />
                 </div>
                 <div className='logistic-signature'>
-                  <h5>Logistic Office:</h5>
+                  <h3>Logistic Office:</h3>
                   <label htmlFor="">Verified By:</label>
                   {logisticUsers.map(user => (
                     <div key={user._id} className="logistic-user">
                       <p>{user.firstName} {user.lastName}</p>
                       {user.signature ? (
-                        <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
+                        <img src={`http://localhost:5000/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
                       ) : (
                         <p>No signature available</p>
                       )}
@@ -164,24 +193,18 @@ const FuelRequisitionForm = () => {
                   ))}
                 </div>
                 <div className="daf-signature">
-                  <h5>DAF:</h5>
+                  <h3>DAF:</h3>
                   <label htmlFor="">Approved By:</label>
                   {dafUsers.map(user => (
                     <div key={user._id} className="logistic-user">
                       <p>{user.firstName} {user.lastName}</p>
                       {user.signature ? (
-                        <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
+                        <img src={`http://localhost:5000/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
                       ) : (
                         <p>No signature available</p>
                       )}
                     </div>
                   ))}
-                </div>
-                <div className="hods">
-                  <h5>Head Of department:</h5>
-                  <label>Prepared By:</label>
-                  <span>{selectedRequest.hodName || ''}</span>
-                  <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" />
                 </div>
               </div>
               <div className="action-buttons">

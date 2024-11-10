@@ -6,7 +6,7 @@ import Overview from './Overview';
 import ViewRequest from './userRequisition/RequestVerified'
 import ViewApproved from '../logisticdashboard/UserRequisitions/approvedRequest'
 import ViewLogisticRequest from './requestOfLogistic/OrderPage'
-import FuelRequisition from './fuelRequisition/fuelRequisitionPages'
+import FuelRequisition from './userfuelRequisition/fuelRequisitionPages'
 import UserRequestpage from './userRequisition/userPage'
 import UserRequestRecieved from '../logisticdashboard/receivedRequisitions/itemRequestReceived'
 import ViewItems from './StockItem/viewitems'

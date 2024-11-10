@@ -6,18 +6,21 @@ const StockReportTable = () => {
   const [carPlaque, setCarPlaque] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
-  const [reportData, setReportData] = useState([]);  
+  const [reportData, setReportData] = useState([]);
   const [totalFuelConsumed, setTotalFuelConsumed] = useState(0);
+  const [totalAverageCovered, setTotalAverageCovered] = useState(0);
+
   const [carInfo, setCarInfo] = useState({});
   const [showCarPlaqueList, setShowCarPlaqueList] = useState(false);
 
   const fetchStockReport = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/fuel/stock-report', {
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/fuel/stock-report`, {
         params: { carPlaque, startDate, endDate }
       });
       setReportData(response.data.reportData || []);
       setTotalFuelConsumed(response.data.totalFuelConsumed || 0);
+      setTotalAverageCovered(response.data.totalAverageCovered || 0);
       setCarInfo(response.data.carInfo || {});
     } catch (error) {
       console.error('Error fetching stock report:', error);
@@ -94,6 +97,7 @@ const StockReportTable = () => {
             <p>No data available for the selected filters.</p>
           )}
           <h3>Total Fuel Consumed: {totalFuelConsumed} liters</h3>
+          <h5>Total Distance Covered: {totalAverageCovered} Km/l</h5>
           <div>
             <h4>Car Information:</h4>
             <p>Register Number: {carInfo.registerNumber}</p>

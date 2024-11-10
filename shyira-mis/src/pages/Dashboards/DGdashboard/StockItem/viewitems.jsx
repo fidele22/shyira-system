@@ -61,7 +61,7 @@ const DataDisplay = ({ onItemSelect }) => {
         <tbody>
           {currentItems.map((item, index) => (
             <tr key={index}>
-              <td>{indexOfFirstItem + index + 1}</td> {/* Display the item number */}
+              <td>{indexOfFirstItem + index + 1}</td> 
               <td>{item.name}</td>
               <td>{item.quantity}</td>
               <td>{item.pricePerUnit}</td>

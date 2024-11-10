@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaEye , FaEdit,FaSpinner, FaTimes, FaTimesCircle, FaCheck, FaCheckCircle, FaCheckDouble, FaCheckSquare } from 'react-icons/fa';
 import VeiwfuelRequisition from './viewfuelRequest'; 
-import FuelRequisitionRecieved from './viewfuelRequest';
+import FuelRequisitionRecieved from './recieveduserfuelRequest';
+import FuelRequisitionapproved from  './approvedUserFuelRequest'; 
+import FuelRequisitionRejected from './rejecteduserfuelrequest'
 //import ItemRequisitionStatus from './RequisitionStatus';
 
 
@@ -21,8 +23,8 @@ const UserFuelRequesition = () => {
           <FaEye /> View Fuel Requisition
         </button>
         
-        <button className='make-fuel-order' onClick={() => setActiveComponent('status')}>
-          <FaSpinner color='brown'/> Fuel Requisition Status
+        <button className='make-fuel-order' onClick={() => setActiveComponent('approved')}>
+          <FaSpinner color='brown'/> Fuel Requisition approved
         </button>
 
         <button className='recieved-item' onClick={() => setActiveComponent('recieved')}>
@@ -37,8 +39,12 @@ const UserFuelRequesition = () => {
 
       {activeComponent === 'view' ? (
         <VeiwfuelRequisition />
-      ) : activeComponent === 'recieved' ? (
+      ) : activeComponent === 'approved' ? (
+        <FuelRequisitionapproved />
+      )  : activeComponent === 'recieved' ? (
         <FuelRequisitionRecieved />
+      )  : activeComponent === 'rejected' ? (
+        <FuelRequisitionRejected />
       )  :(
         <div>
         <p>Navigate to what you want to look.</p>

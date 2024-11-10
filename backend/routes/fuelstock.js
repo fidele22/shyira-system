@@ -115,7 +115,7 @@ router.get('/stock-report', async (req, res) => {
 
     // Calculate total fuel consumed
     const totalFuelConsumed = requisitions.reduce((total, req) => total + req.quantityReceived, 0);
-
+    const totalAverageCovered = requisitions.reduce((total, req) => total + req.average, 0);
     // Prepare report data
     const reportData = requisitions.map((req, index) => ({
       index: index + 1,
@@ -123,7 +123,8 @@ router.get('/stock-report', async (req, res) => {
       modeOfVehicle: car.modeOfVehicle,
       dateOfReception: car.dateOfReception,
       destination: req.destination,
-      litreConsumed: req.quantityReceived
+      litreConsumed: req.quantityReceived,
+      averageCovered: req.average,
     }));
 
     return res.json({
@@ -133,6 +134,7 @@ router.get('/stock-report', async (req, res) => {
         dateOfReception: car.dateOfReception
       },
       totalFuelConsumed,
+      totalAverageCovered,
       reportData
     });
   } catch (error) {
@@ -142,7 +144,7 @@ router.get('/stock-report', async (req, res) => {
 });
 
 
-// Endpoint to get car plaques and their data based on date range
+/// Endpoint to get car plaques and their data based on date range
 router.get('/fuelFull-Report', async (req, res) => {
   const { startDate, endDate } = req.query;
   
@@ -158,7 +160,7 @@ router.get('/fuelFull-Report', async (req, res) => {
         $group: {
           _id: "$carPlaque",
           totalQuantity: { $sum: "$quantityReceived" },
-          totalAverage:{$sum:"$average"},
+          totalAverageSum: { $sum: "$average" }, // Sum of averages
           requisitions: { $push: "$$ROOT" }
         }
       },
@@ -182,8 +184,7 @@ router.get('/fuelFull-Report', async (req, res) => {
           depart: "$carInfo.depart",
           destination: { $first: "$requisitions.destination" },
           totalFuelConsumed: "$totalQuantity",
-          distanceCoverde:"$totalAverage"
-
+          distanceCovered: "$totalAverageSum" // Calculate average
         }
       }
     ]);

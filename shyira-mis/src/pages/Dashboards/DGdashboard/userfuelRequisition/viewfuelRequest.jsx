@@ -1,17 +1,14 @@
-// frontend/src/components/FuelRequisitionForm.js
 import React, { useEffect, useState } from 'react';
 import { FaEye, FaEdit,FaTimes, FaTimesCircle, FaCheck,
   FaCheckCircle, FaCheckDouble, FaCheckSquare } from 'react-icons/fa';
 import axios from 'axios';
-import Swal from 'sweetalert2'; 
-//import './viewfuelrequest.css';
+import './viewfuelrequest.css';
 
 const FuelRequisitionForm = () => {
   const [requisitions, setRequisitions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [user, setUser] = useState(null);
-  const [logisticUsers, setLogisticUsers] = useState([]);
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({});
@@ -19,7 +16,7 @@ const FuelRequisitionForm = () => {
   useEffect(() => {
     const fetchRequisitions = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/forwardedrequests/fuel`);
+        const response = await axios.get('http://localhost:5000/api/fuel-requisition');
         setRequisitions(response.data);
         setLoading(false);
       } catch (error) {
@@ -32,22 +29,10 @@ const FuelRequisitionForm = () => {
     fetchRequisitions();
   }, []);
 
-  useEffect(() => {
-    const fetchLogisticUsers = async () => {
-      try {
-        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/logistic-users`);
-        setLogisticUsers(response.data);
-      } catch (error) {
-        console.error('Error fetching logistic users:', error);
-      }
-    };
-  
-    fetchLogisticUsers();
-  }, []);
 
   const handleRequestClick = async (requestId) => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/forwardedrequests/fuel/${requestId}`);
+      const response = await axios.get(`http://localhost:5000/api/fuel-requisition/${requestId}`);
       setSelectedRequest(response.data);
       setFormData(response.data);
       setIsEditing(false);
@@ -73,64 +58,22 @@ const FuelRequisitionForm = () => {
 
   const handleSaveClick = async () => {
     try {
-      const response = await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/forwardedrequests/updatefuel/${selectedRequest._id}`, formData);
+      const response = await axios.put(`http://localhost:5000/api/fuel-requisition/${selectedRequest._id}`, formData);
       setSelectedRequest(response.data);
-      
-      // Show error message using SweetAlert2
-      Swal.fire({
-        title: 'Success',
-        text: 'Fuel requisition updated successful!!',
-        icon: 'success',
-        confirmButtonText: 'OK',
-        customClass: {
-          popup: 'custom-swal', // Apply custom class to the popup
-        }
-      });
       setIsEditing(false);
-      
     } catch (error) {
       console.error('Error updating requisition:', error);
-       
-      // Show error message using SweetAlert2
-      Swal.fire({
-        title: 'Error!',
-        text: 'Failed to update fuel requisition',
-        icon: 'error',
-        confirmButtonText: 'OK',
-        customClass: {
-          popup: 'custom-swal', // Apply custom class to the popup
-        }
-      });
     }
   };
-  const handleApproveClick = async () => {
+
+  const handleVerifyClick = async () => {
     try {
-      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/forwardedrequests/approvefuel/${selectedRequest._id}`, formData);
+      const response = await axios.post(`http://localhost:5000/api/fuel-requisition/verify/${selectedRequest._id}`, formData);
       setSelectedRequest(response.data);
-       
-      // Show error message using SweetAlert2
-      Swal.fire({
-        title: 'Success',
-        text: 'Fuel requisition approved successful!!',
-        icon: 'success',
-        confirmButtonText: 'OK',
-        customClass: {
-          popup: 'custom-swal', // Apply custom class to the popup
-        }
-      });
+      alert('Requisition verified successfully.');
     } catch (error) {
       console.error('Error verifying requisition:', error);
-       
-      // Show error message using SweetAlert2
-      Swal.fire({
-        title: 'Error!',
-        text: 'Failed to approve fuel requisition',
-        icon: 'error',
-        confirmButtonText: 'OK',
-        customClass: {
-          popup: 'custom-swal', // Apply custom class to the popup
-        }
-      });
+      alert('Failed to verify requisition.');
     }
   };
 
@@ -143,16 +86,18 @@ const FuelRequisitionForm = () => {
 
   return (
     <div className="fuel-requisition-form">
+   
       <div className="order-navigation">
       <div className="navigation-title">
-          <h2>Requisition form of fuel from different users that was verified </h2>
+          <h2>Requisition form of fuel from different users [pending]</h2>
         </div>
         <ul>
           {requisitions.slice().reverse().map((request, index) => (
             <li key={index}>
               <p onClick={() => handleRequestClick(request._id)}>
                 Requisition Form from {request.department} done on {new Date(request.createdAt).toDateString()}
-                <span className='status-verified'>Verified</span>
+                {/** <span>{!request.clicked ? 'New Request' : ''}</span>*/}
+                
               </p>
             </li>
           ))}
@@ -162,14 +107,12 @@ const FuelRequisitionForm = () => {
       {selectedRequest && (
         <div className="fuel-request-details-overlay">
           <div className="fixed-nav-bar">
-            <button  type="button" className='edit-btn' onClick={handleEditClick}>Edit</button>
-            {isEditing && <button type="button"  onClick={handleSaveClick}>Save</button>}
-            <button type="button" className='verify-btn' onClick={handleApproveClick}>Aprrove</button>
-            <button type="button" className='close-btn' onClick={handleCloseClick}>Close</button>
+
+            <button type="button" className='close-btn' onClick={handleCloseClick}><FaTimes /></button>
           </div>
 
           <div className="fuel-request-details-content">
-            <h3>Fuel Requisition Form</h3>
+            <h2>Fuel Requisition Form</h2>
             <form>
               <div className="view-form-group">
                 <label>Requester Name: <span>{selectedRequest.requesterName || ''}</span></label>
@@ -214,7 +157,7 @@ const FuelRequisitionForm = () => {
                 </div>
               </div>
               <div className="view-form-group">
-               
+              
                 <div className="left-side">
                   <label>Reason:</label>
                   <span>{selectedRequest.reason || ''}</span>
@@ -223,7 +166,7 @@ const FuelRequisitionForm = () => {
                 {selectedRequest && selectedRequest.file ? (
   <div className='file-uploaded'>
     <label>Previous Destination file:</label>
-    <a href={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.file}`} target="_blank" rel="noopener noreferrer">
+    <a href={`http://localhost:5000/${selectedRequest.file}`} target="_blank" rel="noopener noreferrer">
     <FaEye /> View File
     </a>
   </div>
@@ -238,23 +181,8 @@ const FuelRequisitionForm = () => {
                   <h3>Head of department</h3>
                   <label>Prepared By:</label>
                   <span>{selectedRequest.hodName || ''}</span>
-                  <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" />
+                  <img src={`http://localhost:5000/${selectedRequest.hodSignature}`} alt="HOD Signature" />
                 </div>
-                <div className='logistic-signature'>
-                  <h3>Logistic Office:</h3>
-                  <label htmlFor="">verified By:</label>
-                    {logisticUsers.map(user => (
-                      <div key={user._id} className="logistic-user">
-                        <span>{user.firstName} {user.lastName}</span>
-                        {user.signature ? (
-                          <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`}  />
-                        ) : (
-                          <p>No signature available</p>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                 
               </div>
             </form>
           </div>

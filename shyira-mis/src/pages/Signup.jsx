@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Import eye icons
+import { FaEye, FaEyeSlash } from 'react-icons/fa'; 
 import axios from 'axios';
 import Notification from './Dashboards/ModelMessage/notification'
 import './stylingpages/loginForm.css'; // Adjust your CSS file path
@@ -36,7 +36,7 @@ const togglePasswordVisibility = () => {
       newErrors.email = 'Email is invalid';
     }
     if (password.length < 1) {
-      newErrors.password = 'Password must be at least 1 characters long';
+      newErrors.password = 'Password required';
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -210,7 +210,7 @@ const togglePasswordVisibility = () => {
         console.log('User registered:', response.data);
         sessionStorage.setItem('token', response.data.token);
 
-        setSuccessMessage('Registration successful!');  // Set the success message
+        setSuccessMessage('Registration successful!');  
         
         setFormData({
           firstName: '',

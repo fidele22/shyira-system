@@ -21,6 +21,10 @@ const ApprovedRequests = () => {
   const [logisticUsers, setLogisticUsers] = useState([]);
   const [dafUsers, setDafUsers] = useState([]);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5); // Set items per page
+  const [totalPages, setTotalPages] = useState(1);
+
   useEffect(() => {
     fetchApprovedRequests();
     fetchLogisticUsers(); // Fetch logistic users name and signature on component mount
@@ -44,6 +48,12 @@ const ApprovedRequests = () => {
       console.error('Error fetching daf users:', error);
     }
   };
+
+  useEffect(() => {
+    // Update total pages when filteredRequests change
+    setTotalPages(Math.ceil(filteredRequests.length / itemsPerPage));
+  }, [filteredRequests, itemsPerPage]);
+
   //fetching recieved request from approved collection
   const fetchApprovedRequests = async () => {
     try {
@@ -120,6 +130,24 @@ const ApprovedRequests = () => {
   }
 };
 
+ // Pagination helpers
+ const indexOfLastItem = currentPage * itemsPerPage;
+ const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+ const currentItems = filteredRequests.slice(indexOfFirstItem, indexOfLastItem);
+
+ const nextPage = () => {
+   if (currentPage < totalPages) {
+     setCurrentPage(currentPage + 1);
+   }
+ };
+
+ const prevPage = () => {
+   if (currentPage > 1) {
+     setCurrentPage(currentPage - 1);
+   }
+ };
+
+
   return (
     <div className="approved-requests-page">
     
@@ -154,7 +182,7 @@ const ApprovedRequests = () => {
         <h2>Requisition for items have been signed that was recieved</h2>
         </div>
         <ul>
-          {filteredRequests.slice().reverse().map((request, index) => (
+          {currentItems.slice().reverse().map((request, index) => (
             <li key={index}>
               <p onClick={() => handleRequestClick(request._id)}>
               Requisition Form from department of <b>{request.department}</b> done on {new Date(request.createdAt).toDateString()}
@@ -163,7 +191,13 @@ const ApprovedRequests = () => {
             </li>
           ))}
         </ul>
+        <div className="pagination-buttons">
+          <button onClick={prevPage} disabled={currentPage === 1}>Previous</button>
+          <span>Page {currentPage} of {totalPages}</span>
+          <button onClick={nextPage} disabled={currentPage === totalPages}>Next</button>
+        </div>
       </div>
+     
 
       {selectedRequest && (
 
@@ -265,8 +299,8 @@ const ApprovedRequests = () => {
        </div>
        </div>
    )}
-
-        </div>
+  
+  </div>
           
   );
 };
