@@ -5,7 +5,7 @@ import SearchableDropdown from '../../logisticdashboard/OrderSupply/searchable';
 import Swal from 'sweetalert2'; // Import SweetAlert2
 import './makeRequist.css'; // Import CSS for styling
 
-const LogisticRequestForm = () => {
+const UserRequestForm = () => {
   const [items, setItems] = useState([]);
   const [department, setDepartment] = useState('');
   const [date, setDate] = useState('');
@@ -88,7 +88,7 @@ const LogisticRequestForm = () => {
     if (!validateQuantities()) return; // Calling validation
 
     const formData = new FormData();
-    formData.append('department', department);
+    formData.append('department', user ? `${user.departmentName} `: '',);
     formData.append('items', JSON.stringify(items));
     formData.append('date', date);
     formData.append('hodName', user ? `${user.firstName} ${user.lastName}` : ''); // HOD Name
@@ -109,7 +109,7 @@ const LogisticRequestForm = () => {
       }
 
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/UserRequest/submit`, {
-        department,
+        department:user ? `${user.departmentName} `: '',
         items: JSON.stringify(items),
         date,
         hodName: user ? `${user.firstName} ${user.lastName}` : '',
@@ -198,7 +198,7 @@ const LogisticRequestForm = () => {
       <div className="hod-request-form">
         <form onSubmit={handleSubmit}>
           <div className="image-logo">
-            <img src="/image/logo.png" alt="Logo" className="logo" />
+            <img src="/image/logo2.png" alt="Logo" className="logo" />
           </div>
           <div className="date-field">
             <label htmlFor="date">Date:</label>
@@ -221,14 +221,8 @@ const LogisticRequestForm = () => {
               <h4>HEALTH FACILITY: SHYIRA DISTRICT HOSPITAL</h4>
             </div>
             <div className="title">
-              <h4>DEPARTMENT:</h4>
-              <input
-                type="text"
-                value={department}
-                onChange={(e) => setDepartment(e.target.value)}
-                placeholder="Type here..."
-                required
-              />
+            <h4>DEPARTMENT: {user && user.departmentName ? user.departmentName : "Loading..."}</h4>
+            
             </div>
           </div>
 
@@ -287,7 +281,7 @@ const LogisticRequestForm = () => {
           <div>
             {user ? (
               <>
-                <label htmlFor="hodName">Name of {user.positionName}</label>
+               <label htmlFor="hodName">Name of head of {user.departmentName}</label>
                 <p>{user.firstName} {user.lastName}</p>
                 {user.signature ? (
                   <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt="Signature" />
@@ -299,7 +293,9 @@ const LogisticRequestForm = () => {
               <p>Loading user profile...</p>
             )}
           </div>
-
+         <div className='footer-img'>
+         <img src="/image/footerimg.png" alt="Logo" className="footerimg" />
+         </div>
           <button className='hod-submit-btn' type="submit">Send Request</button>
         </form>
       </div>
@@ -307,4 +303,4 @@ const LogisticRequestForm = () => {
   );
 };
 
-export default LogisticRequestForm;
+export default UserRequestForm;

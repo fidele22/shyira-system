@@ -3,11 +3,9 @@ const mongoose = require('mongoose');
 const router = express.Router();
 const Car = require('../models/carPlaque');
 const FuelRequisitionReceived = require('../models/fuelRequestRecieved');
-const FuelStock = require('../models/fuelStock')
-const FuelStockHistory =require ('../models/fuelStockHistory')
-
-
-// CRUD Routes
+const FuelStock = require('../models/fuelStock');
+const FuelStockHistory =require ('../models/fuelStockHistory');
+const ApprovedRepairRequest = require('../models/logisticRepairApproved');
 
 // Create a new fuel stock entry
 router.post('/add-fuel', async (req, res) => {
@@ -160,7 +158,7 @@ router.get('/fuelFull-Report', async (req, res) => {
         $group: {
           _id: "$carPlaque",
           totalQuantity: { $sum: "$quantityReceived" },
-          totalAverageSum: { $sum: "$average" }, // Sum of averages
+          totalAverageSum: { $sum: { $toDouble: "$average" } }, // Sum of averages
           requisitions: { $push: "$$ROOT" }
         }
       },
@@ -182,7 +180,7 @@ router.get('/fuelFull-Report', async (req, res) => {
           modeOfVehicle: "$carInfo.modeOfVehicle",
           dateOfReception: "$carInfo.dateOfReception",
           depart: "$carInfo.depart",
-          destination: { $first: "$requisitions.destination" },
+          destination: "$carInfo.destination" ,
           totalFuelConsumed: "$totalQuantity",
           distanceCovered: "$totalAverageSum" // Calculate average
         }
@@ -196,8 +194,32 @@ router.get('/fuelFull-Report', async (req, res) => {
   }
 });
 
+// Endpoint to get total cost of repairs for a specific car plaque based on date range
+router.get('/totalCostRepairs', async (req, res) => {
+  const { startDate, endDate, carPlaque } = req.query;
 
+  try {
+    const totalCostRepairs = await ApprovedRepairRequest.aggregate([
+      {
+        $match: {
+          carplaque: carPlaque, // Filter by specific car plaque
+          createdAt: { $gte: new Date(startDate), $lte: new Date(endDate) }
+        }
+      },
+      {
+        $group: {
+          _id: "$carplaque",
+          totalRepairs: { $sum: { $toDouble: "$totalOverallPrice" } }
+        }
+      }
+    ]);
 
+    res.json({ totalCostRepairs: totalCostRepairs[0]?.totalRepairs || 0 });
+  } catch (error) {
+    console.error('Error fetching total cost repairs:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
 
 
  module.exports = router;

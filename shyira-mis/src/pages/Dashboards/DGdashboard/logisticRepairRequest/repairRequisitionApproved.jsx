@@ -30,7 +30,7 @@ const ForwardedRequests = () => {
 
   const fetchForwardedRequests = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/logisticFuel`);
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/RepairRequisition/repair-approved`);
       setForwardedRequests(response.data);
     } catch (error) {
       console.error('Error fetching forwarded requests:', error);
@@ -102,11 +102,11 @@ const ForwardedRequests = () => {
   e.preventDefault();
   try {
        // Forward the updated request to the approved collection
-       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/logisticFuel/verified/${selectedRequest._id}`);
+       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/RepairRequisition/approve-repair/${selectedRequest._id}`);
        setSelectedRequest(response.data);
        Swal.fire ({
         title: 'Success!',
-        text: 'logistic requisition verified successfully',
+        text: 'logistic repair requisition approved successfully',
         icon: 'success',
         confirmButtonText: 'OK',
         customClass: {
@@ -120,7 +120,7 @@ const ForwardedRequests = () => {
     console.error('Error for approving request:', error);  
     Swal.fire ({
       title: 'Error!',
-      text: 'Error for verifying logistic requisition',
+      text: 'Error for approve logistic repair requisition',
       icon: 'error',
       confirmButtonText: 'OK',
       customClass: {
@@ -176,13 +176,13 @@ const ForwardedRequests = () => {
   return (
     <div className={`verified-requist ${selectedRequest ? 'dim-background' : ''}`}>
 
-      <div className="request-navigation">
+      <div className="order-navigation">
       <h2>Requisition from logistic office for fuel status</h2>
         <ul>
           {forwardedRequests.slice().reverse().map((request, index) => (
             <li key={index}>
               <p onClick={() => handleRequestClick(request._id)}>
-          Requisition Form from <b>logistic office</b>  order of FUEL done on {new Date(request.createdAt).toDateString()}
+          Requisition Form from <b>logistic office</b>  requesting repair done on {new Date(request.createdAt).toDateString()}
           {/*    <span>{!request.clicked ? 'New Request' : ''}</span> 
         */}
       </p>
@@ -209,8 +209,8 @@ const ForwardedRequests = () => {
                     <tr>
                  <th>No</th>
                 <th>desitination</th>
-                <th>Quantity Requested(liters)</th>
-                <th>Price Per Liter</th>
+                <th>Quantity Requested</th>
+                <th>Price Per Unit</th>
                 <th>Price Total</th>
                     </tr>
                   </thead>
@@ -261,9 +261,7 @@ const ForwardedRequests = () => {
             ) : (
               <>
                <div className="form-navigation">
-               <button className='verify-requisition' onClick={handleVerifySubmit}>Approve Order</button>
-               <button className='edit-btn' onClick={handleEditClick}>Edit</button>
-               <button></button>
+         
              <label className='request-close-btn' onClick={() => setSelectedRequest(null)}><FaTimes /></label>
           </div>
             <div className="image-request-recieved">
@@ -287,8 +285,9 @@ const ForwardedRequests = () => {
                     <tr>
                     <th>No</th>
                 <th>desitination</th>
-                <th>Quantity Requested(liters)</th>
-                <th>Price Per Liter</th>
+                <th>Unit</th>
+                <th>Quantity Requested</th>
+                <th>Price Per Unit</th>
                 <th>Price Total</th>
                     </tr>
                   </thead>
@@ -297,12 +296,25 @@ const ForwardedRequests = () => {
                       <tr key={idx}>
                         <td>{idx + 1}</td>
                         <td>{item.desitination}</td>
+                        <td>{item.unit}</td>
                         <td>{item.quantityRequested}</td>
                         <td>{item.pricePerUnit}</td>
                         <td>{item.totalPrice}</td>
                       </tr>
                     ))}
                   </tbody>
+                  <tfoot>
+          <tr>
+            <td><strong>Total Amount</strong></td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>{selectedRequest.totalOverallPrice}</td>
+            
+          </tr>
+        </tfoot>
+               
                 </table>
 
                 <div className="daf-signature-section">

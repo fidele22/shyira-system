@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FaEye, FaEdit,FaTimes, FaTimesCircle, FaCheck,
   FaCheckCircle, FaCheckDouble, FaCheckSquare } from 'react-icons/fa';
 import axios from 'axios';
+import Swal from 'sweetalert2'; 
 import './viewfuelrequest.css';
 
 const FuelRequisitionForm = () => {
@@ -70,10 +71,28 @@ const FuelRequisitionForm = () => {
     try {
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/fuel-requisition/verify/${selectedRequest._id}`, formData);
       setSelectedRequest(response.data);
-      alert('Requisition verified successfully.');
+      Swal.fire ({
+        title: 'Success!',
+        text: 'Fuel Requisition verified successfully.',
+        icon: 'success',
+        confirmButtonText: 'OK',
+        customClass: {
+          popup: 'custom-swal', // Apply custom class to the popup
+        }
+      });
+     
     } catch (error) {
       console.error('Error verifying requisition:', error);
-      alert('Failed to verify requisition.');
+      Swal.fire ({
+        title: 'Error!',
+        text: 'Failed to verify requisition.',
+        icon: 'error',
+        confirmButtonText: 'OK',
+        customClass: {
+          popup: 'custom-swal', 
+        }
+      });
+    
     }
   };
 

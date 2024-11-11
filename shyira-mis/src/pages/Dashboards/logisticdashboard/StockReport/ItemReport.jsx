@@ -302,6 +302,9 @@ const downloadPDF = async () => {
       <h4>AMINI ABEDI</h4>
       <h4>LOGISTIC OFFICER</h4>
       </div>
+      <div className='footer-img'>
+         <img src="/image/footerimg.png" alt="Logo" className="logo" />
+         </div>
   </div>
       <button className='download-history-btn' onClick={downloadPDF}>Download Report Pdf</button>
     </div>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2'; 
 import { FaQuestionCircle, FaEdit, FaTimes, FaTimesCircle, FaCheck, FaCheckCircle } from 'react-icons/fa';
 // Import your CSS here if you have any
 // import './makeRequist.css'; 
@@ -11,6 +12,7 @@ const LogisticRequestForm = () => {
   const [desitination, setDestination] = useState('');
   const [carplaque, setCarPlaque] = useState('');
   const [unit, setUnit] = useState('');
+  
   const [quantityRequested, setQuantityRequested] = useState('');
   const [pricePerUnit, setPrice] = useState('');
   const [totalPrice, setTotalPrice] = useState('');
@@ -71,53 +73,55 @@ const LogisticRequestForm = () => {
 
     
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+    
+        // Calculate totalPrice for each item
+        const updatedItems = items.map(item => ({
+            ...item,
+            totalPrice: item.quantityRequested * item.pricePerUnit // Calculate totalPrice
+        }));
+    
+        const formData = new FormData();
+        formData.append('department', department);
+        formData.append('supplierName', supplierName);
+        formData.append('items', JSON.stringify(updatedItems)); // Use updated items with totalPrice
+        formData.append('carplaque', carplaque);
+        formData.append('date', date);
+        formData.append('hodName', user ? `${user.firstName} ${user.lastName}` : '');
+        formData.append('hodSignature', user && user.signature ? user.signature : '');
+    
+        try {
+            const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/RepairRequisition/repair-submit`, {
+                department,
+                supplierName,
+                carplaque,
+                items: updatedItems, // Send updated items
+                totalOverallPrice,
+                date,
+                hodName: user ? `${user.firstName} ${user.lastName}` : '',
+                hodSignature: user && user.signature ? user.signature : ''
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${sessionStorage.getItem('token')}`,
+                    'Content-Type': 'application/json'
+                },
+            });
+    
+            console.log(response.data);
+    
+            setModalMessage('Submit requisition to logistic successfully');
+            setIsSuccess(true);
+            setShowModal(true);
+        } catch (error) {
+            console.error('Error submitting requisition:', error);
+            setModalMessage('Failed to submit requisition');
+            setIsSuccess(false);
+            setShowModal(true);
+        }
+    };
 
-    const formData = new FormData();
-    formData.append('department', department);
-    formData.append('desitination', desitination);
-    formData.append('unit', unit);
-    formData.append('quantityRequested', quantityRequested);
-    formData.append('pricePerUnit', pricePerUnit);
-    formData.append('totalPrice', totalPrice);
-    formData.append('carplaque', carplaque);
-    formData.append('date', date);
-    formData.append('hodName', user ? `${user.firstName} ${user.lastName}` : '');
-    formData.append('hodSignature', user && user.signature ? user.signature : '');
-
-    try {
-      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/RepairRequisition/repair-submit`, {
-        department,
-        desitination,
-        carplaque,
-        pricePerUnit,
-        totalPrice,
-        totalOverallPrice,
-        unit,
-        date,
-        hodName: user ? `${user.firstName} ${user.lastName}` : '',
-        hodSignature: user && user.signature ? user.signature : ''
-      }, {
-        headers: {
-          'Authorization': `Bearer ${sessionStorage.getItem('token')}`,
-          'Content-Type': 'application/json'
-        },
-      });
-
-      console.log(response.data);
-
-      setModalMessage('Submit requisition to logistic successfully');
-      setIsSuccess(true);
-      setShowModal(true);
-    } catch (error) {
-      console.error('Error submitting requisition:', error);
-      setModalMessage('Failed to submit requisition');
-      setIsSuccess(false);
-      setShowModal(true);
-    }
-  };
-
+    
   const handleAddItem = () => {
     setItems([
       ...items,

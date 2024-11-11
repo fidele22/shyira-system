@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Swal from 'sweetalert2'; 
 import './registercar.css'
 import '../addItem/additem.css'
 function CarRegistrationForm() {
@@ -6,7 +7,8 @@ function CarRegistrationForm() {
     registerNumber: '',
     modeOfVehicle: '',
     dateOfReception: '',
-    depart: ''
+    depart: '',
+    destination:'',
   });
 
   const handleChange = (e) => {
@@ -24,15 +26,35 @@ function CarRegistrationForm() {
         body: JSON.stringify(formData),
       });
       if (response.ok) {
-        alert('Car registered successfully!');
+        Swal.fire ({
+          title: 'Success!',
+          text: 'Car registered successfully!',
+          icon: 'success',
+          confirmButtonText: 'OK',
+          customClass: {
+            popup: 'custom-swal', // Apply custom class to the popup
+          }
+        });
+       
         setFormData({
           registerNumber: '',
           modeOfVehicle: '',
           dateOfReception: '',
-          depart: ''
+          depart: '',
+          destination:'',
         });
       } else {
-        alert('Failed to register car');
+        Swal.fire ({
+          title: 'Error!',
+          text: 'Failed to register car',
+          icon: 'error',
+          confirmButtonText: 'OK',
+          customClass: {
+            popup: 'custom-swal', // Apply custom class to the popup
+          }
+        });
+       
+      
       }
     } catch (error) {
       console.error('Error:', error);
@@ -78,6 +100,16 @@ function CarRegistrationForm() {
           type="text"
           name="depart"
           value={formData.depart}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      <div>
+        <label>Destination:</label>
+        <input
+          type="text"
+          name="destination"
+          value={formData.destination}
           onChange={handleChange}
           required
         />

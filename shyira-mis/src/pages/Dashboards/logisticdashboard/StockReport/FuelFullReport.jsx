@@ -27,7 +27,6 @@ const CarPlaqueList = () => {
     }
   };
 
-  // Fetch car plaque data based on date range
   const fetchCarPlaqueData = async () => {
     try {
       const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/fuel/fuelFull-Report`, {
@@ -35,12 +34,26 @@ const CarPlaqueList = () => {
       });
       setCarPlaqueData(response.data.carPlaqueData || []);
       setError('');
+    
+      // Fetch total cost repairs for each car plaque
+      const updatedCarPlaqueData = await Promise.all(response.data.carPlaqueData.map(async (data) => {
+        const repairsResponse = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/fuel/totalCostRepairs`, {
+          params: { startDate, endDate, carPlaque: data.registerNumber }
+        });
+        return {
+          ...data,
+          totalCostRepairs: repairsResponse.data.totalCostRepairs
+        };
+      }));
+    
+      setCarPlaqueData(updatedCarPlaqueData);
     } catch (error) {
       console.error('Error fetching car plaque data:', error);
       setError('Failed to fetch data');
     }
   };
-
+  
+  
   return (
     <div className='fuel-full-report'>
       <h2>Fuel Stock Report Generation</h2>
@@ -99,14 +112,17 @@ const CarPlaqueList = () => {
                     <td>{data.totalFuelConsumed}</td>
                     <td>{pricePerUnit}</td> 
                     <td>{totalCostConsumed}</td> 
-                    <td>{data.distanceCovered}</td>
-                    <td>{data.totalCostRepairs}</td> 
+                    <td>{data.distanceCovered?.toFixed(2) || "0.00"}</td>
+                    <td>{data.totalCostRepairs}</td>
                     <td>{fullTotalCost}</td> 
                   </tr>
                 );
               })}
             </tbody>
           </table>
+          <div className='footer-img'>
+         <img src="/image/footerimg.png" alt="Logo" className="logo" />
+         </div>
         </div>
       ) : (
         <p>{error || 'No data available for the selected date range.'}</p>

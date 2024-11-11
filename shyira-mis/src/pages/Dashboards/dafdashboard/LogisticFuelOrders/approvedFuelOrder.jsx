@@ -146,7 +146,7 @@ const ForwardedRequests = () => {
                 {selectedRequest.items.map((item, idx) => (
                   <tr key={idx}>
                     <td>{idx + 1}</td>
-                    <td>{item.destination}</td>
+                    <td>{item.desitination}</td>
                     <td>{item.quantityRequested}</td>
                     <td>{item.pricePerUnit}</td>
                     <td>{item.totalPrice}</td>

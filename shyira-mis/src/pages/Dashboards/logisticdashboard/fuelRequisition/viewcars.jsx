@@ -10,7 +10,8 @@ function CarList() {
       registerNumber: '',
       modeOfVehicle: '',
       dateOfReception: '',
-      depart: ''
+      depart: '',
+      destination:'',
     });
   
     useEffect(() => {
@@ -44,7 +45,8 @@ function CarList() {
         registerNumber: car.registerNumber,
         modeOfVehicle: car.modeOfVehicle,
         dateOfReception: car.dateOfReception.split('T')[0], // Format date for input
-        depart: car.depart
+        depart: car.depart,
+        destination: car.destination,
       });
     };
   
@@ -119,6 +121,16 @@ function CarList() {
                 required
               />
             </div>
+            <div>
+              <label>Destination</label>
+              <input
+                type="text"
+                name="destination"
+                value={formData.destination}
+                onChange={handleChange}
+                required
+              />
+            </div>
             <button type="submit" className='update-car'>Update Car</button>
             <button type="button" onClick={() => setEditCarId(null)} className='cancel-edit-btn'>  <FaTimes size={32} /></button>
           </form>
@@ -143,6 +155,7 @@ function CarList() {
                   <th>Mode of Vehicle</th>
                   <th>Date of Reception</th>
                   <th>Depart</th>
+                  <th>Destination</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -154,6 +167,7 @@ function CarList() {
                     <td>{car.modeOfVehicle}</td>
                     <td>{new Date(car.dateOfReception).toLocaleDateString()}</td>
                     <td>{car.depart}</td>
+                    <td>{car.destination}</td>
                     <td>
                       <label htmlFor="" className='edit-icon' onClick={() => handleEditClick(car)}>
                         <i className="fas fa-edit"></i> </label> 

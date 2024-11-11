@@ -1,6 +1,5 @@
 const express = require('express');
 const mongoose = require('mongoose');
-
 const router = express.Router();
 const jwt = require('jsonwebtoken'); 
 const JWT_SECRET = 'your_jwt_secret';// Ensure this is included
@@ -199,6 +198,8 @@ router.post('/fuel-recieved/:id', async (req, res) => {
 
     await forwardedData.save();
 
+     // Optionally, remove the approved request from the ApprovedRequest collection
+     await ApprovedFuelRequest.findByIdAndDelete(requestId);
     res.status(200).json(updatedRequisition);
   } catch (error) {
     console.error('Error verifying requisition:', error);

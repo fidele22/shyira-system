@@ -60,17 +60,6 @@ const FuelRequisitionForm = () => {
     }
   };
 
-  const handleUpdateQuantity = async () => {
-    try {
-      const updatedData = { ...selectedRequest, quantityReceived: quantityReceived };
-      const response = await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/userfuelrequest/${selectedRequest._id}`, updatedData);
-      setSelectedRequest(response.data);
-      alert('Quantity received updated successfully!');
-    } catch (error) {
-      console.error('Error updating quantity received:', error);
-      alert('Failed to update quantity received.');
-    }
-  };
 
  
   const handleCloseClick = () => {

@@ -187,7 +187,7 @@ const handleReceivedClick = async (requestId) => {
           {filteredRequests.slice().reverse().map((request, index) => (
             <li key={index}>
               <p onClick={() => handleRequestClick(request._id)}>
-                Requisition Form from <b>logistic office</b> order of FUEL done on {new Date(request.createdAt).toDateString()}
+                Requisition Form from <b>logistic office</b> for ordering items done on {new Date(request.createdAt).toDateString()}
                 <span className="status-badge">Approved</span>
               </p>
             </li>

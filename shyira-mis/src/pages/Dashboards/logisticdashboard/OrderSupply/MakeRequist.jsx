@@ -6,6 +6,7 @@ import ItemOrderStatus from './orderstatus';
 import ItemDecision from './RecievedOrder';
 import FuelFormOrder from './fuelorder';
 import FuelOrderApproved from './fuelOrderApproved';
+import MakeRepairRequisition from '../repairRequisition/repairRequisition'
 import SearchableDropdown from './searchable'; // Import the custom dropdown component
 import './makeRequist.css'; // Import CSS for styling
 
@@ -172,7 +173,10 @@ const LogisticRequestForm = () => {
         <button className='recieved-item' onClick={handleFuelOrderApprovedClick}>
           <i className="fas fa-edit"></i> Fuel Order Status
         </button>
-       
+
+        <button className='make-requisition' onClick={() => setActiveComponent('repair-requisition')}>
+          <i className="fas fa-edit"></i> Make repair Requisition
+        </button>
       </div>
 
       {activeComponent === 'status' ? (
@@ -183,6 +187,8 @@ const LogisticRequestForm = () => {
         <FuelFormOrder />
       ) : activeComponent === 'approved' ? (
         <FuelOrderApproved />
+      )  : activeComponent === 'repair-requisition' ? (
+        <MakeRepairRequisition />
       ) : (
         <div className="requestion">
           <h3>Make Requisition for Items</h3>
