@@ -135,6 +135,51 @@ router.post('/approved/:id', async (req, res) => {
   }
 });
 
+router.put('/rejected/:id', async (req, res) => {
+  try {
+  
+    const updateData = { ...req.body };
+    
+    // Ensure clicked field is updated
+    if (req.body.clicked !== undefined) {
+      updateData.clicked = req.body.clicked;
+    }
+
+    const updatedRequest = await ItemRequisitionVerified.findByIdAndUpdate(req.params.id);
+    if (!updatedRequest) {
+      return res.status(404).json({ message: 'Request not found' });
+    }
+
+    // Forward the updated request to another collection
+    const forwardData = {
+      userId: updatedRequest.userId,
+      department: updatedRequest.department,
+      items: updatedRequest.items.map(item => ({
+        itemId: item.itemId,
+        itemName: item.itemName,
+        quantityRequested: item.quantityRequested,
+        quantityReceived: item.quantityReceived,
+        observation: item.observation
+      })),
+      date: updatedRequest.date,
+      hodName: updatedRequest.hodName,
+      hodSignature: updatedRequest.hodSignature,
+      logisticName: updatedRequest.logisticName,
+      logisticSignature: updatedRequest.logisticSignature,
+   
+     // updatedAt: updatedRequest.updatedAt
+    };
+
+    const forwardedRequest = new ItemRequisitionRejected(forwardData);
+    await forwardedRequest.save();
+    
+        // Optionally, remove the user request from the UserRequest collection
+    await ItemRequisitionVerified.findByIdAndDelete(req.params.id);
+    res.json(updatedRequest);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 // Route to update and forward on another collection a fuel requisition by ID
 router.put('/updatefuel/:id', async (req, res) => {
   try {

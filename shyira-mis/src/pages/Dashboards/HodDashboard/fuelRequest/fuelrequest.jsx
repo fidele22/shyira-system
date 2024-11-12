@@ -28,9 +28,6 @@ const RequisitionForm = () => {
         const carResponse = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/forms-data/cars`);
         setCarOptions(carResponse.data);
 
-        // const reasonResponse = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/forms-data/reasons`);
-        // setReasonOptions(reasonResponse.data);
-
         const fuelResponse = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/fuel`);
         if (fuelResponse.data.length > 0) {
           setFuelType(fuelResponse.data[0].fuelType);
@@ -45,7 +42,7 @@ const RequisitionForm = () => {
 
   const fetchFuelBalance = async (type) => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/fuel/balance?fuelType=${type}`);
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/fuel?fuelType=${type}`);
       setAvailableBalance(response.data.quantity);
     } catch (error) {
       console.error('Error fetching fuel balance:', error);
@@ -70,11 +67,12 @@ const RequisitionForm = () => {
       alert("Please fill in all required fields.");
       return;
     }
+
     if (parseInt(quantityRequested) > availableBalance) {
       Swal.fire({
         icon: 'error',
         title: 'Insufficient Quantity',
-        text: `Requested quantity exceeds available stock. Available balance is ${availableBalance} liters.`,
+        text: `Requested quantity (${quantityRequested} liters) exceeds available stock of ${availableBalance} liters.`,
       });
       return;
     }
@@ -108,7 +106,7 @@ const RequisitionForm = () => {
         return;
       }
 
-      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/fuel-requisition/submit`, formData, {
+      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/fuel-requisition/submit`, formData, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',
@@ -266,18 +264,17 @@ const RequisitionForm = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="destination">Previous Destination Report:</label>
+            <label htmlFor="availableBalance">Available Balance:</label>
             <input
-              type="file"
-              id="destination"
-              onChange={handleFileChange}
+              type="number"
+              id="availableBalance"
+              value={availableBalance}
+              readOnly
               required
             />
           </div>
-        </div>
 
-        <div className="form-buttons">
-          <button type="submit">Submit Request</button>
+          <button type="submit" className="submit-btn">Submit</button>
         </div>
       </form>
     </div>
