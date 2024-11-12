@@ -58,8 +58,10 @@ const ApprovedRequests = () => {
     try {
       const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/UserRequest/rejected-user-request`);
      
-      setRequests(response.data);
-      setFilteredRequests(response.data); 
+        // Reverse the requests to have the latest rejections first
+    const reversedRequests = response.data.reverse();
+      setRequests(reversedRequests);
+      setFilteredRequests(reversedRequests); 
     } catch (error) {
       console.error('Error fetching approved requests:', error);
     }
@@ -175,7 +177,7 @@ const ApprovedRequests = () => {
 
       <div className="order-navigation">
         <ul>
-          {currentItems.slice().reverse().map((request, index) => (
+        {currentItems.map((request, index) => (
             <li key={index}>
               <p onClick={() => handleRequestClick(request._id)}>
               Requisition Form from department of <b>{request.department}</b> done on {new Date(request.createdAt).toDateString()}

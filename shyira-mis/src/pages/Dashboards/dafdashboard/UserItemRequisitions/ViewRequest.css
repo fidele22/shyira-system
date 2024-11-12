@@ -1,0 +1,77 @@
+/* makeRequist.css */
+
+.verified-requist {
+    font-family: Arial, sans-serif;
+    max-width:90%;
+    margin: 0 auto;
+    padding: 20px;
+   
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+  .requist h2{
+    padding: 20px;
+  }
+  .heading-title .title{
+    display: flex;
+  }
+  .heading-title .title h3{
+  padding: 10px;
+  }
+  .heading-title .title input{
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    width: 20%;
+    margin-top: 0%;
+  }
+  .done-date{
+    position: absolute;
+    top: 10%;
+    right: 10%;
+  }
+  /***************styling buttons***************/
+  .approve-request-btn{
+  font-size: 20px;
+  background-color: rgb(13, 84, 66);
+ 
+  }
+  .edit-btn{
+    background-color:black;
+    font-size: 20px;
+  }
+  .request-navigation p{
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    gap: 20px;
+    
+  }
+  .request-navigation li{
+   
+    display: flex;
+    gap: 20px;
+    
+  }
+  .request-navigation p:hover{
+    color: blue;
+  }
+  .request-navigation span{
+    color: red;
+    padding-left: 20px;
+  }
+  .request-navigation label{
+    color: rgb(10, 139, 31);
+  }
+  /*styling form*/
+  .daf-signature-section{
+    display: flex;
+    gap: 10rem;
+    margin-top: 4rem;
+  }
+  .daf-signature-section img{
+    max-width: 100px;
+    height: auto;
+  }
+ 

@@ -38,6 +38,7 @@ const ForwardedRequests = () => {
       const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/forwardedrequests/items`);
       setForwardedRequests(response.data);
       setRequests(response.data);
+      setFilteredRequests(response.data); 
     } catch (error) {
       console.error('Error fetching forwarded requests:', error);
     }
@@ -184,48 +185,53 @@ const ForwardedRequests = () => {
 });
   };
 
-  const handleRejectClick = async (requestId) => {
+  const handleRejectClick = async () => {
     Swal.fire({
       title: 'Are you sure?',
-      text: 'Do you want to reject this requisition? You will not be able to revert.',
+      text: 'Do you want to reject this requisition?',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#d33',
       cancelButtonColor: '#3085d6',
       confirmButtonText: 'Yes, reject it!',
-      customClass: {
-        popup: 'custom-swal', // Apply custom class to the popup
-      }
+      customClass: { popup: 'custom-swal' }
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/forwardedrequests/rejected/${requestId}`);
+          // Send request to backend to reject the requisition
+          await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/forwardedrequests/rejectedrequests`, {
+            requisitionId: selectedRequest._id
+          });
           Swal.fire({
-            title: 'Success!',
-            text: 'Requisition rejected successfully!',
+            title: 'Rejected',
+            text: 'The requisition has been rejected.',
             icon: 'success',
             confirmButtonText: 'OK',
             customClass: {
               popup: 'custom-swal', // Apply custom class to the popup
             }
           });
-          fetchForwardedRequests();
-          setSelectedRequest(null);
+        
+          fetchForwardedRequests(); // Refresh the list of forwarded requests
+          setSelectedRequest(null); // Deselect the rejected request
         } catch (error) {
-          console.error('Error rejecting request:', error);
+          console.error('Error rejecting requisition:', error);
+
           Swal.fire({
             title: 'Error!',
-            text: 'Failed to reject requisition',
+            text: 'Failed to reject requisition.',
             icon: 'error',
             confirmButtonText: 'OK',
             customClass: {
               popup: 'custom-swal', // Apply custom class to the popup
             }
           });
+     
         }
       }
     });
   };
+  
   // Function to generate and download PDF
   const downloadPDF = async () => {
     const input = document.getElementById('pdf-content');
@@ -402,7 +408,8 @@ const ForwardedRequests = () => {
                <div className="form-navigation">
                <button className='approve-request-btn' onClick={handleApproveSubmit}>Approve Request</button>
                <button className='request-edit-btn' onClick={handleEditClick}>Edit</button>
-               <button onClick={() => handleRejectClick(selectedRequest._id)} className="reject-btn">Reject </button>
+               <button onClick={handleRejectClick} className="reject-button">Reject request</button>
+
                <button className='request-dowload-btn' onClick={downloadPDF}>Download Pdf</button>
                <button></button>
              <label className='request-close-btn' onClick={() => setSelectedRequest(null)}><FaTimes /></label>
