@@ -331,7 +331,7 @@ const handleVerifySubmit = async () => {
   if (!user) return <p>Loading...</p>;
 
   return (
-    <div className={`requist ${selectedRequest ? 'dim-background' : ''}`}>
+    <div className={`request ${selectedRequest ? 'dim-background' : ''}`}>
 
 
       <form onSubmit={handleSearchSubmit}>
@@ -468,7 +468,7 @@ const handleVerifySubmit = async () => {
           <button className='verify-requisition' onClick={ handleVerifySubmit}>Verify Request</button>
           <button className='request-dowload-btn' onClick={downloadPDF}>Download Pdf</button>
           <button className='request-edit-btn' onClick={handleEditClick}>Edit</button>
-          <button onClick={() => handleRejectClick(selectedRequest._id)} className="reject-btn">Reject </button>
+          <button onClick={() => handleRejectClick(selectedRequest._id)} className="reject-button">Reject request </button>
           <button></button>
              <label className='request-close-btn' onClick={() => setSelectedRequest(null)}><FaTimes /></label>
           </div>
@@ -515,11 +515,11 @@ const handleVerifySubmit = async () => {
 
                 <div className="signature-section">
                   <div className="hod-signature">
-                  <label htmlFor="hodName">Name of head of {selectedRequest.department}:</label>
+                  <label className="signature-title">Name of head of {selectedRequest.department}:</label>
                     {selectedRequest.hodName && <p>{selectedRequest.hodName}</p>}
                     <label htmlFor="hodSignature">Signature:</label>
                     {selectedRequest.hodSignature ? (
-                      <img src={`${process.env.REACT_APP_BACKEND_URL}${selectedRequest.hodSignature}`} alt="HOD Signature" />
+                      <img src={`${process.env.REACT_APP_BACKEND_URL}${selectedRequest.hodSignature}`} alt="HOD Signature" className='signature-img'/>
                     ) : (
                       <p>No HOD signature available</p>
                     )}

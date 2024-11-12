@@ -94,28 +94,7 @@
   .remove-btn{
     background-color: rgb(218, 47, 47);
   }
-  .signature-section {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-top: 20px;
-    margin-left: 20px;
-    
-    
-  }
-  .signature-section input[type=text]{
-    width: 30%;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-  }
-  .signature{
-    flex: 1;
-    width:100px;
-    margin-right: 20px;
-    margin-bottom: 40px;
-  }
-  
+
   .logistician-sign input[type=text]{
     width: 50%;
   
@@ -123,11 +102,7 @@
   form h4{
     text-align: center;
   }
-  hr{
-    font-weight: 900;
-    border: 3px solid black;
-    
-  }
+
  
   @media (max-width: 600px) {
     .signature-section {

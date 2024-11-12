@@ -203,7 +203,7 @@ const handleRejectSubmit = async () => {
   if (!user) return <p>Loading...</p>;
 
   return (
-    <div className={`verified-requist ${selectedRequest ? 'dim-background' : ''}`}>
+    <div className={`request ${selectedRequest ? 'dim-background' : ''}`}>
 
       <div className="order-navigation">
         <div className="navigation-title">
@@ -343,7 +343,8 @@ const handleRejectSubmit = async () => {
                   <h3>Logistic Office</h3>
                   <label>Prepared By:</label>
                   <span>{selectedRequest.hodName || ''}</span><br />
-                  <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" />
+                  <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" 
+                  className='signature-img' />
                 
                     
                    

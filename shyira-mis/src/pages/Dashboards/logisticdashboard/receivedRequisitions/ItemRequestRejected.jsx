@@ -4,7 +4,7 @@ import { FaQuestionCircle, FaEdit, FaTimes, FaCheck, FaCheckCircle, FaCheckDoubl
 import axios from 'axios';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
-//import './approvedrequest.css'; // Import CSS for styling
+import '../contentCss/itemrequisition.css'
 
 const ApprovedRequests = () => {
   const [requests, setRequests] = useState([]);
@@ -148,9 +148,10 @@ const ApprovedRequests = () => {
  };
 
   return (
-    <div className="approved-requests-page">
-      <form onSubmit={handleSearchRequest} className="search-form">
-       <div className='search-department'>
+    <div className="request">
+        <form onSubmit={handleSearchRequest}>
+        <div className="search-form">
+        <div className='search-department'>
         <label htmlFor="">Search by department</label>
        <input
           type="text"
@@ -173,9 +174,14 @@ const ApprovedRequests = () => {
         </div>
         
         <button type="submit" className='search-btn'>Search</button>
+        </div>
+       
       </form>
 
       <div className="order-navigation">
+      <div className="navigation-title">
+        <h2>Requisition for items have been rejected</h2>
+        </div>
         <ul>
         {currentItems.map((request, index) => (
             <li key={index}>
@@ -197,7 +203,7 @@ const ApprovedRequests = () => {
 
       {selectedRequest && (
 
-        <div className="approved-request-overlay">
+        <div className="request-details-overlay">
 
          <div className="form-navigation">
          <button className='request-dowload-btn' onClick={downloadPDF}>Download Pdf</button>
@@ -213,7 +219,7 @@ const ApprovedRequests = () => {
             <h1>DISTRIC: NYABIHU</h1>
             <h1>HEALTH FACILITY: SHYIRA DISTRICT HOSPITAL</h1>
             <h1>DEPARTMENT: <span>{selectedRequest.department}</span> </h1>
-
+            <u><h2>REQUISITON FORM</h2></u>  
           </div>
          <table>
            <thead>
@@ -237,23 +243,27 @@ const ApprovedRequests = () => {
              ))}
            </tbody>
          </table>
-         <div className="approved-signature-section">
-           <div >
-             <h3>HOD Name:</h3>
+         <div className="signature-section">
+           <div className='hod-signature'>
+            <label className='signature-title'>Name of head of {selectedRequest.department}</label>
              <label>prepared By:</label> 
             <p>{selectedRequest.hodName}</p>
              {selectedRequest.hodSignature ? (
-               <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" />
+               <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" className='signature-img' />
              ) : (
                <p>No HOD signature available</p>
              )}
            </div>
-        
+         
          </div>
+         <div className='footer-img'>
+         <img src="/image/footerimg.png" alt="Logo" className="logo" />
+        </div>
          </div>
         
-        
+     
        </div>
+     
        </div>
    )}
 

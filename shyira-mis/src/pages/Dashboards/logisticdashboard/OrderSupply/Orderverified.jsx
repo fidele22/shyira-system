@@ -133,10 +133,13 @@ const ForwardedRequests = () => {
   if (!user) return <p>Loading...</p>;
 
   return (
-    <div className={`verified-requist ${selectedRequest ? 'dim-background' : ''}`}>
+    <div className={`request ${selectedRequest ? 'dim-background' : ''}`}>
      
-      <div className="verified-request-navigation">
-      <h2>List of logistic Requisition Verified</h2>
+      <div className="order-navigation">
+        <div className="navigation-title">
+        <h2>List of logistic Requisition Verified</h2>
+        </div>
+    
         <ul>
           {forwardedRequests.slice().reverse().map((request, index) => (
             <li key={index}>
@@ -191,15 +194,16 @@ const ForwardedRequests = () => {
                   </tbody>
                 </table>
 
-                <div className="daf-signature-section">
+                <div className="signature-section">
                   <div className='logistic-signature'>
                   <h3>Logistic Office:</h3>
                   <label htmlFor="">Prepared By:</label>
                     {logisticUsers.map(user => (
-                      <div key={user._id} className="logistic-user">
+                      <div key={user._id} className="logistic-signature">
                         <p>{user.firstName} {user.lastName}</p>
                         {user.signature ? (
-                          <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
+                          <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} 
+                          className='signature-img' />
                         ) : (
                           <p>No signature available</p>
                         )}
@@ -210,12 +214,15 @@ const ForwardedRequests = () => {
                     <h3>DAF Office:</h3>
                     <label htmlFor="">verified By</label>
                   <p>{user.firstName} {user.lastName}</p>
-                  {user.signature && <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt="Signature" />}
+                  {user.signature && <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt="Signature" 
+                  className='signature-img' />}
                   </div>
                   
                 </div>
                 <button className='edit-btn' onClick={handleEditClick}>Edit</button>
-                
+                <div className='footer-img'>
+                   <img src="/image/footerimg.png" alt="Logo" className="logo" />
+                </div>
 
 
             

@@ -153,7 +153,8 @@ const FuelRequisitionForm = () => {
                   <h3>Head Of department:</h3>
                   <label>Prepared By:</label>
                   <span>{selectedRequest.hodName || ''}</span>
-                  <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" />
+                  <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" 
+                  className='signature-img' />
                 </div>
                 <div className='logistic-signature'>
                   <h3>Logistic Office:</h3>
@@ -162,7 +163,8 @@ const FuelRequisitionForm = () => {
                     <div key={user._id} className="logistic-user">
                       <p>{user.firstName} {user.lastName}</p>
                       {user.signature ? (
-                        <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
+                        <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} 
+                        className='signature-img' />
                       ) : (
                         <p>No signature available</p>
                       )}
@@ -176,7 +178,8 @@ const FuelRequisitionForm = () => {
                     <div key={user._id} className="logistic-user">
                       <p>{user.firstName} {user.lastName}</p>
                       {user.signature ? (
-                        <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
+                        <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} 
+                        className='signature-img' />
                       ) : (
                         <p>No signature available</p>
                       )}

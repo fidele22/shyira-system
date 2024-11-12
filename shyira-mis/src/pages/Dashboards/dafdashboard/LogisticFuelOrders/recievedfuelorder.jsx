@@ -170,21 +170,23 @@ const ForwardedRequests = () => {
             </table>
 
             <div className="signature-section">
-              <div className="hod">
+              <div className="lodistic-signature">
                 <h4>Logistic Office</h4>
                 <label>Prepared By:</label>
                 <span>{selectedRequest.hodName || ''}</span><br />
-                <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" />
+                <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" 
+                className='signature-img' />
               </div>
 
               <div className='daf-signature'>
                 <h4>DAF Office:</h4>
                 <label htmlFor="">Approved By:</label>
                 {dafUsers.map(user => (
-                  <div key={user._id} className="daf-user">
+                  <div key={user._id} className="daf-signature">
                     <p>{user.firstName} {user.lastName}</p>
                     {user.signature ? (
-                      <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
+                      <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} 
+                      className='signature-img' />
                     ) : (
                       <p>No signature available</p>
                     )}
@@ -196,7 +198,8 @@ const ForwardedRequests = () => {
                 <h4>Logistic Office</h4>
                 <label>Received By:</label>
                 <span>{selectedRequest.hodName || ''}</span><br />
-                <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" />
+                <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" 
+                className='signature-img' />
               </div>
             </div>
           </div>

@@ -188,7 +188,7 @@ const ForwardedRequests = () => {
   const handleRejectClick = async () => {
     Swal.fire({
       title: 'Are you sure?',
-      text: 'Do you want to reject this requisition?',
+      text: 'Do you want to reject this requisition? you will not be able to revert!',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#d33',
@@ -460,25 +460,25 @@ const ForwardedRequests = () => {
 
                 <div className="signature-section">
                 <div className="hod-signature">
-                <label htmlFor="hodName">Name of head of {selectedRequest.department}:</label>
+                <label className='signature-title'>Name of head of {selectedRequest.department}:</label>
                   <label htmlFor="">Prepared By:</label>
                      <p >{selectedRequest.hodName}</p>
               
                     {selectedRequest.hodSignature ? (
-                      <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" />
+                      <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" className='signature-img' />
                     ) : (
                       <p>No HOD signature available</p>
                     )}
 
                   </div>
                   <div className='logistic-signature'>
-                  <label>Logistic Office:</label>
+                  <label className='signature-title'>Logistic Office:</label>
                   <label htmlFor="">verified By:</label>
                     {logisticUsers.map(user => (
                       <div key={user._id} className="logistic-user">
                         <p>{user.firstName} {user.lastName}</p>
                         {user.signature ? (
-                          <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`}  />
+                          <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} className='signature-img' />
                         ) : (
                           <p>No signature available</p>
                         )}

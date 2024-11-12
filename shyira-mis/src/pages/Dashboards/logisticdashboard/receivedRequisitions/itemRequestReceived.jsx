@@ -4,7 +4,7 @@ import { FaQuestionCircle, FaEdit, FaTimes, FaCheck, FaCheckCircle, FaCheckDoubl
 import axios from 'axios';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
-//import './approvedrequest.css'; // Import CSS for styling
+import '../contentCss/itemrequisition.css'
 
 const ApprovedRequests = () => {
   const [requests, setRequests] = useState([]);
@@ -149,10 +149,11 @@ const ApprovedRequests = () => {
 
 
   return (
-    <div className="approved-requests-page">
+    <div className="request">
     
-      <form onSubmit={handleSearchRequest} className="search-form">
-       <div className='search-department'>
+      <form onSubmit={handleSearchRequest}>
+        <div className="search-form">
+        <div className='search-department'>
         <label htmlFor="">Search by department</label>
        <input
           type="text"
@@ -175,6 +176,8 @@ const ApprovedRequests = () => {
         </div>
         
         <button type="submit" className='search-btn'>Search</button>
+        </div>
+       
       </form>
 
       <div className="order-navigation">
@@ -201,7 +204,7 @@ const ApprovedRequests = () => {
 
       {selectedRequest && (
 
-        <div className="approved-request-overlay">
+        <div className="request-details-overlay">
 
          <div className="form-navigation">
          <button className='request-dowload-btn' onClick={downloadPDF}>Download Pdf</button>
@@ -217,8 +220,9 @@ const ApprovedRequests = () => {
             <h1>DISTRIC: NYABIHU</h1>
             <h1>HEALTH FACILITY: SHYIRA DISTRICT HOSPITAL</h1>
             <h1>DEPARTMENT: <span>{selectedRequest.department}</span> </h1>
-
+            <u><h2>REQUISITON FORM</h2></u>  
           </div>
+
          <table>
            <thead>
              <tr>
@@ -241,25 +245,25 @@ const ApprovedRequests = () => {
              ))}
            </tbody>
          </table>
-         <div className="approved-signature-section">
-           <div >
-             <h3>HOD Name:</h3>
+         <div className="signature-section">
+         <div className='hod-signature'>
+         <label className='signature-title'>Name of head of {selectedRequest.department}</label>
              <label>prepared By:</label> 
             <p>{selectedRequest.hodName}</p>
              {selectedRequest.hodSignature ? (
-               <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" />
+               <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" className='signature-img'/>
              ) : (
                <p>No HOD signature available</p>
              )}
            </div>
            <div className='logistic-signature'>
-                  <h3>Logistic Office:</h3>
-                  <label htmlFor="">Verified By:</label>
                     {logisticUsers.map(user => (
-                      <div key={user._id} className="logistic-user">
+                      <div key={user._id} className="logistic-signature">
+                         <label className='signature-title'>Logistic Office</label>
+                         <label htmlFor="">Verified By:</label>
                         <p>{user.firstName} {user.lastName}</p>
                         {user.signature ? (
-                          <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
+                          <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt="signature" className='signature-img' />
                         ) : (
                           <p>No signature available</p>
                         )}
@@ -267,32 +271,36 @@ const ApprovedRequests = () => {
                     ))}
                   </div>
          <div className="daf-signature">
-         <h3>DAF:</h3>
-         <label htmlFor="">Approved By:</label>
          {dafUsers.map(user => (
-                      <div key={user._id} className="logistic-user">
+                      <div key={user._id} className="daf-signature">
+                        <label className='signature-title'>DAF</label>
+                        <label htmlFor="">Approved By:</label>
                         <p>{user.firstName} {user.lastName}</p>
                         {user.signature ? (
-                          <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
+                          <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt="signature" className='signature-img' />
                         ) : (
                           <p>No signature available</p>
                         )}
                       </div>
                     ))}
           </div>  
-          <div className="received-signature">
-          <div >
-             <h3>HOD Name:</h3>
+        
+          <div className='hod-signature'>
+          <label className='signature-title'>Name of head of {selectedRequest.department}</label>
              <label>Recieved By:</label> 
             <p>{selectedRequest.hodName}</p>
              {selectedRequest.hodSignature ? (
-               <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" />
+               <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" 
+               className='signature-img' />
              ) : (
                <p>No HOD signature available</p>
              )}
            </div>
-            </div>       
+                
          </div>
+         <div className='footer-img'>
+         <img src="/image/footerimg.png" alt="Logo" className="logo" />
+        </div>
          </div>
         
         

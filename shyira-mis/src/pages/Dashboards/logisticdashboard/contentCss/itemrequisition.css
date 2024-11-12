@@ -1,7 +1,7 @@
 
 /******************* styling requisition receiced form**/
 /* General styling */
-.requist {
+.request {
     padding: 20px;
     background-color: white;
   }
@@ -10,7 +10,7 @@
     height: 100px;
     display: flex;
 }
-  .search-department input[type='text']{
+.search-department input[type='text']{
   height: 50px;
   font-size: 20px;
   border-top: none;
@@ -168,8 +168,20 @@
 /*******signatures styling****************/
 .signature-section{   
     display: flex;
+    gap: 10px;
+
 }
-.hod-signature{
+.signature-section div{
+    padding: 10px; 
+}
+.signature-title{
+    font-size: 16px;
+    color:rgb(31, 30, 30);
+}
+.signature-img{
+  width: 150px;
+}
+.hod-signature,.daf-signature,.logistic-signature{
     padding: 0;
 }
 

@@ -146,42 +146,9 @@ table tr:hover {
 .remove-btn{
   background-color: rgb(218, 47, 47);
 }
-.signature-section {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-top: 20px;
-  margin-left: 20px;
-  
-  
-}
-.signature-section input[type=text]{
-  width: 30%;
-  border-top: none;
-  border-left: none;
-  border-right: none;
-}
-.sign{
-  flex: 1;
-  width:300px;
-  margin-right: 20px;
-  margin-bottom: 40px;
 
-}
-.sign img{
-  width: 120px;
-}
-.logistician-sign input[type=text]{
-  width: 50%;
-
-}
 form h4{
   text-align: center;
-}
-hr{
-  font-weight: 900;
-  border: 3px solid black;
-  
 }
 
 

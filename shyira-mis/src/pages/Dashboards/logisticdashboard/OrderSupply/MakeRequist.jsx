@@ -256,13 +256,17 @@ const LogisticRequestForm = () => {
                 ))}
               </tbody>
             </table>
-            <div className='sign'>
+            <div className='signature-section'>
+              
+              <div className='logistic-signature'>
+              <label className='signature-title'>Logistic Office:</label>
               <label htmlFor="hodName">Prepared By:</label>
               {user ? (
                 <>
                   <p>{user.firstName} {user.lastName}</p>
                   {user.signature ? (
-                    <img src={`http://localhost:5000/${user.signature}`} alt="Signature" />
+                    <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt="Signature" 
+                    className='signature-img' />
                   ) : (
                     <p>No signature available</p>
                   )}
@@ -270,6 +274,8 @@ const LogisticRequestForm = () => {
               ) : (
                 <p>Loading user profile...</p>
               )}
+              </div>
+            
             </div>
 
          
@@ -281,26 +287,6 @@ const LogisticRequestForm = () => {
        </div>  
          )}
 
-        {/* Modal pop message on success or error message */}
-     {showModal && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            {isSuccess ? (
-              <div className="modal-success">
-                <FaCheckCircle size={54} color="green" />
-                <p>{modalMessage}</p>
-              </div>
-            ) : (
-              <div className="modal-error">
-                <FaTimesCircle size={54} color="red" />
-                <p>{modalMessage}</p>
-              </div>
-            )}
-            <button onClick={() => setShowModal(false)}>Close</button>
-          </div>
-        </div>
-      )}
-   
     </div>
   );
 };

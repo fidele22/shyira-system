@@ -101,25 +101,34 @@ const ApprovedRequests = () => {
     }
   };
 
-  const downloadPDF = async () => {
-    const input = document.getElementById('pdf-content');
-    if (!input) {
-      console.error('Element with ID pdf-content not found');
-      return;
-    }
-    try {
-      const canvas = await html2canvas(input);
-      const data = canvas.toDataURL('image/png');
-      const pdf = new jsPDF();
-      const imgWidth = pdf.internal.pageSize.getWidth();
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+ // Function to generate and download PDF
+ const downloadPDF = async () => {
+  const input = document.getElementById('pdf-content');
+  if (!input) {
+    console.error('Element with ID pdf-content not found');
+    return;
+  }
 
-      pdf.addImage(data, 'PNG', 10, 10, imgWidth - 20, imgHeight);
-      pdf.save('requisition-form.pdf');
-    } catch (error) {
-      console.error('Error generating PDF:', error);
-    }
-  };
+  try {
+    // Use html2canvas to capture the content of the div, including the image signatures
+    const canvas = await html2canvas(input, {
+      allowTaint: true,
+      useCORS: true, // This allows images from different origins to be included in the canvas
+    });
+
+    const data = canvas.toDataURL('image/png');
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    const imgProps = pdf.getImageProperties(data);
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+    // Add the image content into the PDF and download
+    pdf.addImage(data, 'PNG', 10, 10, pdfWidth - 20, pdfHeight); // Adjust the margins if needed
+    pdf.save('logistic-requisition-recieved.pdf');
+  } catch (error) {
+    console.error('Error generating PDF:', error);
+  }
+};
 
   // Pagination helpers
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -191,7 +200,7 @@ const ApprovedRequests = () => {
       </div>
 
       {selectedRequest && (
-        <div className="approved-request-overlay">
+        <div className="request-details-overlay">
           <div className="form-navigation">
             <button className='request-dowload-btn' onClick={downloadPDF}>Download Pdf</button>
             <label className='request-close-btn' onClick={() => setSelectedRequest(null)}><FaTimes /></label>
@@ -231,44 +240,44 @@ const ApprovedRequests = () => {
                   ))}
                 </tbody>
               </table>
-              <div className="approved-signature-section">
-                <div className='logistic-signature'>
-                  <h3>Logistic Office:</h3>
-                  <label htmlFor="">Prepared By:</label>
-                  {logisticUsers.map(user => (
-                    <div key={user._id} className="logistic-user">
-                      <p>{user.firstName} {user.lastName}</p>
-                      {user.signature ? (
-                        <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
-                      ) : (
-                        <p>No signature available</p>
-                      )}
-                    </div>
-                  ))}
-                </div>
-
+              <div className="signature-section">
+              <div className='logistic-signature'>
+                    {logisticUsers.map(user => (
+                      <div key={user._id} className="logistic-signature">
+                         <label className='signature-title'>Logistic Office</label>
+                         <label htmlFor="">Verified By:</label>
+                        <p>{user.firstName} {user.lastName}</p>
+                        {user.signature ? (
+                          <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt="signature" className='signature-img' />
+                        ) : (
+                          <p>No signature available</p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+         <div className="daf-signature">
+         {dafUsers.map(user => (
+                      <div key={user._id} className="daf-signature">
+                        <label className='signature-title'>DAF</label>
+                        <label htmlFor="">Approved By:</label>
+                        <p>{user.firstName} {user.lastName}</p>
+                        {user.signature ? (
+                          <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt="signature" className='signature-img' />
+                        ) : (
+                          <p>No signature available</p>
+                        )}
+                      </div>
+                    ))}
+                </div>  
                 <div className='daf-signature'>
-                  <h3>DAF Office:</h3>
-                  <label htmlFor="">Verified By:</label>
-                  {dafUsers.map(user => (
-                    <div key={user._id} className="daf-user">
-                      <p>{user.firstName} {user.lastName}</p>
-                      {user.signature ? (
-                        <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
-                      ) : (
-                        <p>No signature available</p>
-                      )}
-                    </div>
-                  ))}
-                </div>
-                <div className='daf-signature'>
-                  <h3>DG Office:</h3>
-                  <label htmlFor="">Approved By:</label>
                   {dgUsers.map(user => (
-                    <div key={user._id} className="daf-user">
+                    <div key={user._id} className="daf-signature">
+                       <label className='signature-title'>DG</label>
+                      <label htmlFor="">Approved By:</label>
                       <p>{user.firstName} {user.lastName}</p>
                       {user.signature ? (
-                        <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
+                        <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} 
+                        className='signature-img' />
                       ) : (
                         <p>No signature available</p>
                       )}
@@ -276,19 +285,24 @@ const ApprovedRequests = () => {
                   ))}
                 </div>
                 <div className='logistic-signature'>
-                  <h3>Logistic Office:</h3>
-                  <label htmlFor="">Received By:</label>
                   {logisticUsers.map(user => (
-                    <div key={user._id} className="logistic-user">
+                    <div key={user._id} className="logistic-signature">
+                        <label className='signature-title'>Logistic Office:</label>
+                        <label htmlFor="">Received By:</label>
                       <p>{user.firstName} {user.lastName}</p>
                       {user.signature ? (
-                        <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
+                        <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`}
+                         className='signature-img' />
                       ) : (
                         <p>No signature available</p>
                       )}
                     </div>
                   ))}
                   </div>
+                 
+                </div>
+                <div className='footer-img'>
+                   <img src="/image/footerimg.png" alt="Logo" className="logo" />
                 </div>
           </div>
         </div>

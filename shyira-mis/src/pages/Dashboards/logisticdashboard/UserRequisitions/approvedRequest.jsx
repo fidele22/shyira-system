@@ -4,7 +4,7 @@ import { FaQuestionCircle, FaEdit, FaTimes, FaCheck, FaCheckCircle, FaCheckDoubl
 import axios from 'axios';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
-import './approvedrequest.css'; // Import CSS for styling
+import '../contentCss/itemrequisition.css'
 
 const ApprovedRequests = () => {
   const [requests, setRequests] = useState([]);
@@ -120,8 +120,9 @@ const ApprovedRequests = () => {
 
   return (
     <div className="approved-requests-page">
-      <h4>Approved user's Requesition  for item</h4>
-      <form onSubmit={handleSearchRequest} className="search-form">
+     
+      <form onSubmit={handleSearchRequest} >
+        <div className="search-form">
        <div className='search-department'>
         <label htmlFor="">Search by department</label>
        <input
@@ -145,24 +146,34 @@ const ApprovedRequests = () => {
         </div>
         
         <button type="submit" className='search-btn'>Search</button>
+        </div>
       </form>
 
-      <div className="approved-navigate-request">
+      <div className="order-navigation">
+        <div className="navigation-title">
+        <h2>Approved user's Requesition  for item</h2>
+        </div>
+
+        {filteredRequests.length > 0 ? (
         <ul>
           {filteredRequests.slice().reverse().map((request, index) => (
             <li key={index}>
               <p onClick={() => handleRequestClick(request._id)}>
               Requisition Form from department of <b>{request.department}</b> done on {new Date(request.createdAt).toDateString()}
-             {/*<span>{request.clicked ? '' : 'New Request: '}</span>*/}  <label htmlFor=""><FaCheckCircle/> Approved</label>
+         <span className='status-approved'><FaCheckCircle/> Approved</span>
             </p>
             </li>
           ))}
         </ul>
+
+      ) : (
+  <p>No requests found for the given search criteria.</p>
+)}
       </div>
 
       {selectedRequest && (
 
-        <div className="approved-request-overlay">
+        <div className="request-details-overlay">
          <div className="form-navigation">
          
        
@@ -182,7 +193,7 @@ const ApprovedRequests = () => {
             <h1>DISTRIC: NYABIHU</h1>
             <h1>HEALTH FACILITY: SHYIRA DISTRICT HOSPITAL</h1>
             <h1>DEPARTMENT: <span>{selectedRequest.department}</span>  </h1>
-
+            <u><h2>REQUISITON FORM</h2></u>  
           </div>
          <table>
            <thead>
@@ -206,25 +217,25 @@ const ApprovedRequests = () => {
              ))}
            </tbody>
          </table>
-         <div className="approved-signature-section">
-           <div >
-             <h3>HOD Name:</h3>
+         <div className="signature-section">
+           <div className='hod-signature'>
+            <label className='signature-title'>Name of head of {selectedRequest.department}</label>
              <label>prepared By:</label> 
             <p>{selectedRequest.hodName}</p>
              {selectedRequest.hodSignature ? (
-               <img src={`http://localhost:5000/${selectedRequest.hodSignature}`} alt="HOD Signature" />
+               <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" className='signature-img' />
              ) : (
                <p>No HOD signature available</p>
              )}
            </div>
            <div className='logistic-signature'>
-                  <h3>Logistic Office:</h3>
-                  <label htmlFor="">Verified By:</label>
                     {logisticUsers.map(user => (
-                      <div key={user._id} className="logistic-user">
+                      <div key={user._id} className="logistic-signature">
+                         <label className='signature-title'>Logistic Office</label>
+                         <label htmlFor="">Verified By:</label>
                         <p>{user.firstName} {user.lastName}</p>
                         {user.signature ? (
-                          <img src={`http://localhost:5000/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
+                          <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt="signature" className='signature-img' />
                         ) : (
                           <p>No signature available</p>
                         )}
@@ -232,19 +243,19 @@ const ApprovedRequests = () => {
                     ))}
                   </div>
          <div className="daf-signature">
-         <h3>DAF:</h3>
-         <label htmlFor="">Approved By:</label>
          {dafUsers.map(user => (
-                      <div key={user._id} className="logistic-user">
+                      <div key={user._id} className="daf-signature">
+                        <label className='signature-title'>DAF</label>
+                        <label htmlFor="">Approved By:</label>
                         <p>{user.firstName} {user.lastName}</p>
                         {user.signature ? (
-                          <img src={`http://localhost:5000/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
+                          <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt="signature" className='signature-img' />
                         ) : (
                           <p>No signature available</p>
                         )}
                       </div>
                     ))}
-          </div>         
+          </div>  
          </div>
          </div>
         

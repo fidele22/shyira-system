@@ -197,7 +197,7 @@ const handleReceivedClick = async (requestId) => {
       </div>
      
       {selectedRequest && (
-        <div className="approved-request-overlay">
+        <div className="request-details-overlay">
           <div className="form-navigation">
             <button className='request-dowload-btn' onClick={downloadPDF}>Download Pdf</button>
             <button className='mark-received-btn' onClick={handleReceivedClick}>Mark as Received</button> 
@@ -237,15 +237,16 @@ const handleReceivedClick = async (requestId) => {
                   ))}
                 </tbody>
               </table>
-              <div className="approved-signature-section">
+              <div className="signature-section">
                 <div className='logistic-signature'>
-                  <h3>Logistic Office:</h3>
-                  <label htmlFor="">Prepared By:</label>
                   {logisticUsers.map(user => (
-                    <div key={user._id} className="logistic-user">
+                    <div key={user._id} className="logistic-signature">
+                      <label className='signature-title'>Logistic Office:</label>
+                      <label htmlFor="">Prepared By:</label>
                       <p>{user.firstName} {user.lastName}</p>
                       {user.signature ? (
-                        <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
+                        <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`}
+                        className='signature-img' />
                       ) : (
                         <p>No signature available</p>
                       )}
@@ -254,13 +255,16 @@ const handleReceivedClick = async (requestId) => {
                 </div>
 
                 <div className='daf-signature'>
-                  <h3>DAF Office:</h3>
-                  <label htmlFor="">Verified By:</label>
+                 
+                 
                   {dafUsers.map(user => (
-                    <div key={user._id} className="daf-user">
+                    <div key={user._id} className="daf-signature">
+                      <label className='signature-title'> DAF Office:</label>
+                      <label htmlFor="">Verified By:</label>
                       <p>{user.firstName} {user.lastName}</p>
                       {user.signature ? (
-                        <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
+                        <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} 
+                        className='signature-img' />
                       ) : (
                         <p>No signature available</p>
                       )}
@@ -268,13 +272,14 @@ const handleReceivedClick = async (requestId) => {
                   ))}
                 </div>
                 <div className='daf-signature'>
-                  <h3>DG Office:</h3>
-                  <label htmlFor="">Approved By:</label>
                   {dgUsers.map(user => (
-                    <div key={user._id} className="daf-user">
+                    <div key={user._id} className="daf-signature">
+                        <label className='signature-title'> DG Office:</label>
+                        <label htmlFor="">Approved By:</label>
                       <p>{user.firstName} {user.lastName}</p>
                       {user.signature ? (
-                        <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
+                        <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} 
+                        className='signature-img' />
                       ) : (
                         <p>No signature available</p>
                       )}
@@ -282,25 +287,11 @@ const handleReceivedClick = async (requestId) => {
                   ))}
                 </div>
 
-                {/* File Attachment Section 
-                <div className="file-attachments">
-                  <h3>File Attachments:</h3>
-                  <div {...getRootProps({ className: 'dropzone' })}>
-                    <input {...getInputProps()} />
-                    <p>Drag 'n' drop some files here, or click to select files</p>
-                  </div>
-                  <ul>
-                    {fileAttachments.map((file, index) => (
-                      <li key={index}>
-                        <a href={`http://localhost:5000/${file.path}`} target="_blank" rel="noopener noreferrer">
-                          {file.originalname}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                */}
+             
               </div>
+              <div className='footer-img'>
+                   <img src="/image/footerimg.png" alt="Logo" className="logo" />
+                </div>
             </div> 
           </div> 
         </div> 
