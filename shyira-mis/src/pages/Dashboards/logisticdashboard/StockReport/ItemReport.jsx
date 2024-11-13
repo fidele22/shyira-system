@@ -142,7 +142,41 @@ const monthNames = [
 const formattedMonth = monthNames[month - 1];
 const reportTitle = `RAPORO YA STOCK Y'IBIKORESHO BYO MUBIRO UKWEZI KWA ${formattedMonth} ${year}`;
 
-//dowload file
+//download excel file 
+const downloadExcel = () => {
+  const table = document.getElementById("report-content");
+
+  // Check if the table exists
+  if (!table) {
+    console.error('Table with ID report-content not found');
+    return;
+  }
+
+  // Create a new workbook
+  const wb = XLSX.utils.book_new();
+
+  // Prepare the title row with the reportTitle
+  const reportTitle = `RAPORO YA STOCK Y'IBIKORESHO BYO MUBIRO UKWEZI KWA ${monthNames[month - 1]} ${year}`;
+  const titleRow = [ [reportTitle] ]; // Title row as an array
+
+  // Convert the table to a worksheet
+  const ws = XLSX.utils.table_to_sheet(table);
+
+  // Prepend the title row to the worksheet
+  const wsWithTitle = XLSX.utils.aoa_to_sheet([ ...titleRow, ...XLSX.utils.sheet_to_json(ws, { header: 1 }) ]);
+
+  // Append the worksheet to the workbook
+  XLSX.utils.book_append_sheet(wb, wsWithTitle, "Stock History");
+
+  // Set a meaningful file name
+  const fileName = `Stock_History_${year}_${monthNames[month - 1]}.xlsx`;
+
+  // Trigger the download
+  XLSX.writeFile(wb, fileName);
+};
+
+
+//dowload pdf file
 const downloadPDF = async () => {
   const input = document.getElementById('report-content');
   if (!input) {
@@ -160,7 +194,7 @@ const downloadPDF = async () => {
      }); // Increase scale for better quality
     const data = canvas.toDataURL('image/png');
     
-    const pdf = new jsPDF('p', 'mm', 'a4'); // Define page size and orientation
+    const pdf = new jsPDF('l', 'mm', 'a4'); // Define page size and orientation
     const imgProps = pdf.getImageProperties(data);
     const pdfWidth = pdf.internal.pageSize.getWidth();
     const pdfHeight = pdf.internal.pageSize.getHeight();
@@ -298,15 +332,19 @@ const downloadPDF = async () => {
         </tfoot>
       </table>
       <div className="report-footer">
+        <div className='logistic-office'>
       <p>prepared by: </p>
       <h4>AMINI ABEDI</h4>
       <h4>LOGISTIC OFFICER</h4>
+        </div>
+    
       </div>
       <div className='footer-img'>
          <img src="/image/footerimg.png" alt="Logo" className="logo" />
          </div>
   </div>
       <button className='download-history-btn' onClick={downloadPDF}>Download Report Pdf</button>
+      <button className='download-exl-btn' onClick={downloadExcel}>Export excel file</button>
     </div>
     </div>
   );

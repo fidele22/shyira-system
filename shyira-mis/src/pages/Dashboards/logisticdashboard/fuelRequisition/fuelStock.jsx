@@ -129,77 +129,111 @@ const FuelStockList = () => {
       return;
     }
   
-    const worksheet = XLSX.utils.json_to_sheet(allFilteredHistory);
+    // Transform the data into a flat structure
+    const transformedData = allFilteredHistory.map(record => ({
+      lastUpdated: new Date(record.updatedAt).toLocaleString(), // Format date as needed
+      carplaque: record.carplaque,
+      entryQuantity: record.entry.quantity,
+      entryPricePerUnit: record.entry.pricePerUnit,
+      entryTotalAmount: record.entry.totalAmount,
+      exitQuantity: record.exit.quantity,
+      exitPricePerUnit: record.exit.pricePerUnit,
+      exitTotalAmount: record.exit.totalAmount,
+      balanceQuantity: record.balance.quantity,
+      balancePricePerUnit: record.balance.pricePerUnit,
+      balanceTotalAmount: record.balance.totalAmount,
+    }));
+  
+    // Create a new workbook
     const workbook = XLSX.utils.book_new();
+    // Create the title rows
+
+    const titleRows = [
+
+      ["REPUBLIC OF RWANDA"],
+  
+      ["NYABIHU DISTRICT"],
+  
+      ["SHYIRA DISTRICT HOSPITAL"],
+  
+      ["BP S6 MUSANZE"],
+  
+      [""], // Empty row for spacing
+  
+      ["Store Card for Fuel cards"],
+  
+      [""], // Empty row for spacing
+  
+    ];
+  
+    // Create the header rows
+    const headerRow1 = [
+      "Last Updated", 
+      "Car Plaque", 
+      "Entry ", 
+      "", 
+      "", 
+      "Exit", 
+      "", 
+      "", 
+      "Balance", 
+      "", 
+      ""
+    ];
+  
+    const headerRow2 = [
+      "", // Placeholder for Last Updated
+      "", // Placeholder for Car Plaque
+      "Quantity", 
+      "Price Per Unit", 
+      "Total Amount", 
+      "Quantity", 
+      "Price Per Unit", 
+      "Total Amount", 
+      "Quantity", 
+      "Price Per Unit", 
+      "Total Amount"
+    ];
+  
+    // Create a worksheet with the headers
+    const worksheetData = [ ...titleRows,headerRow1, headerRow2, ...transformedData.map(record => [
+      record.lastUpdated,
+      record.carplaque,
+      record.entryQuantity,
+      record.entryPricePerUnit,
+      record.entryTotalAmount,
+      record.exitQuantity,
+      record.exitPricePerUnit,
+      record.exitTotalAmount,
+      record.balanceQuantity,
+      record.balancePricePerUnit,
+      record.balanceTotalAmount,
+    ])];
+  
+    const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
+  
+    // Set the column widths for better readability
+    worksheet['!cols'] = [
+      { wpx: 120 }, // Last Updated
+      { wpx: 100 }, // Car Plaque
+      { wpx: 80 },  // Entry Quantity
+      { wpx: 80 },  // Entry Price Per Unit
+      { wpx: 80 },  // Entry Total Amount
+      { wpx: 80 },  // Exit Quantity
+      { wpx: 80 },  // Exit Price Per Unit
+      { wpx: 80 },  // Exit Total Amount
+      { wpx: 80 },  // Balance Quantity
+      { wpx: 80 },  // Balance Price Per Unit
+      { wpx: 80 },  // Balance Total Amount
+    ];
+  
+    // Append the worksheet to the workbook
     XLSX.utils.book_append_sheet(workbook, worksheet, "Fuel Stock History");
+  
+    // Write the file
     XLSX.writeFile(workbook, "fuel_stock_history.xlsx");
   };
-  
-
-  const downloadPDF = async () => {
-    const allFilteredData = await fetchFilteredData(startDate, endDate);
-  
-    if (allFilteredData.length === 0) {
-      return;
-    }
-  
-    // Create a dynamic table using the filtered data
-    const tableContent = allFilteredData.map((record) => (
-      `<tr>
-        <td>${new Date(record.updatedAt).toLocaleString()}</td>
-        <td>${record.carplaque}</td>
-        <td>${record.entry.quantity}</td>
-        <td>${record.entry.pricePerUnit}</td>
-        <td>${record.entry.totalAmount}</td>
-        <td>${record.exit.quantity}</td>
-        <td>${record.exit.pricePerUnit}</td>
-        <td>${record.exit.totalAmount}</td>
-        <td>${record.balance.quantity}</td>
-        <td>${record.balance.pricePerUnit}</td>
-        <td>${record.balance.totalAmount}</td>
-      </tr>`
-    )).join('');
-  
-    // Create the table as HTML content
-    const tableHTML = `
-      <div id="pdf-table">
-        <h2>Fuel Stock History</h2>
-        <table border="1" cellpadding="5" cellspacing="0" style="width: 100%; text-align: left;">
-          <thead>
-            <tr>
-              <th>Last Updated</th>
-              <th>Car Plaque</th>
-              <th>Entry Quantity</th>
-              <th>Entry Price/Unit</th>
-              <th>Entry Total Amount</th>
-              <th>Exit Quantity</th>
-              <th>Exit Price/Unit</th>
-              <th>Exit Total Amount</th>
-              <th>Balance Quantity</th>
-              <th>Balance Price/Unit</th>
-              <th>Balance Total Amount</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${tableContent}
-          </tbody>
-        </table>
-      </div>
-    `;
-  
-    // Create a new window or div to hold the table
-    const pdfWindow = window.open('', '', 'width=900,height=600');
-    pdfWindow.document.write(tableHTML);
-    
-    // Use html2pdf.js to generate the PDF from the HTML content
-    setTimeout(() => {
-      html2pdf()
-        .from(pdfWindow.document.body)
-        .save('fuel_stock_history.pdf')
-        .then(() => pdfWindow.close());
-    }, 1000);
-  };
-  
+ 
 
   const handleFilter = () => {
 
@@ -276,7 +310,7 @@ const FuelStockList = () => {
 
 <input type="date" id="endDate" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
 
-<button onClick={handleFilter}>Filter</button>
+<button onClick={handleFilter}>GENERATE</button>
          </div>
          
        
@@ -286,8 +320,8 @@ const FuelStockList = () => {
           {/* Download Buttons */}
           
           <div className="download-buttons">
-          <button onClick={downloadPDF}>Download PDF</button>
-          <button onClick={downloadExcel}>Download Excel</button>
+       
+          <button className='download-exl-btn' onClick={downloadExcel}>Download Excel</button>
           
           </div>
 
