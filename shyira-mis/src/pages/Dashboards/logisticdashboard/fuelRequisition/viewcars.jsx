@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import { FaEdit, FaTrash,FaTimes } from 'react-icons/fa';
+import Swal from 'sweetalert2';
 import AddNewCar from './addcarplaque'
 function CarList() {
     const [cars, setCars] = useState([]);
     const [editCarId, setEditCarId] = useState(null);
+    const [notification, setNotification] = useState('');
     const [showAddCarForm, setShowAddCarForm] = useState(false); 
     const [formData, setFormData] = useState({
       registerNumber: '',
@@ -29,14 +31,38 @@ function CarList() {
     };
   
     const handleDelete = async (id) => {
+      const { value: isConfirmed } = await Swal.fire({
+  
+        title: 'Are you sure?',
+        text: "You won't be able to recover this item!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, delete it!', 
+        customClass: {
+          popup: 'custom-swal', // Apply custom class to the popup
+        }
+  
+      });
+  
+    if (isConfirmed) {
       try {
+      
         await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/forms-data/cars/${id}`, {
           method: 'DELETE'
         });
+        setNotification('Car deleted successfully!'); // Set notification message
+        // Auto-remove notification after 3 seconds
+        setTimeout(() => {
+          setNotification('');
+        }, 3000);
+
         fetchCars(); // Refresh car list after deletion
       } catch (error) {
         console.error('Error deleting car:', error);
       }
+    }
     };
   
     const handleEditClick = (car) => {
@@ -77,7 +103,17 @@ function CarList() {
     return (
       <div className='veiw-car-info'>
 
+      {/* Notification Component */}
+      {notification && (
+   <div className="notification">
+       {notification}
+    </div>
 
+)}
+           <div className='add-item'>
+              <button className='add-new-user-btn' onClick={() => setShowAddCarForm(true)}>Register new car</button>
+          
+             </div>
         {editCarId ? (
           <form onSubmit={handleEditSubmit} className='addcar'>
             <h2>Edit car information</h2>
@@ -138,10 +174,7 @@ function CarList() {
           cars.length > 0 ? (
             <div className="car-info">
               <div className="title">
-              <div className='add-item'>
-              <button className='add-new-user-btn' onClick={() => setShowAddCarForm(true)}>Add new Item</button>
-          
-             </div>
+            
 
               <h2>Registered Cars</h2>
               </div>

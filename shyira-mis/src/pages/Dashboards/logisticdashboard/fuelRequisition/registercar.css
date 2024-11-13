@@ -72,12 +72,7 @@
   button:hover {
     background-color: #0056b3;
   }
-  button {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    margin-right: 10px;
-  }
+
   
   button i {
     font-size: 18px;
