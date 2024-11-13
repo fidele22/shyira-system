@@ -69,25 +69,40 @@ router.post('/add-fuel', async (req, res) => {
 
 // Get paginated fuel stock history
 router.get('/fuel-history', async (req, res) => {
-  const { page = 1, limit = 10 } = req.query;
-  const skip = (page - 1) * limit;
+  const { page = 1, limit = 10, startDate, endDate, fetchAll } = req.query;
+
+  const query = {};
   
+  if (startDate && endDate) {
+    query.updatedAt = {
+      $gte: new Date(startDate),
+      $lte: new Date(endDate),
+    };
+  }
+
   try {
-    const [total, history] = await Promise.all([
-      FuelStockHistory.countDocuments(),
-      FuelStockHistory.find().skip(skip).limit(parseInt(limit)).exec()
-    ]);
-    
-    res.json({
-      total,
-      history
-    });
+    if (fetchAll) {
+      // If fetchAll is true, return all matching records without pagination
+      const history = await FuelStockHistory.find(query).exec();
+      const total = history.length; // Total records found
+      return res.json({ total, history });
+    } else {
+      // Paginated response
+      const skip = (page - 1) * limit;
+      const [total, history] = await Promise.all([
+        FuelStockHistory.countDocuments(query),
+        FuelStockHistory.find(query).skip(skip).limit(parseInt(limit)).exec()
+      ]);
+      
+      res.json({
+        total,
+        history
+      });
+    }
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
-
-// router of generating fuel stock report 
 
 
 // Route to fetch stock report based on carPlaque and date range

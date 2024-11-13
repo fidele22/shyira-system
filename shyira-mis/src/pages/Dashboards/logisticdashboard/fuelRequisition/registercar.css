@@ -28,6 +28,7 @@
   .car-info{
     background-color: white;
     border-radius: 5px;
+    padding: 10px;
     
   }
   .car-info h2{
@@ -69,6 +70,7 @@
     transition: background-color 0.3s ease;
   }
   
+
   button:hover {
     background-color: #0056b3;
   }
@@ -98,6 +100,23 @@
   }
   .fuel-store-card h2{
     text-align: center;
+  }
+  .date-filter-store-card{
+    margin: 1rem 1rem;
+   text-align: center;
+    gap: 20px;
+    border-radius: 6px;
+    background-color: rgb(242, 245, 244);
+    padding: 20px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
+  .input-date{
+    margin-left: 20%;
+    gap: 20px;
+    display: flex;
+  }
+  .date-filter-store-card input[type=date]{
+    width: 200px;
   }
   /* Responsive styling */
   @media (max-width: 768px) {
