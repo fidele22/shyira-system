@@ -72,14 +72,6 @@ const LogisticRequestForm = () => {
     setIsEditing(false);
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setEditFormData({
-      ...editFormData,
-      [name]: value
-    });
-  };
-
   const handleItemChange = (index, e) => {
     const { name, value } = e.target;
     const updatedItems = editFormData.items.map((item, idx) => {

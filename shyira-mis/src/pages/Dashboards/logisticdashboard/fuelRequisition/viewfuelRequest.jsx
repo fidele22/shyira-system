@@ -3,7 +3,7 @@ import { FaEye, FaEdit,FaTimes, FaTimesCircle, FaCheck,
   FaCheckCircle, FaCheckDouble, FaCheckSquare } from 'react-icons/fa';
 import axios from 'axios';
 import Swal from 'sweetalert2'; 
-import './viewfuelrequest.css';
+import '../contentCss/viewfuelrequest.css';
 
 const FuelRequisitionForm = () => {
   const [requisitions, setRequisitions] = useState([]);
@@ -12,7 +12,9 @@ const FuelRequisitionForm = () => {
   const [user, setUser] = useState(null);
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState({});
+  const [FormData, setFormData] = useState({
+    items: [] // 
+});
 
   useEffect(() => {
     const fetchRequisitions = async () => {
@@ -48,9 +50,44 @@ const FuelRequisitionForm = () => {
     }
   };
 
+
+
   const handleInputChange = (e) => {
+
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+
+
+    // Validate quantityReceived if editing
+
+    if (name === "quantityReceived" && parseInt(value) > parseInt(selectedRequest.quantityRequested)) {
+
+      Swal.fire({
+
+        title: 'Error!',
+        text: 'Quantity received cannot be greater than quantity requested.',
+        icon: 'error',
+        confirmButtonText: 'OK',
+        customClass: {
+          popup: 'custom-swal',
+        }
+
+      });
+
+      return; // Prevent state update if validation fails
+
+    }
+
+
+    // Update FormData directly
+
+    setFormData((prevData) => ({
+
+      ...prevData,
+
+      [name]: value, // Update the specific field
+
+    }));
+
   };
 
   const handleEditClick = () => {
@@ -59,7 +96,7 @@ const FuelRequisitionForm = () => {
 
   const handleSaveClick = async () => {
     try {
-      const response = await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/fuel-requisition/${selectedRequest._id}`, formData);
+      const response = await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/fuel-requisition/${selectedRequest._id}`, FormData);
       setSelectedRequest(response.data);
       setIsEditing(false);
     } catch (error) {
@@ -68,8 +105,21 @@ const FuelRequisitionForm = () => {
   };
 
   const handleVerifyClick = async () => {
-    try {
-      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/fuel-requisition/verify/${selectedRequest._id}`, formData);
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you want to verify this fuel requisition with signing?,',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, verify it!',
+      customClass: {
+        popup: 'custom-swal', // Apply custom class to the popup
+      }
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/fuel-requisition/verify/${selectedRequest._id}`, FormData);
       setSelectedRequest(response.data);
       Swal.fire ({
         title: 'Success!',
@@ -79,6 +129,7 @@ const FuelRequisitionForm = () => {
         customClass: {
           popup: 'custom-swal', // Apply custom class to the popup
         }
+        
       });
      
     } catch (error) {
@@ -94,6 +145,8 @@ const FuelRequisitionForm = () => {
       });
     
     }
+  }
+});
   };
 
   const handleCloseClick = () => {
@@ -113,7 +166,7 @@ const FuelRequisitionForm = () => {
           {requisitions.slice().reverse().map((request, index) => (
             <li key={index}>
               <p onClick={() => handleRequestClick(request._id)}>
-                Requisition Form from {request.department} done on {new Date(request.createdAt).toDateString()}
+                Requisition Form requested by {request.hodName} done on {new Date(request.createdAt).toDateString()}
                 {/** <span>{!request.clicked ? 'New Request' : ''}</span>*/}
                 
               </p>
@@ -132,6 +185,10 @@ const FuelRequisitionForm = () => {
           </div>
 
           <div className="fuel-request-details-content">
+          <div className="imag-logo">
+          <img src="/image/logo2.png" alt="Logo" className="log"  />
+          </div>
+
             <h2>Fuel Requisition Form</h2>
             <form>
               <div className="view-form-group">
@@ -154,42 +211,42 @@ const FuelRequisitionForm = () => {
                 </div>
                 <div className="right-side">
                   <label>Quantity Requested (liters):</label>
-                  <span>{selectedRequest.quantityRequested || ''}</span>
+                  <span>{selectedRequest.quantityRequested || ''} liters</span>
                 </div>
               </div>
               <div className="view-form-group">
                 <div className="left-side">
-                  <label>Average Km/l:</label>
-                  <span>{selectedRequest.average || ''}</span>
-                </div>
-                <div className="left-side">
-                  <label>Quantity Received (liters):</label>
+                <label>Quantity Received (liters):</label>
                   {isEditing ? (
                     <input
                       type="number"
                       name="quantityReceived"
-                      value={formData.quantityReceived || ''}
+                      value={FormData.quantityReceived || ''}
                       onChange={handleInputChange}
                     />
                   ) : (
-                    <span>{selectedRequest.quantityReceived || ''}</span>
+                    <span>{selectedRequest.quantityReceived || ''} liters</span>
                   )}
+
+                 
+                </div>
+                <div className="left-side">
+                  <div className="quantity-recieved-field">
+                  <label>Average Km/l:</label>
+                  <span>{selectedRequest.average || ''}</span>
+                  </div>
+              
                 </div>
               </div>
               <div className="view-form-group">
-              
-                <div className="left-side">
-                  <label>Reason:</label>
-                  <span>{selectedRequest.reason || ''}</span>
-                </div>
                 <div className="detail-row">
                 {selectedRequest && selectedRequest.file ? (
-  <div className='file-uploaded'>
-    <label>Previous Destination file:</label>
-    <a href={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.file}`} target="_blank" rel="noopener noreferrer">
-    <FaEye /> View File
-    </a>
-  </div>
+         <div className='file-uploaded'>
+         <label>Previous Destination file:</label>
+         <a href={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.file}`} target="_blank" rel="noopener noreferrer">
+            <FaEye /> View File
+           </a>
+          </div>
 ) : (
   <p>No file uploaded</p>
 )}
@@ -197,15 +254,20 @@ const FuelRequisitionForm = () => {
               </div>
               <hr />
               <div className="fuel-signatures">
-                <div className="hod">
-                  <h3>Head of department</h3>
+                <div className="hod-fuel-signature">
+                  <h4>Head of department{selectedRequest.department}</h4>
                   <label>Prepared By:</label>
                   <span>{selectedRequest.hodName || ''}</span>
-                  <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" />
+                  <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" 
+                  className='image-signature'/>
                 </div>
               </div>
+              <div className='footer-img'>
+         <img src="/image/footerimg.png" alt="Logo" className="logo" />
+         </div>
             </form>
           </div>
+          
         </div>
       )}
     </div>

@@ -53,7 +53,14 @@ const RequisitionForm = () => {
 
         // Validate requested quantity against available stock
         if (parseInt(quantityRequested) > availableStock) {
-            alert(`Requested quantity exceeds available stock. Available: ${availableStock} liters.`);
+            Swal.fire({
+                title: 'Insufisient stock!',
+                text: 'Requested quantity liters exceeds quantity available fuel in stock. Available.',
+                icon: 'error',
+                confirmButtonText: 'OK',
+                customClass: { popup: 'custom-swal' }
+            });
+            // alert(`Requested quantity exceeds available stock. Available: ${availableStock} liters.`);
             return;
         }
 
@@ -229,7 +236,7 @@ const RequisitionForm = () => {
                             type="number"
                             id="quantityReceived"
                             value={quantityReceived}
-                            onChange={(e) => setQuantityReceived(e.target.value)}
+                            
                         />
                     </div>
                 </div>

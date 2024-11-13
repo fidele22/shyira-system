@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FaEye, FaEdit,FaTimes, FaTimesCircle, FaCheck,
   FaCheckCircle, FaCheckDouble, FaCheckSquare } from 'react-icons/fa';
 import axios from 'axios';
-import './viewfuelrequest.css';
+import '../../logisticdashboard/contentCss/viewfuelrequest.css';
 
 const FuelRequisitionForm = () => {
   const [requisitions, setRequisitions] = useState([]);
