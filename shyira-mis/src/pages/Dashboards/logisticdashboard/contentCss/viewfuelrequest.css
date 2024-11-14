@@ -130,6 +130,9 @@
   height: auto;
   width: auto;
 }
+.reject-request-btn{
+  background-color: rgb(247, 107, 107);
+}
 .close-btn{
   background-color: rgb(172, 39, 39);
   font-size: 12px;
@@ -154,7 +157,7 @@
   display: block;
   margin-top: 10px;
 }
-.hod-fuel-signature{
+.hod-fuel-signature,.logistic-fuel-signature{
   padding: 0;
 }
 .hod-fuel-signature h4{

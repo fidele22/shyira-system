@@ -6,7 +6,7 @@ const ApprovedRequest = require('../models/approvedRequest');
 const FuelRequestVerified = require('../models/fuelRequestVerified')
 const ApprovedFuelRequest = require ('../models/approvedfuelRequest')
 const ItemRequisitionRejected =require('../models/itemRequisitionRejected')
-
+const RejectedFuelRequest = require('../models/rejectuserfuelRequest')
 
 // user fetch its verified requisition according to its ID
 router.get('/user-verified', authMiddleware, async (req, res) => {
@@ -262,5 +262,33 @@ router.post('/approvefuel/:id', async (req, res) => {
   }
 });
 
+
+  // Reject fuel requisition
+  router.post('/reject/:id', async (req, res) => {
+    try {
+      const requestToReject = await FuelRequestVerified.findById(req.params.id);
+      
+      if (!requestToReject) {
+        return res.status(404).json({ message: 'Request not found' });
+      }
+  
+      // Move the request to a rejected collection (you need to implement this logic)
+     // Adjust the path as necessary
+  
+      const rejectedRequest = new RejectedFuelRequest({
+        ...requestToReject._doc, 
+        rejectedAt: new Date(), 
+         
+      });
+  
+      await rejectedRequest.save();
+      await FuelRequestVerified.findByIdAndDelete(req.params.id); // Optionally delete the original request
+  
+      res.json({ message: 'Requisition rejected successfully!' });
+    } catch (error) {
+      console.error('Error rejecting requisition:', error);
+      res.status(500).json({ message: error.message });
+    }
+  });
 
 module.exports = router;

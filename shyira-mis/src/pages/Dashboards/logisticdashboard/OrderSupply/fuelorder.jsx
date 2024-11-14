@@ -16,13 +16,6 @@ const LogisticRequestForm = () => {
   const [date, setDate] = useState('');
   const [error, setError] = useState(null);
   const [user, setUser] = useState(null);
-
-
-  const [showModal, setShowModal] = useState(false); // State for modal visibility
-  const [modalMessage, setModalMessage] = useState(''); //
-  const [isSuccess, setIsSuccess] = useState(true);
-
-
   
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -63,6 +56,7 @@ const LogisticRequestForm = () => {
     event.preventDefault();
   
     const payload = {
+      department,
       supplierName,
       items,  // Make sure to include items array here
       date,

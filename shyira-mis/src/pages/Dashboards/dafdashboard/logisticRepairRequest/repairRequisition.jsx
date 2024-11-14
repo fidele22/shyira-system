@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FaQuestionCircle, FaEdit, FaTimes,FaCheckCircle, FaTimesCircle,FaTrash,FaCheck } from 'react-icons/fa';
 import axios from 'axios';
 import Swal from 'sweetalert2'; 
-//import './ViewRequest.css'; // Import CSS for styling
+
 
 
 const ForwardedRequests = () => {

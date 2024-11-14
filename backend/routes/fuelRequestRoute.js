@@ -4,8 +4,8 @@ const JWT_SECRET = 'your_jwt_secret';
 const router = express.Router();
 const FuelRequisition = require('../models/fuelRequisition');
 const ForwardedFuelRequest = require('../models/fuelRequestVerified');
-const RecievedFuelRequest = require ('../models/fuelRequestRecieved')
-
+const RecievedFuelRequest = require ('../models/fuelRequestRecieved');
+const RejectedFuelRequest = require('../models/rejectuserfuelRequest');
 
 const multer = require('multer');
 const path = require('path');
@@ -184,7 +184,34 @@ router.post('/verify/:id', async (req, res) => {
   }
 });
 
-
+  // Reject fuel requisition
+  router.post('/reject/:id', async (req, res) => {
+    try {
+      const requestToReject = await FuelRequisition.findById(req.params.id);
+      
+      if (!requestToReject) {
+        return res.status(404).json({ message: 'Request not found' });
+      }
+  
+      // Move the request to a rejected collection (you need to implement this logic)
+     // Adjust the path as necessary
+  
+      const rejectedRequest = new RejectedFuelRequest({
+        originalRequisitionId: requestToReject._id, // Add this line
+        ...requestToReject._doc, 
+        rejectedAt: new Date(), 
+         
+      });
+  
+      await rejectedRequest.save();
+      await FuelRequisition.findByIdAndDelete(req.params.id); // Optionally delete the original request
+  
+      res.json({ message: 'Requisition rejected successfully!' });
+    } catch (error) {
+      console.error('Error rejecting requisition:', error);
+      res.status(500).json({ message: error.message });
+    }
+  });
 
 
 module.exports = router;

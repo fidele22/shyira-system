@@ -82,7 +82,16 @@ const ForwardedRequests = () => {
       setForwardedRequests(prevRequests =>
         prevRequests.map(req => (req._id === response.data._id ? response.data : req))
       );
-    alert('requisition updated successful')
+      Swal.fire ({
+        title: 'Updated!',
+        text: 'requisition updated successful',
+        icon: 'success',
+        confirmButtonText: 'OK',
+        customClass: {
+          popup: 'custom-swal', // Apply custom class to the popup
+        }
+      });
+    alert('')
    
     } catch (error) {
       console.error('Error updating request:', error);
@@ -92,7 +101,20 @@ const ForwardedRequests = () => {
  //
  const handleApproveSubmit = async (e) => {
   e.preventDefault();
-  try {
+  Swal.fire({
+    title: 'Are you sure?',
+    text: 'Do you want to approve this fuel logistic requisition with signing?,',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, Approve it!',
+    customClass: {
+      popup: 'custom-swal', // Apply custom class to the popup
+    }
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      try {
        // Forward the updated request to the approved collection
        const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/logisticFuel/verified/${selectedRequest._id}`);
        setSelectedRequest(response.data);
@@ -119,6 +141,8 @@ const ForwardedRequests = () => {
       }
     });
   }
+}
+});
 } 
 
 //reject fuel order
@@ -126,7 +150,20 @@ const ForwardedRequests = () => {
 const handleRejectSubmit = async () => {
 
     if (!selectedRequest) return;
-    try {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you want to reject this fuel logistic requisition with signing?,',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Reject it!',
+      customClass: {
+        popup: 'custom-swal', // Apply custom class to the popup
+      }
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
         const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/logisticFuel/rejectFuelOrder/${selectedRequest._id}`);
 
         Swal.fire ({
@@ -155,7 +192,8 @@ const handleRejectSubmit = async () => {
         });
 
     }
-
+  }
+});
 };
 
   //fetching signature

@@ -145,10 +145,58 @@ const FuelRequisitionForm = () => {
       });
     
     }
-  }
-});
-  };
+   }
+  });
+};
+const handleRejectRequest = async () => {
+  Swal.fire({
+    title: 'Are you sure?',
+    text: 'Do you want to reject this fuel requisition with signing?,',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, Reject it!',
+    customClass: {
+      popup: 'custom-swal', // Apply custom class to the popup
+    }
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      try {
+    await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/fuel-requisition/reject/${selectedRequest._id}`);
+    setRequisitions(requisitions.filter(req => req._id !== selectedRequest._id));
+    setSelectedRequest(null);
+// Show error message using SweetAlert2
+    Swal.fire({
+      title: 'Success',
+      text: 'Fuel Requisition rejected successfully!!',
+      icon: 'success',
+      confirmButtonText: 'OK',
+      customClass: {
+        popup: 'custom-swal', // Apply custom class to the popup
+      }
+    });
+  
 
+ 
+  } catch (error) {
+    console.error('Error rejecting requisition:', error);
+
+     // Show error message using SweetAlert2
+     Swal.fire({
+      title: 'Error',
+      text: 'Failed to reject requisition.',
+      icon: 'error',
+      confirmButtonText: 'OK',
+      customClass: {
+        popup: 'custom-swal', 
+      }
+    });
+   
+  }
+}
+});
+};
   const handleCloseClick = () => {
     setSelectedRequest(null);
   };
@@ -166,7 +214,7 @@ const FuelRequisitionForm = () => {
           {requisitions.slice().reverse().map((request, index) => (
             <li key={index}>
               <p onClick={() => handleRequestClick(request._id)}>
-                Requisition Form requested by {request.hodName} done on {new Date(request.createdAt).toDateString()}
+                Fuel requisition Form requested by {request.hodName} done on {new Date(request.createdAt).toDateString()}
                 {/** <span>{!request.clicked ? 'New Request' : ''}</span>*/}
                 
               </p>
@@ -178,10 +226,12 @@ const FuelRequisitionForm = () => {
       {selectedRequest && (
         <div className="fuel-request-details-overlay">
           <div className="fixed-nav-bar">
+          <button type="button" className='verify-btn' onClick={handleVerifyClick}>Verify</button>
             <button  type="button" className='edit-btn' onClick={handleEditClick}>Edit</button>
             {isEditing && <button type="button" className='save'  onClick={handleSaveClick}>Save</button>}
-            <button type="button" className='verify-btn' onClick={handleVerifyClick}>Verify</button>
-            <button type="button" className='close-btn' onClick={handleCloseClick}>Close</button>
+            
+            <button type="button" className='reject-request-btn' onClick={handleRejectRequest}>Reject</button>
+            <button type="button" className='close-btn' onClick={handleCloseClick}><FaTimes /></button>
           </div>
 
           <div className="fuel-request-details-content">
@@ -247,15 +297,15 @@ const FuelRequisitionForm = () => {
             <FaEye /> View File
            </a>
           </div>
-) : (
-  <p>No file uploaded</p>
-)}
+          ) : (
+            <p>No file uploaded</p>
+          )}
                     </div>
               </div>
               <hr />
               <div className="fuel-signatures">
                 <div className="hod-fuel-signature">
-                  <h4>Head of department{selectedRequest.department}</h4>
+                  <h5>Head of department{selectedRequest.department}</h5>
                   <label>Prepared By:</label>
                   <span>{selectedRequest.hodName || ''}</span>
                   <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" 

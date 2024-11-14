@@ -207,7 +207,7 @@ router.get('/recievedfuel', authMiddleware, async (req, res) => {
 
 
 
-  // Reject requisition
+  // Reject fuel requisition
 router.post('/reject/:id', async (req, res) => {
   try {
     const requestToReject = await ApprovedFuelRequest.findById(req.params.id);

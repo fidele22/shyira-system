@@ -16,7 +16,7 @@ const FuelRequisitionForm = () => {
   useEffect(() => {
     const fetchRequisitions = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/fuel-requisition');
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/fuel-requisition`);
         setRequisitions(response.data);
         setLoading(false);
       } catch (error) {
@@ -32,7 +32,7 @@ const FuelRequisitionForm = () => {
 
   const handleRequestClick = async (requestId) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/fuel-requisition/${requestId}`);
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/fuel-requisition/${requestId}`);
       setSelectedRequest(response.data);
       setFormData(response.data);
       setIsEditing(false);
@@ -58,7 +58,7 @@ const FuelRequisitionForm = () => {
 
   const handleSaveClick = async () => {
     try {
-      const response = await axios.put(`http://localhost:5000/api/fuel-requisition/${selectedRequest._id}`, formData);
+      const response = await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/fuel-requisition/${selectedRequest._id}`, formData);
       setSelectedRequest(response.data);
       setIsEditing(false);
     } catch (error) {
@@ -68,7 +68,7 @@ const FuelRequisitionForm = () => {
 
   const handleVerifyClick = async () => {
     try {
-      const response = await axios.post(`http://localhost:5000/api/fuel-requisition/verify/${selectedRequest._id}`, formData);
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/fuel-requisition/verify/${selectedRequest._id}`, formData);
       setSelectedRequest(response.data);
       alert('Requisition verified successfully.');
     } catch (error) {
@@ -166,7 +166,7 @@ const FuelRequisitionForm = () => {
                 {selectedRequest && selectedRequest.file ? (
   <div className='file-uploaded'>
     <label>Previous Destination file:</label>
-    <a href={`http://localhost:5000/${selectedRequest.file}`} target="_blank" rel="noopener noreferrer">
+    <a href={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.file}`} target="_blank" rel="noopener noreferrer">
     <FaEye /> View File
     </a>
   </div>
@@ -181,7 +181,7 @@ const FuelRequisitionForm = () => {
                   <h3>Head of department</h3>
                   <label>Prepared By:</label>
                   <span>{selectedRequest.hodName || ''}</span>
-                  <img src={`http://localhost:5000/${selectedRequest.hodSignature}`} alt="HOD Signature" />
+                  <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" />
                 </div>
               </div>
             </form>

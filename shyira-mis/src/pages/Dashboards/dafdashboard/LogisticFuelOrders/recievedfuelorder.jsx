@@ -179,10 +179,11 @@ const ForwardedRequests = () => {
               </div>
 
               <div className='daf-signature'>
-                <h4>DAF Office:</h4>
-                <label htmlFor="">Approved By:</label>
+             
                 {dafUsers.map(user => (
                   <div key={user._id} className="daf-signature">
+                       <h4>DAF Office:</h4>
+                       <label htmlFor="">Approved By:</label>
                     <p>{user.firstName} {user.lastName}</p>
                     {user.signature ? (
                       <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} 
@@ -202,7 +203,11 @@ const ForwardedRequests = () => {
                 className='signature-img' />
               </div>
             </div>
+            <div className='footer-img'>
+         <img src="/image/footerimg.png" alt="Logo" className="logo" />
+         </div>
           </div>
+          
         </div>
       )}
 
