@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaEye , FaEdit,FaSpinner, FaTimes, FaTimesCircle, FaCheck, FaCheckCircle, FaCheckDouble, FaCheckSquare } from 'react-icons/fa';
 import VeiwfuelRequisition from './viewfuelRequest'; 
-import FuelRequisitionRecieved from './recieveduserfuelRequest';
+import FuelRequisitionRecieved from '../../dafdashboard/UserfuelRequest/recieveduserfuelRequest';
 import FuelRequisitionapproved from  './approvedUserFuelRequest'; 
 import FuelRequisitionRejected from '../../DGdashboard/userfuelRequisition/rejecteduserfuelrequest'
 //import ItemRequisitionStatus from './RequisitionStatus';

@@ -161,7 +161,7 @@ const FuelRequisitionForm = () => {
                   {selectedRequest && selectedRequest.file ? (
                     <div className='file-uploaded'>
                       <label>Previous Destination file:</label>
-                      <a href={`http://localhost:5000/${selectedRequest.file}`} target="_blank" rel="noopener noreferrer">
+                      <a href={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.file}`} target="_blank" rel="noopener noreferrer">
                         <FaEye /> View File
                       </a>
                     </div>
@@ -172,20 +172,21 @@ const FuelRequisitionForm = () => {
               </div>
               <hr />
               <div className="fuel-signatures">
-                <div className="hod">
-                  <h3>Head Of department:</h3>
+                <div className="hod-signature">
+                  <h4>Head Of department:</h4>
                   <label>Prepared By:</label>
                   <span>{selectedRequest.hodName || ''}</span>
-                  <img src={`http://localhost:5000/${selectedRequest.hodSignature}`} alt="HOD Signature" />
+                  <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" />
                 </div>
                 <div className='logistic-signature'>
-                  <h3>Logistic Office:</h3>
-                  <label htmlFor="">Verified By:</label>
+                
                   {logisticUsers.map(user => (
-                    <div key={user._id} className="logistic-user">
+                    <div key={user._id} className="logistic-signature">
+                        <h4>Logistic Office:</h4>
+                        <label htmlFor="">Verified By:</label>
                       <p>{user.firstName} {user.lastName}</p>
                       {user.signature ? (
-                        <img src={`http://localhost:5000/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
+                        <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
                       ) : (
                         <p>No signature available</p>
                       )}
@@ -193,13 +194,15 @@ const FuelRequisitionForm = () => {
                   ))}
                 </div>
                 <div className="daf-signature">
-                  <h3>DAF:</h3>
-                  <label htmlFor="">Approved By:</label>
+                 
                   {dafUsers.map(user => (
-                    <div key={user._id} className="logistic-user">
+                    <div key={user._id} className="daf-signature">
+                       <h4>DAF:</h4>
+                       <label htmlFor="">Approved By:</label>
                       <p>{user.firstName} {user.lastName}</p>
                       {user.signature ? (
-                        <img src={`http://localhost:5000/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
+                        <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} 
+                        className=''/>
                       ) : (
                         <p>No signature available</p>
                       )}

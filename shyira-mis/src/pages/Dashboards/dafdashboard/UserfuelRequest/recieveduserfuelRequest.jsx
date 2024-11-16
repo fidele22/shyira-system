@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { FaEye,FaTimes } from 'react-icons/fa';
 import axios from 'axios';
+import { jsPDF } from 'jspdf';
+import html2canvas from 'html2canvas';
 
 const FuelRequisitionForm = () => {
   const [requisitions, setRequisitions] = useState([]);
@@ -89,7 +91,34 @@ const FuelRequisitionForm = () => {
      setCurrentPage(currentPage - 1);
    }
  };
+ // Function to generate and download PDF
+ const downloadPDF = async () => {
+  const input = document.getElementById('pdf-content');
+  if (!input) {
+    console.error('Element with ID pdf-content not found');
+    return;
+  }
 
+  try {
+    // Use html2canvas to capture the content of the div, including the image signatures
+    const canvas = await html2canvas(input, {
+      allowTaint: true,
+      useCORS: true, // This allows images from different origins to be included in the canvas
+    });
+
+    const data = canvas.toDataURL('image/png');
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    const imgProps = pdf.getImageProperties(data);
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+    // Add the image content into the PDF and download
+    pdf.addImage(data, 'PNG', 10, 10, pdfWidth - 20, pdfHeight); // Adjust the margins if needed
+    pdf.save('fuel-user-requisition-form-recieved.pdf');
+  } catch (error) {
+    console.error('Error generating PDF:', error);
+  }
+};
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
 
@@ -118,10 +147,12 @@ const FuelRequisitionForm = () => {
       {selectedRequest && (
         <div className="fuel-request-details-overlay">
           <div className="fixed-nav-bar">
+          <button className='request-dowload-btn' onClick={downloadPDF}>Download Pdf</button>
             <button type="button" className='close-btn' onClick={handleCloseClick}><FaTimes /></button>
           </div>
 
           <div className="fuel-request-details-content">
+            <div id='pdf-content'>
             <h3>Fuel Requisition Form</h3>
             <form>
               <div className="view-form-group">
@@ -218,11 +249,14 @@ const FuelRequisitionForm = () => {
             
               </div>
             </form>
+            
           </div>
              </div>
-       
+       </div>
       )}
+      
     </div>
+    
   );
 };
 

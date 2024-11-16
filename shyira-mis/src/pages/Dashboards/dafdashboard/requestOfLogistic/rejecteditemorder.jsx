@@ -215,13 +215,14 @@ const ApprovedRequests = () => {
               </table>
               <div className="approved-signature-section">
                 <div className='logistic-signature'>
-                  <h3>Logistic Office:</h3>
+                  <h4>Logistic Office:</h4>
                   <label htmlFor="">Prepared By:</label>
                   {logisticUsers.map(user => (
                     <div key={user._id} className="logistic-user">
                       <p>{user.firstName} {user.lastName}</p>
                       {user.signature ? (
-                        <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
+                        <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} 
+                        className='signature-img'/>
                       ) : (
                         <p>No signature available</p>
                       )}

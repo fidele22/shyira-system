@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { FaEye , FaEdit,FaSpinner, FaTimes, FaTimesCircle, FaCheck, FaCheckCircle, FaCheckDouble, FaCheckSquare } from 'react-icons/fa';
+import { FaEye , FaEdit,FaSpinner, FaTimes, FaTimesCircle,
+   FaCheck, FaCheckCircle, FaCheckDouble, FaCheckSquare } from 'react-icons/fa';
 import VerifiedOrder from './viewLogisticRequest'; 
 import ApprovedOrder from './approvedLogisticRequest';
 import ReceivedOrder from '../../logisticdashboard/OrderSupply/RecievedOrder'
 import RejecteditemOrder from '../../dafdashboard/requestOfLogistic/rejecteditemorder'
-//import ItemRequisitionStatus from './RequisitionStatus';
+
 
 
 const UserFuelRequesition = () => {
-
-  const [error, setError] = useState(null);
-  const [user, setUser] = useState(null);
 
 
   const [activeComponent, setActiveComponent] = useState('form'); // State for switching between components

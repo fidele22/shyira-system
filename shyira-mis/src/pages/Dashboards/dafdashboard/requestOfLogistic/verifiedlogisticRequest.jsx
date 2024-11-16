@@ -180,7 +180,7 @@ const ForwardedRequests = () => {
 
       <div className="order-navigation">
         <div className="navigation-title">
-          <h2>Requisition of fuel form logistic office received</h2>
+          <h3>Requisition of fuel form logistic office received</h3>
         </div>
         <ul>
           {filteredRequests.slice().reverse().map((request, index) => (
@@ -311,13 +311,15 @@ const ForwardedRequests = () => {
 
                 <div className="daf-signature-section">
                   <div className='logistic-signature'>
-                  <h3>Logistic Office:</h3>
-                  <label htmlFor="">Prepared By:</label>
+                 
                     {logisticUsers.map(user => (
-                      <div key={user._id} className="logistic-user">
+                      <div key={user._id} className="logistic-signature">
+                         <h4>Logistic Office:</h4>
+                         <label htmlFor="">Prepared By:</label>
                         <p>{user.firstName} {user.lastName}</p>
                s         {user.signature ? (
-                          <img src={`http://localhost:5000/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
+                          <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`}
+                          className='signature-img' />
                         ) : (
                           <p>No signature available</p>
                         )}
@@ -325,10 +327,11 @@ const ForwardedRequests = () => {
                     ))}
                   </div>
                  <div className="daf-signature">
-                    <h3>DAF Office:</h3>
+                    <h4>DAF Office:</h4>
                     <label htmlFor="">verified By</label>
                   <p>{user.firstName} {user.lastName}</p>
-                  {user.signature && <img src={`http://localhost:5000/${user.signature}`} alt="Signature" />}
+                  {user.signature && <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt="Signature"
+                   className='signature-img' />}
                   </div>
                   
                 </div>

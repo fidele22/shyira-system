@@ -25,7 +25,7 @@ const ForwardedRequests = () => {
 
   const fetchLogisticUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/users/logistic-users');
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/logistic-users`);
       setLogisticUsers(response.data);
     } catch (error) {
       console.error('Error fetching logistic users:', error);
@@ -34,7 +34,7 @@ const ForwardedRequests = () => {
 
   const fetchForwardedRequests = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/LogisticRequest/verified');
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/LogisticRequest/verified`);
       setForwardedRequests(response.data);
       setFilteredRequests(response.data);
     } catch (error) {
@@ -81,7 +81,7 @@ const ForwardedRequests = () => {
   const handleUpdateSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`http://localhost:5000/api/LogisticRequest/update-verified/${selectedRequest._id}`, formData);
+      const response = await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/LogisticRequest/update-verified/${selectedRequest._id}`, formData);
       setSelectedRequest(response.data);
       setIsEditing(false);
       setForwardedRequests(prevRequests =>
@@ -99,7 +99,7 @@ const ForwardedRequests = () => {
   e.preventDefault();
   try {
        // Forward the updated request to the approved collection
-       const response = await axios.post(`http://localhost:5000/api/LogisticRequest/approved/${selectedRequest._id}`);
+       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/LogisticRequest/approved/${selectedRequest._id}`);
        setSelectedRequest(response.data);
        alert('requestion Approved successfully')
   } catch (error) {
@@ -130,7 +130,7 @@ useEffect(() => {
       }
 
       // Use Axios to fetch user profile
-      const response = await axios.get('http://localhost:5000/api/users/profile', {
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/profile`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -168,11 +168,12 @@ useEffect(() => {
   if (!user) return <p>Loading...</p>;
 
   return (
-    <div className={`verified-requist ${selectedRequest ? 'dim-background' : ''}`}>
+    <div className={`request ${selectedRequest ? 'dim-background' : ''}`}>
     
-      <div className="verified-request-navigation">
-      <h4>List of logistic Order Verified Not Approved</h4>
-      <form onSubmit={handleSearchRequest} className="search-form">
+      <div className="order-navigation">
+    
+      <form onSubmit={handleSearchRequest} >
+        <div className="search-form">
         <div className='search-date'>
           <label htmlFor="">Search by date</label>
           <input
@@ -185,8 +186,12 @@ useEffect(() => {
         </div>
         
         <button type="submit" className='search-btn'>Search</button>
+        </div>
+      
       </form>
-
+       <div className="navigation-title">
+       <h4>List of logistic Order Verified Not Approved</h4>
+       </div>
         <ul>
           {filteredRequests.slice().reverse().map((request, index) => (
             <li key={index}>
@@ -284,7 +289,7 @@ useEffect(() => {
             <h1>DISTRIC: NYABIHU</h1>
             <h1>HEALTH FACILITY: SHYIRA DISTRICT HOSPITAL</h1>
             <h1>DEPARTMENT: LOGISTIC OFFICE </h1>
-            <h1>SUPPLIER NAME:{forwardedRequests.supplierName}</h1>
+            <h1>SUPPLIER NAME:{selectedRequest.supplierName}</h1>
 
           </div>
 
@@ -313,15 +318,17 @@ useEffect(() => {
                   </tbody>
                 </table>
 
-                <div className="daf-signature-section">
+                <div className="signature-section">
                   <div className='logistic-signature'>
-                  <h3>Logistic Office:</h3>
-                  <label htmlFor="">Prepared By:</label>
+                 
                     {logisticUsers.map(user => (
-                      <div key={user._id} className="logistic-user">
+                      <div key={user._id} className="logistic-signature">
+                         <h4>Logistic Office:</h4>
+                         <label htmlFor="">Prepared By:</label>
                         <p>{user.firstName} {user.lastName}</p>
                         {user.signature ? (
-                          <img src={`http://localhost:5000/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
+                          <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`}
+                          className='signature-img' />
                         ) : (
                           <p>No signature available</p>
                         )}
@@ -329,20 +336,21 @@ useEffect(() => {
                     ))}
                   </div>
                  <div className="daf-signature">
-                    <h3>DAF Office:</h3>
+                    <h4>DAF Office:</h4>
                     <label htmlFor="">verified By</label>
                   <p>{user.firstName} {user.lastName}</p>
-                  {user.signature && <img src={`http://localhost:5000/${user.signature}`} alt="Signature" />}
+                  {user.signature && <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt="Signature"
+                  className='signature-img' />}
                   </div>
                   
                 </div>
-              
-                
-
-
+                <div className='footer-img'>
+                <img src="/image/footerimg.png" alt="Logo" className="logo" />
+               </div>
               </>
             )}
           </div>
+          
         </div>
       )}
 
