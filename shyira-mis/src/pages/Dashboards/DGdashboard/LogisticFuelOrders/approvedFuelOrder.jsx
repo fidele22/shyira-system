@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FaQuestionCircle, FaEdit, FaTimes, FaCheckCircle, FaTimesCircle, FaTrash, FaCheck } from 'react-icons/fa';
 import axios from 'axios';
 import Swal from 'sweetalert2'; 
+import '../../logisticdashboard/contentCss/itemrequisition.css';
 
 // Import CSS for styling
 // import './ViewRequest.css';
@@ -160,18 +161,21 @@ const ForwardedRequests = () => {
                 <h4>Logistic Office</h4>
                 <label>Prepared By:</label>
                 <span>{selectedRequest.hodName || ''}</span><br />
-                <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" />
+                <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature"
+                className='signature-img' />
               </div>
 
 
               <div className='daf-signature'>
-                  <h4>DAF Office:</h4>
-                  <label htmlFor="">Verified By:</label>
+                 
                   {dafUsers.map(user => (
-                    <div key={user._id} className="daf-user">
+                    <div key={user._id} className="daf-signature">
+                       <h4>DAF Office:</h4>
+                       <label htmlFor="">Verified By:</label>
                       <p>{user.firstName} {user.lastName}</p>
                       {user.signature ? (
-                        <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
+                        <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`}
+                        className='signature-img' />
                       ) : (
                         <p>No signature available</p>
                       )}
@@ -180,6 +184,9 @@ const ForwardedRequests = () => {
                 </div>
 
             </div>
+            <div className='footer-img'>
+         <img src="/image/footerimg.png" alt="Logo" className="logo" />
+         </div>
           </div>
         </div>
       )}

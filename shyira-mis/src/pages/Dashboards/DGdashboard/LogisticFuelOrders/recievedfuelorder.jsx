@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import axios from 'axios';
 import './stylingfuelorders.css';
+import '../../logisticdashboard/contentCss/itemrequisition.css';
 
 const ForwardedRequests = () => {
   const [forwardedRequests, setForwardedRequests] = useState([]);
@@ -174,17 +175,20 @@ const ForwardedRequests = () => {
                 <h4>Logistic Office</h4>
                 <label>Prepared By:</label>
                 <span>{selectedRequest.hodName || ''}</span><br />
-                <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" />
+                <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature"
+                className='signature-img' />
               </div>
 
               <div className='daf-signature'>
-                <h4>DAF Office:</h4>
-                <label htmlFor="">Approved By:</label>
+               
                 {dafUsers.map(user => (
-                  <div key={user._id} className="daf-user">
+                  <div key={user._id} className="daf-signature">
+                     <h4>DAF Office:</h4>
+                     <label htmlFor="">Approved By:</label>
                     <p>{user.firstName} {user.lastName}</p>
                     {user.signature ? (
-                      <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} />
+                      <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} 
+                      className='signature-img'/>
                     ) : (
                       <p>No signature available</p>
                     )}
@@ -196,10 +200,15 @@ const ForwardedRequests = () => {
                 <h4>Logistic Office</h4>
                 <label>Received By:</label>
                 <span>{selectedRequest.hodName || ''}</span><br />
-                <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" />
+                <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature"
+                className='signature-img' />
               </div>
             </div>
+            <div className='footer-img'>
+         <img src="/image/footerimg.png" alt="Logo" className="logo" />
+         </div>
           </div>
+          
         </div>
       )}
 

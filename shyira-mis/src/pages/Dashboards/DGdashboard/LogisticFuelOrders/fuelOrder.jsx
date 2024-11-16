@@ -339,11 +339,12 @@ const handleRejectSubmit = async () => {
                 </table>
 
                 <div className="daf-signature-section">
-                <div className="hod">
-                  <h3>Logistic Office</h3>
+                <div className="hod-signature">
+                  <h4>Logistic Office</h4>
                   <label>Prepared By:</label>
                   <span>{selectedRequest.hodName || ''}</span><br />
-                  <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" />
+                  <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature"
+                  className='signature-img' />
                 
                     
                    

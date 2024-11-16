@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaQuestionCircle, FaEdit, FaTimes,FaCheckCircle, FaTimesCircle,FaTrash,FaCheck } from 'react-icons/fa';
 import axios from 'axios';
-
+import '../../logisticdashboard/contentCss/itemrequisition.css';
 //import './ViewRequest.css'; // Import CSS for styling
 
 
@@ -11,10 +11,6 @@ const ForwardedRequests = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({});
   const [logisticUsers, setLogisticUsers] = useState([]);
-
-  const [showModal, setShowModal] = useState(false); // State for modal visibility
-  const [modalMessage, setModalMessage] = useState(''); //
-  const [isSuccess, setIsSuccess] = useState(true);
 
 
   useEffect(() => {
@@ -100,17 +96,17 @@ const ForwardedRequests = () => {
        const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/logisticFuel/verified/${selectedRequest._id}`);
        setSelectedRequest(response.data);
     
-       setModalMessage('logistic requestion verified successfully');
-       setIsSuccess(true); // Set the success state
-       setShowModal(true); // Show the modal
+      //  setModalMessage('logistic requestion verified successfully');
+      //  setIsSuccess(true); // Set the success state
+      //  setShowModal(true); // Show the modal
 
          // Optionally refresh the list
     fetchForwardedRequests();
   } catch (error) {
     console.error('Error for approving request:', error);  
-    setModalMessage('Failed to verify requisition');
-    setIsSuccess(false); // Set the success state
-    setShowModal(true); // Show the modal
+    // setModalMessage('Failed to verify requisition');
+    // setIsSuccess(false); // Set the success state
+    // setShowModal(true); // Show the modal
   }
 } 
   //fetching signature
@@ -294,7 +290,8 @@ const ForwardedRequests = () => {
                   <h3>Logistic Office</h3>
                   <label>Prepared By:</label>
                   <span>{selectedRequest.hodName || ''}</span><br />
-                  <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" />
+                  <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" 
+                  className='signature-img'/>
                 
                     
                    
@@ -310,26 +307,7 @@ const ForwardedRequests = () => {
           </div>
         </div>
       )}
-       {/* Modal pop message on success or error message */}
-       {showModal && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            {isSuccess ? (
-              <div className="modal-success">
-                <FaCheckCircle size={54} color="green" />
-                <p>{modalMessage}</p>
-              </div>
-            ) : (
-              <div className="modal-error">
-                <FaTimesCircle size={54} color="red" />
-                <p>{modalMessage}</p>
-              </div>
-            )}
-            <button onClick={() => setShowModal(false)}>Close</button>
-          </div>
-        </div>
-      )}
-
+     
  
     </div>
   );

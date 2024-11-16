@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import axios from 'axios';
 import './stylingfuelorders.css';
+import '../../logisticdashboard/contentCss/itemrequisition.css';
 
 const ForwardedRequests = () => {
   const [forwardedRequests, setForwardedRequests] = useState([]);
@@ -170,16 +171,20 @@ const ForwardedRequests = () => {
             </table>
 
             <div className="signature-section">
-              <div className="hod">
+              <div className="hod-signature">
                 <h4>Logistic Office</h4>
                 <label>Prepared By:</label>
                 <span>{selectedRequest.hodName || ''}</span><br />
-                <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" />
+                <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature"
+                className='signature-img' />
               </div>
 
 
              
             </div>
+            <div className='footer-img'>
+         <img src="/image/footerimg.png" alt="Logo" className="logo" />
+         </div>
           </div>
         </div>
       )}
