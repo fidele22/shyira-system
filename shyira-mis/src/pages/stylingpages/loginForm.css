@@ -243,7 +243,8 @@ button.ghost:hover{
 }
 .password-view-login{
   position: absolute;
-  right: 15%;
+  right: 20%;
+  top: 42%;
   cursor: pointer;
 }
 .password-view-signup{

@@ -44,7 +44,7 @@ const authMiddleware = (req, res, next) => {
 
 router.post('/submit', authMiddleware, async (req, res) => {
   try {
-    const { department, hodName, hodSignature, items, date } = req.body;
+    const { department,service, hodName, hodSignature, items, date } = req.body;
 
     if (!items) {
       return res.status(400).json({ error: 'Items field is missing.' });
@@ -87,6 +87,7 @@ router.post('/submit', authMiddleware, async (req, res) => {
     const newRequest = new UserRequest({
       userId: userId,
       department,
+      service,
       hodName,
       hodSignature,
       items: validItems,
@@ -268,6 +269,7 @@ router.put('/verified/:id', async (req, res) => {
     const forwardData = {
       userId: updatedRequest.userId,
       department: updatedRequest.department,
+      service: updatedRequest.service,
       items: updatedRequest.items.map(item => ({
         itemId: item.itemId,
         itemName: item.itemName,
@@ -294,6 +296,9 @@ router.put('/verified/:id', async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+
+
+
 router.put('/rejected/:id', async (req, res) => {
   try {
   
@@ -313,6 +318,7 @@ router.put('/rejected/:id', async (req, res) => {
     const forwardData = {
       userId: updatedRequest.userId,
       department: updatedRequest.department,
+      service: updatedRequest.service,
       items: updatedRequest.items.map(item => ({
         itemId: item.itemId,
         itemName: item.itemName,

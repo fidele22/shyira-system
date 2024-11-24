@@ -60,6 +60,7 @@ router.post('/submit',authMiddleware, upload.single('file'), async (req, res) =>
       average = (kilometers - previousKilometers) / (previousRemainingLiters + previousQuantityReceived - remainingLiters);
     } else {
       // Handle case where no previous requisition exists
+      
       average = 0; // or any default value
     }
     const userId = req.userId; // Extracted from token

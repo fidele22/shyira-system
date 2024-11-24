@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const CarPlaqueList = () => {
+const FuelFullReport = () => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [carPlaqueData, setCarPlaqueData] = useState([]);
+  const [month, setMonth] = useState(''); // New state for month
+
+  const [year, setYear] = useState(''); // New state for year
   const [fuelStocks, setFuelStocks] = useState([]);
   const [pricePerUnit, setPricePerUnit] = useState(null); // To store the price per unit
   const [error, setError] = useState('');
@@ -30,7 +33,7 @@ const CarPlaqueList = () => {
   const fetchCarPlaqueData = async () => {
     try {
       const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/fuel/fuelFull-Report`, {
-        params: { startDate, endDate }
+        params: month && year ? { month, year } : { startDate, endDate }
       });
       setCarPlaqueData(response.data.carPlaqueData || []);
       setError('');
@@ -38,7 +41,7 @@ const CarPlaqueList = () => {
       // Fetch total cost repairs for each car plaque
       const updatedCarPlaqueData = await Promise.all(response.data.carPlaqueData.map(async (data) => {
         const repairsResponse = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/fuel/totalCostRepairs`, {
-          params: { startDate, endDate, carPlaque: data.registerNumber }
+       params: { month, year, carPlaque: data.registerNumber } // Pass month and year here as well 
         });
         return {
           ...data,
@@ -58,7 +61,7 @@ const CarPlaqueList = () => {
     <div className='fuel-full-report'>
       <h2>Fuel Stock Report Generation</h2>
 
-      <div className='fuel-filter-input'>
+      {/* <div className='fuel-filter-input'>
         <div>
           <label>Start Date</label>
           <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
@@ -68,10 +71,36 @@ const CarPlaqueList = () => {
           <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
         </div>
         <button onClick={fetchCarPlaqueData}>Fetch Report</button>
-      </div>
+      </div> */}
 
-      {carPlaqueData.length > 0 ? (
-        <div>
+      <div className='fuel-filter-input'>
+
+    <div>
+    
+      <label>Month</label>
+      <select value={month} onChange={(e) => setMonth(e.target.value)}>
+        <option value="">Select Month</option>
+    
+        {Array.from({ length: 12 }, (_, i) => (
+    
+          <option key={i} value={i + 1}>{new Date(0, i).toLocaleString('default', { month: 'long' })}</option>
+    
+        ))}
+      </select>
+    
+    </div>
+    
+    <div>
+      <label>Year</label>
+      <input type="number" value={year} onChange={(e) => setYear(e.target.value)} placeholder="YYYY" />
+    
+    </div>
+    
+    <button onClick={fetchCarPlaqueData}>Fetch Report</button>
+    
+    </div>
+          {carPlaqueData.length > 0 ? (
+            <div>
           <div className="fuel-report-titles">
             <p>MINISTRY OF HEALTH</p>
             <p>DISTRICT OF NYABIHU</p>
@@ -88,6 +117,8 @@ const CarPlaqueList = () => {
                 <th>Date of Reception</th>
                 <th>Department</th>
                 <th>Destination</th>
+                <th>Mileage at beginning of month.</th>
+                <th>Mileage at End of month </th>
                 <th>Liter of Fuel Consumed</th>
                 <th>Unity Cost per Litre</th>
                 <th>Total Cost Consumed (FRW)</th>
@@ -109,6 +140,8 @@ const CarPlaqueList = () => {
                     <td>{new Date(data.dateOfReception).toLocaleDateString()}</td>
                     <td>{data.depart}</td>
                     <td>{data.destination}</td>
+                    <td>{data.mileageAtBeginning || "N/A"}</td>
+                    <td>{data.mileageAtEnd || "N/A"}</td>
                     <td>{data.totalFuelConsumed}</td>
                     <td>{pricePerUnit}</td> 
                     <td>{totalCostConsumed}</td> 
@@ -131,4 +164,4 @@ const CarPlaqueList = () => {
   );
 };
 
-export default CarPlaqueList;
+export default FuelFullReport;

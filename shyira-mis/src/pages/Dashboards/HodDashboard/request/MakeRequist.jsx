@@ -89,6 +89,7 @@ const UserRequestForm = () => {
 
     const formData = new FormData();
     formData.append('department', user ? `${user.departmentName} `: '',);
+    formData.append('service', user ? `${user.serviceName} `: '',);
     formData.append('items', JSON.stringify(items));
     formData.append('date', date);
     formData.append('hodName', user ? `${user.firstName} ${user.lastName}` : ''); // HOD Name
@@ -110,6 +111,7 @@ const UserRequestForm = () => {
 
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/UserRequest/submit`, {
         department:user ? `${user.departmentName} `: '',
+        service:user ? `${user.serviceName} `: '',
         items: JSON.stringify(items),
         date,
         hodName: user ? `${user.firstName} ${user.lastName}` : '',
@@ -222,8 +224,11 @@ const UserRequestForm = () => {
             </div>
             <div className="title">
             <h4>DEPARTMENT: {user && user.departmentName ? user.departmentName : "Loading..."}</h4>
-            
             </div>
+            <div className="title">
+            <h4>SERVICE: {user && user.serviceName ? user.serviceName : "Loading..."}</h4>
+            </div>
+
           </div>
 
           <h3>REQUISITION FORM</h3>

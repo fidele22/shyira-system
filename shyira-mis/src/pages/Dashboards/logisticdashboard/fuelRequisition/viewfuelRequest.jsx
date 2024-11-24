@@ -127,7 +127,7 @@ const FuelRequisitionForm = () => {
         icon: 'success',
         confirmButtonText: 'OK',
         customClass: {
-          popup: 'custom-swal', // Apply custom class to the popup
+          popup: 'custom-swal', 
         }
         
       });
@@ -235,6 +235,7 @@ const handleRejectRequest = async () => {
           </div>
 
           <div className="fuel-request-details-content">
+            
           <div className="imag-logo">
           <img src="/image/logo2.png" alt="Logo" className="log"  />
           </div>

@@ -57,12 +57,13 @@ const Navbar = ({ setCurrentPage }) => {
         <li onClick={() => setCurrentPage('requisition')}><FaBoxOpen /> Request Item</li>
 
         <li onClick={() => setCurrentPage('fuel-request')}><FaBoxOpen /> Request Fuel</li>
+        <li onClick={() => setCurrentPage('fill-cardata')}><FaBoxOpen /> update Car Data</li>
       </ul>
       <u><h2>Settings</h2></u>
       <ul>
         <li onClick={() => setCurrentPage('user-profile')}><FaUser /> Profile</li>
         <li onClick={() => setCurrentPage('help-center')}> <FaLifeRing />Help Center</li>
-        <li onClick={handleLogout}>
+        <li onClick={handleLogout} className='logout'>
           <FaSignOutAlt /> Logout
         </li>
       </ul>

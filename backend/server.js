@@ -25,6 +25,7 @@ const fuelRequisitionRoute = require('./routes/fuelRequestRoute');
 const logisticfuelRouter  =require ('./routes/fuelLogisticRouter')
 const userfuelRouter = require ('./routes/userFuelrouter')
 const addCarRoute = require ('./routes/carplaque')
+const UsercarDataRoutes = require('./routes/UsercarData')
 const fuelStock = require ('./routes/fuelstock')
 const StockData = require('./models/stockData')
 const RepairRequisition = require('./routes/RepairRequisition')
@@ -76,6 +77,7 @@ app.use('/api/LogisticRequest', logisticRequestsRoutes);
 app.use('/api/fuel',fuelStock);
 app.use('/api/fuel-requisition', fuelRequisitionRoute);
 app.use('/api/forms-data',addCarRoute );
+app.use('/api/usercar-data', UsercarDataRoutes);
 app.use('/api/logisticFuel',logisticfuelRouter );
 app.use('/api/userfuelrequest', userfuelRouter);
 app.use('/api/countrequisitions',countRequisitionRouter)

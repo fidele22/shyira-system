@@ -231,23 +231,9 @@ const downloadPDF = async () => {
           <input type="number" value={month} onChange={handleMonthChange} min="1" max="12" />
         </label>
         <div className="date-range-filter">
-  <label>
-    Start Date:
-    <input 
-      type="date" 
-      value={startDate} 
-      onChange={(e) => setStartDate(e.target.value)} 
-    />
-  </label>
-  <label>
-    End Date:
-    <input 
-      type="date" 
-      value={endDate} 
-      onChange={(e) => setEndDate(e.target.value)} 
-    />
-  </label>
-  <button onClick={fetchStockData}>Fetch</button>
+
+
+
 </div>
        
       </div>
@@ -318,16 +304,16 @@ const downloadPDF = async () => {
             <td><strong>Total Amount</strong></td>
             <td>-</td>
             <td>-</td>
-            <td>{totals.openingTotalAmount.toFixed(2)}</td>
+            <td><strong>{totals.openingTotalAmount.toFixed(2)}</strong></td>
             <td>-</td>
             <td>-</td>
-            <td>{totals.entryTotalAmount.toFixed(2)}</td>
+            <td><strong>{totals.entryTotalAmount.toFixed(2)}</strong></td>
             <td>-</td>
             <td>-</td>
-            <td>{totals.exitTotalAmount.toFixed(2)}</td>
+            <td><strong>{totals.exitTotalAmount.toFixed(2)}</strong></td>
             <td>-</td>
             <td>-</td>
-            <td>{totals.balanceTotalAmount.toFixed(2)}</td>
+            <td><strong>{totals.balanceTotalAmount.toFixed(2)}</strong></td>
           </tr>
         </tfoot>
       </table>

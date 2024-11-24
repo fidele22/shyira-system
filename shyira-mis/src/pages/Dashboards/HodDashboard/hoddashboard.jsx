@@ -5,12 +5,12 @@ import Navbar from './Navigationbar/Hodnavigationbar';
 import Overview from './Overview';
 import MakeRequest from './request/requisitionPages'
 import FuelRequestPages from './fuelRequest/fuelRequisitionPages'
-import ViewFuelStatus  from './fuelRequest/viewApproved'
+//import ViewFuelStatus  from './fuelRequest/viewApproved'
 import RequestStatus from './requestStatus/requestStatus'
 import Items from './items/viewItems'
 import UserProfile from '../UserProfile/profile'
 import './hodDashboard.css';
-import ViewItems from './request/ViewItems';
+import Cardata from './cardata/cardata'
 import HelpCenter from '../helpcenter/helpcenter';
 
 
@@ -27,10 +27,12 @@ const LogisticDashboard = () => {
         return<FuelRequestPages /> 
       case 'requisition-status':  
         return <RequestStatus />  
-      case 'veiw-fuel-status':
-        return <ViewFuelStatus />
+    
       case 'requisition':
           return <MakeRequest />;
+
+      case 'fill-cardata':
+         return <Cardata />    
       case 'user-profile':
           return <UserProfile />;
       case 'help-center':

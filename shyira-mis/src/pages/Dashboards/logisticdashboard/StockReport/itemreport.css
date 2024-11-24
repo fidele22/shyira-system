@@ -4,7 +4,7 @@
   padding-bottom: 20px;
 }
 .stock-history-container {
-    width: 95%;
+    width: 97%;
     margin: 0 auto;
     font-size: 18px;
     padding: 20px;
@@ -57,7 +57,7 @@
     padding: 12px 15px;
     border: 1px solid #ddd;
     text-align: left;
-    font-size: 13px;
+    font-size: 12px;
   }
   
   .stock-history-table th {

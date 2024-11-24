@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './searchable.css'; // Import CSS for styling
+import './searchable.css'; 
 
 const SearchableDropdown = ({ options, selectedValue, onSelect }) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -32,7 +32,7 @@ const SearchableDropdown = ({ options, selectedValue, onSelect }) => {
         <div className="search-dropdown-menu">
           <input
             type="text"
-            placeholder="Search..."
+            placeholder="Search item to request.."
             value={searchQuery}
             onChange={handleSearchChange}
             className="search-input"
@@ -43,7 +43,7 @@ const SearchableDropdown = ({ options, selectedValue, onSelect }) => {
                 <li
                   key={index}
                   className='dropdown-list'
-                  onClick={() => handleOptionClick(option.name)} // Pass name as the option
+                  onClick={() => handleOptionClick(option.name)} 
                 >
                   {option.name} {/* Display the name */}
                 </li>

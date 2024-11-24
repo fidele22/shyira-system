@@ -1,5 +1,5 @@
 .navigation {
-    width: 15%;
+    width: 14%;
     background-color: #2c3b50;
     position: fixed;
     height: 100%;
@@ -50,4 +50,7 @@
   .navigation ul li:hover {
     color: brown;
   }
-  
+  .logout{
+    position: absolute;
+    bottom: 5%;
+  }

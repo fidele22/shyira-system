@@ -6,6 +6,7 @@ const FuelRequisitionReceived = require('../models/fuelRequestRecieved');
 const FuelStock = require('../models/fuelStock');
 const FuelStockHistory =require ('../models/fuelStockHistory');
 const ApprovedRepairRequest = require('../models/logisticRepairApproved');
+const CarData =require('../models/carData');
 
 // Create a new fuel stock entry
 router.post('/add-fuel', async (req, res) => {
@@ -157,29 +158,39 @@ router.get('/stock-report', async (req, res) => {
 });
 
 
-/// Endpoint to get car plaques and their data based on date range
+
+// Endpoint to get car plaques and their data based on month and year
 router.get('/fuelFull-Report', async (req, res) => {
-  const { startDate, endDate } = req.query;
-  
+  const { month, year } = req.query;
+
+  // Determine start and end dates based on month and year
+  let start, end;
+  if (month && year) {
+    start = new Date(year, month - 1, 1); // First day of the month
+    end = new Date(year, month, 0, 23, 59, 59, 999); // Last day of the month
+  } else {
+    return res.status(400).json({ message: 'Month and year must be provided.' });
+  }
+
   try {
-    // Fetch car plaques within the date range
+    // Fetch current month's data
     const fuelReportRequisitions = await FuelRequisitionReceived.aggregate([
       {
         $match: {
-          createdAt: { $gte: new Date(startDate), $lte: new Date(endDate) }
+          createdAt: { $gte: start, $lte: end }
         }
       },
       {
         $group: {
           _id: "$carPlaque",
           totalQuantity: { $sum: "$quantityReceived" },
-          totalAverageSum: { $sum: { $toDouble: "$average" } }, // Sum of averages
+          totalAverageSum: { $sum: { $toDouble: "$average" } },
           requisitions: { $push: "$$ROOT" }
         }
       },
       {
         $lookup: {
-          from: "cars",
+          from: "cars", // Lookup from the Car collection
           localField: "_id",
           foreignField: "registerNumber",
           as: "carInfo"
@@ -189,18 +200,75 @@ router.get('/fuelFull-Report', async (req, res) => {
         $unwind: "$carInfo"
       },
       {
+        $lookup: {
+          from: "cardatas", // Lookup from the CarData collection
+          localField: "_id",
+          foreignField: "registerNumber",
+          as: "carDataInfo"
+        }
+      },
+      {
+        $unwind: {
+          path: "$carDataInfo",
+          preserveNullAndEmptyArrays: true // This allows for cases where there may not be car data
+        }
+      },
+      {
         $project: {
           _id: 0,
           registerNumber: "$_id",
           modeOfVehicle: "$carInfo.modeOfVehicle",
           dateOfReception: "$carInfo.dateOfReception",
           depart: "$carInfo.depart",
-          destination: "$carInfo.destination" ,
+          destination: "$carInfo.destination",
           totalFuelConsumed: "$totalQuantity",
-          distanceCovered: "$totalAverageSum" // Calculate average
+         // distanceCovered: "$totalAverageSum",
+          kilometersCovered: "$carDataInfo.kilometersCovered", // Current month's kilometers covered
+          remainingLiters: "$carDataInfo.remainingLiters",
+          mileageAtEnd: "$carDataInfo.kilometersCovered" // Mileage at end of the current month
         }
       }
     ]);
+
+    // Fetch previous month's mileage at end from CarData
+    const previousMonth = month === 1 ? 12 : month - 1; // Decrement month or wrap to December
+    const previousYear = month === 1 ? year - 1 : year; // Decrement year if January
+
+    // Fetch previous month's data to get mileage at end
+    const previousMonthStart = new Date(previousYear, previousMonth - 1, 1);
+    const previousMonthEnd = new Date(previousYear, previousMonth, 0, 23, 59, 59, 999);
+
+    const previousMonthKilometers = await FuelRequisitionReceived.aggregate([
+      {
+        $match: {
+          createdAt: { $gte: previousMonthStart, $lte: previousMonthEnd }
+        }
+      },
+      {
+        $group: {
+          _id: "$carPlaque",
+          kilometersCovered: { $last: "$kilometersCovered" } // Assuming this field exists in your documents
+        }
+      }
+    ]);
+
+    // Map previous month's mileage at end
+    const previousMileageMap = previousMonthKilometers.reduce((acc, data) => {
+      acc[data._id] = data.kilometersCovered;
+      return acc;
+    }, {});
+
+    // Assign mileage at beginning for the current month
+    fuelReportRequisitions.forEach(data => {
+      data.mileageAtBeginning = previousMileageMap[data.registerNumber ] || 0; // Use previous month's end mileage or 0
+      data.mileageAtEnd = data.kilometersCovered; // Current month's mileage at end
+      data.distanceCovered = data.mileageAtEnd - data.mileageAtBeginning; 
+    });
+
+    // Assign mileage at beginning for the next month based on current month's mileage at end
+    fuelReportRequisitions.forEach(data => {
+      data.mileageAtBeginningNextMonth = data.mileageAtEnd; // For next month, assign current month's end mileage
+    });
 
     res.json({ carPlaqueData: fuelReportRequisitions });
   } catch (error) {
@@ -208,17 +276,24 @@ router.get('/fuelFull-Report', async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 });
-
-// Endpoint to get total cost of repairs for a specific car plaque based on date range
+// Endpoint to get total cost of repairs for a specific car plaque based on month and year
 router.get('/totalCostRepairs', async (req, res) => {
-  const { startDate, endDate, carPlaque } = req.query;
+  const { month, year, carPlaque } = req.query;
+
+  let start, end;
+  if (month && year) {
+    start = new Date(year, month - 1, 1); // First day of the month
+    end = new Date(year, month, 0, 23, 59, 59, 999); // Last day of the month
+  } else {
+    return res.status(400).json({ message: 'Month and year must be provided.' });
+  }
 
   try {
     const totalCostRepairs = await ApprovedRepairRequest.aggregate([
       {
         $match: {
           carplaque: carPlaque, // Filter by specific car plaque
-          createdAt: { $gte: new Date(startDate), $lte: new Date(endDate) }
+          createdAt: { $gte: start, $lte: end }
         }
       },
       {
@@ -235,6 +310,5 @@ router.get('/totalCostRepairs', async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 });
-
 
  module.exports = router;

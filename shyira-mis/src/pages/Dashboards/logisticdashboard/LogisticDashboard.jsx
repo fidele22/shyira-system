@@ -78,7 +78,7 @@ const LogisticDashboard = () => {
   
 
     <div className="dafcontent-page">
-      <div className='dafcontents'>
+      <div className='logisticcontent'>
       {renderContent()}
       </div>
       <Footer />

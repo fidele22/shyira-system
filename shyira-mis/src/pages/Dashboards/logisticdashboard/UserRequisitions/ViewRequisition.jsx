@@ -477,7 +477,7 @@ const handleVerifySubmit = async () => {
             <h1>DISTRIC: NYABIHU</h1>
             <h1>HEALTH FACILITY: SHYIRA DISTRICT HOSPITAL</h1>
             <h1>DEPARTMENT: <span>{editFormData.department}</span> </h1>
-          
+            <h1>SERVICE: <span>{editFormData.service}</span> </h1>
 
           </div>
            
@@ -511,7 +511,7 @@ const handleVerifySubmit = async () => {
                     {selectedRequest.hodName && <p>{selectedRequest.hodName}</p>}
                     <label htmlFor="hodSignature">Signature:</label>
                     {selectedRequest.hodSignature ? (
-                      <img src={`${process.env.REACT_APP_BACKEND_URL}${selectedRequest.hodSignature}`} alt="HOD Signature" className='signature-img'/>
+                      <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" className='signature-img'/>
                     ) : (
                       <p>No HOD signature available</p>
                     )}
