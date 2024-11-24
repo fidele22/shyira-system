@@ -9,6 +9,10 @@ const DashboardOverview = () => {
   const [requestVerifiedCount, setRequestVerifiedCount] = useState(0);
   const [requestApprovedCount, setRequestApprovedCount] = useState(0);
 
+  const [missingEntries, setMissingEntries] = useState([]);
+  const [isReminderVisible, setIsReminderVisible] = useState(false);
+
+
   useEffect(() => {
     const fetchUserData = async () => {
       // Get the current tab's ID from sessionStorage
@@ -92,6 +96,31 @@ const DashboardOverview = () => {
       }
     };
  
+
+  
+      const fetchMissingEntries = async () => {
+        const currentDate = new Date();
+        const day = currentDate.getDate();
+  
+        // Display the reminder only between the 20th and the end of the month
+        if (day >= 20) {
+          try {
+            const response = await axios.get(
+              `${process.env.REACT_APP_BACKEND_URL}/api/usercar-data/check-reminders`
+            );
+            if (response.status === 200) {
+              setMissingEntries(response.data.missingEntries);
+              setIsReminderVisible(response.data.missingEntries.length > 0);
+            }
+          } catch (error) {
+            console.error('Error fetching missing entries:', error);
+          }
+        }
+      };
+  
+      fetchMissingEntries();
+ 
+  
     fetchUserData();
     fetchRequestCount();
     fetchItemVerifiedCount();
@@ -103,7 +132,12 @@ const DashboardOverview = () => {
       <div className="welcome-nav">
       <h1>Welcome back, {lastName}</h1>
       </div>
-     
+         
+      {isReminderVisible && (
+        <marquee className="reminder-message">
+          {`Reminder: Data of kilometer covered and remaining liters in this month are missing for the following register numbers: ${missingEntries.join(', ')}`}
+        </marquee>
+      )}
 
       {/* Overview Sections */}
       <section className="logistic-overview-section">

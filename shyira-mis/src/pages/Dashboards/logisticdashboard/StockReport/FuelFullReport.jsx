@@ -96,7 +96,7 @@ const FuelFullReport = () => {
     
     </div>
     
-    <button onClick={fetchCarPlaqueData}>Fetch Report</button>
+    <button onClick={fetchCarPlaqueData}>Generate Report</button>
     
     </div>
           {carPlaqueData.length > 0 ? (

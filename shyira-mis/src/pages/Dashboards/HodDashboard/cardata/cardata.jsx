@@ -1,7 +1,7 @@
 // src/CarForm.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
+import './carformdata.css'
 const CarForm = () => {
   const [carOptions, setCarOptions] = useState([]);
   const [carPlaque, setCarPlaque] = useState('');
@@ -24,18 +24,31 @@ const CarForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const newCarData = { registerNumber: carPlaque, kilometersCovered: kilometers,remainingLiters:remainingLiters };
+      const newCarData = { registerNumber: carPlaque, kilometersCovered: kilometers, remainingLiters: remainingLiters };
       await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/usercar-data/save-data`, newCarData);
-      alert('car kilometer covered and remaining liters saved')
+      alert('Car kilometer covered and remaining liters saved');
       console.log('Car data submitted:', newCarData);
-
+  
+      // Clear the form after successful submission
+      setCarPlaque('');
+      setKilometers('');
+      setRemainingLiters('');
+  
     } catch (error) {
-        alert('error to save car kilometer covered and remaining liters')
-      console.error("Error submitting ");
-  }
-};
+      // Handle error response from the backend
+      if (error.response && error.response.status === 400) {
+        alert(error.response.data.message); // Show the error message from the backend
+      } else {
+        alert('Error saving car kilometer covered and remaining liters');
+      }
+      console.error("Error submitting:", error);
+    }
+  };
 
   return (
+    <div className="form-car">
+
+   
     <form onSubmit={handleSubmit}>
     <div className="form-group"> 
         <label htmlFor="carPlaque">Plaque of Car:</label> 
@@ -72,6 +85,7 @@ const CarForm = () => {
 
       <button type="submit">Submit</button>
     </form>
+    </div>
   );
 };
 
