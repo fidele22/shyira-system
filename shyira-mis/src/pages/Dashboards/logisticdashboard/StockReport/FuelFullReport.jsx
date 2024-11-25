@@ -142,7 +142,7 @@ const FuelFullReport = () => {
                     <td>{data.destination}</td>
                     <td>{data.mileageAtBeginning || "N/A"}</td>
                     <td>{data.mileageAtEnd || "N/A"}</td>
-                    <td>{data.totalFuelConsumed}</td>
+                    <td>{data.fuelConsumed}</td>
                     <td>{pricePerUnit}</td> 
                     <td>{totalCostConsumed}</td> 
                     <td>{data.distanceCovered?.toFixed(2) || "0.00"}</td>

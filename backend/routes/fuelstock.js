@@ -225,7 +225,7 @@ router.get('/fuelFull-Report', async (req, res) => {
          // distanceCovered: "$totalAverageSum",
           kilometersCovered: "$carDataInfo.kilometersCovered", // Current month's kilometers covered
           remainingLiters: "$carDataInfo.remainingLiters",
-          mileageAtEnd: "$carDataInfo.kilometersCovered" // Mileage at end of the current month
+          mileageAtEnd: "$carDataInfo.kilometersCovered", // Mileage at end of the current month
         }
       }
     ]);
@@ -262,7 +262,10 @@ router.get('/fuelFull-Report', async (req, res) => {
     fuelReportRequisitions.forEach(data => {
       data.mileageAtBeginning = previousMileageMap[data.registerNumber ] || 0; // Use previous month's end mileage or 0
       data.mileageAtEnd = data.kilometersCovered; // Current month's mileage at end
-      data.distanceCovered = data.mileageAtEnd - data.mileageAtBeginning; 
+      data.distanceCovered = data.mileageAtEnd - data.mileageAtBeginning;
+        // Calculate fuel consumed by subtracting remainingLiters
+      data.fuelConsumed = data.totalFuelConsumed - data.remainingLiters;
+      
     });
 
     // Assign mileage at beginning for the next month based on current month's mileage at end
