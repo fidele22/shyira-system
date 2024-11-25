@@ -47,7 +47,8 @@ const AdminDashboard = () => {
   return (
     <div className={`admin-dashboard ${isMenuOpen ? 'open' : ''}`}>
       <div>
-        <Navigation />
+      <Navigation setCurrentPage={setCurrentPage} />
+      
         <div className="menu-toggle" onClick={handleMenuToggle}>
           {isMenuOpen ? <FaTimes /> : <FaBars />}
         </div>

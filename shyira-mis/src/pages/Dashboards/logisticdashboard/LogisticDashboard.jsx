@@ -56,7 +56,7 @@ const LogisticDashboard = () => {
         return <ViewCars />     
      
      
-      case 'logistic-profile':
+      case 'user-profile':
         return <LogisticProfile />;
       case 'view-requisition':
         return <ViewRequisition />;
@@ -71,7 +71,7 @@ const LogisticDashboard = () => {
 
   return (
     <div className="daf-dashboards">
-    <Navigation />
+    <Navigation setCurrentPage={setCurrentPage} />
     <div className="content-navbar">
     <Navbar setCurrentPage={setCurrentPage} />
     </div>

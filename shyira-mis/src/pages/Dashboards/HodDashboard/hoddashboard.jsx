@@ -44,7 +44,7 @@ const LogisticDashboard = () => {
 
   return (
     <div className="daf-dashboards">
-      <Navigation />
+      <Navigation setCurrentPage={setCurrentPage} />
       <div className="content-navbar">
       <Navbar setCurrentPage={setCurrentPage} />
       </div>

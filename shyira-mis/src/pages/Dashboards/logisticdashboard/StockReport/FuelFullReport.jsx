@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { jsPDF } from 'jspdf';
+import * as XLSX from 'xlsx';
+import html2canvas from 'html2canvas';
 
 const FuelFullReport = () => {
   const [startDate, setStartDate] = useState('');
@@ -55,12 +58,91 @@ const FuelFullReport = () => {
       setError('Failed to fetch data');
     }
   };
-  
+  //dowload pdf file
+const downloadPDF = async () => {
+  const input = document.getElementById('report-content');
+  if (!input) {
+    console.error('Element with ID report-content not found');
+    return;
+  }
+
+  try {
+
+    
+    const canvas = await html2canvas(input, {
+       scale: 2,
+       allowTaint: true,
+       useCORS: true,
+     }); // Increase scale for better quality
+    const data = canvas.toDataURL('image/png');
+    
+    const pdf = new jsPDF('l', 'mm', 'a4'); // Define page size and orientation
+    const imgProps = pdf.getImageProperties(data);
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = pdf.internal.pageSize.getHeight();
+    const imgWidth = pdfWidth - 10;
+    const imgHeight = (imgProps.height * imgWidth) / imgProps.width;
+    let position = 0;
+
+    // Add images to multiple pages if needed
+    while (position < imgHeight) {
+      pdf.addImage(data, 'PNG', 5, -position, imgWidth, imgHeight);
+      position += pdfHeight - 10;
+      if (position < imgHeight) pdf.addPage();
+    }
+
+    pdf.save('fuel_Stock_Report.pdf');
+  } catch (error) {
+    console.error('Error generating PDF:', error);
+  }
+};
+
+const downloadExcel = () => {
+  const table = document.getElementById("report-content");
+
+  // Check if the table exists
+  if (!table) {
+    console.error("Table with ID report-content not found");
+    return;
+  }
+
+  try {
+    // Create a new workbook
+    const wb = XLSX.utils.book_new();
+
+    // Convert the table to a worksheet (header + data)
+    const ws = XLSX.utils.table_to_sheet(table);
+
+    // Create the title
+    const title = `MONTHLY FLEET AND FUEL UTILIZATION REPORT OF ${new Date(
+      year,
+      month - 1
+    ).toLocaleString("default", { month: "long" })} ${year}`;
+    // Add the title row at the top
+    const titleRow = [[title]]; // Title as a single row array
+    // Prepend the title row to the worksheet (shift existing data down by 1 row)
+    const wsWithTitle = XLSX.utils.aoa_to_sheet([ ...titleRow, ...XLSX.utils.sheet_to_json(ws, { header: 1 }) ]);
+
+    // Append the worksheet to the workbook
+    XLSX.utils.book_append_sheet(wb, wsWithTitle, "Stock History");
+
+    // Set a meaningful file name
+    const fileName = `fuel_report_of_${year}_${month}.xlsx`;
+
+    // Trigger the download
+    XLSX.writeFile(wb, fileName);
+  } catch (error) {
+    console.error("Error during Excel file generation:", error);
+  }
+};
+
+
   
   return (
     <div className='fuel-full-report'>
       <h2>Fuel Stock Report Generation</h2>
-
+      <button className='download-history-btn' onClick={downloadPDF}>Download Report Pdf</button>
+      <button className='download-exl-btn' onClick={downloadExcel}>Export excel file</button>
       {/* <div className='fuel-filter-input'>
         <div>
           <label>Start Date</label>
@@ -100,12 +182,18 @@ const FuelFullReport = () => {
     
     </div>
           {carPlaqueData.length > 0 ? (
-            <div>
+            <div id='report-content'> 
+             <div className="imag-logo">
+          <img src="/image/logo2.png" alt="Logo" className="log"  />
+          </div>  
           <div className="fuel-report-titles">
             <p>MINISTRY OF HEALTH</p>
             <p>DISTRICT OF NYABIHU</p>
             <p>HOSPITAL OF SHYIRA</p>
-            <h2>MONTHLY FLEET AND FUEL UTILIZATION REPORT FROM <u>{startDate}</u> UP TO <u>{endDate}</u></h2>
+            <h2>
+         MONTHLY FLEET AND FUEL UTILIZATION REPORT OF <b>{new Date(0, month - 1).toLocaleString('default', { month: 'long' })}</b> <b>{year}</b>
+           </h2>
+           {/* <h3>{title}</h3> */}
           </div>
 
           <table>
