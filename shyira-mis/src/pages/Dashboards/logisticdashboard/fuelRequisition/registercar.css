@@ -62,21 +62,7 @@
     box-sizing: border-box;
   }
   
-  button {
-    background-color: transparent;
-    color: white;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-   
-  button i {
-    font-size: 18px;
-  }
-  
-  button:hover i {
-    color: #007bff;
-  }
+
   
   button i.fa-trash-alt:hover {
     color: #dc3545;

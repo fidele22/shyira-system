@@ -22,33 +22,14 @@ const Navbar = ({ setCurrentPage }) => {
     }));
   };
 
-  const handleLogout = async () => {
-    try {
-      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/logout`);
-      
-      // Clear session storage
-      sessionStorage.clear();
-      
-      // Redirect to login page
-      window.location.href = '/'; 
-    
-      // Clear browser history to prevent back navigation
-      window.history.pushState(null, null, '/');
-      window.onpopstate = () => {
-        window.location.href = '/';
-       
-      };
-    } catch (error) {
-      console.error('Error during logout:', error);
-      alert('Error while logging out');
-    }
-  };
-  
+
   
 
   return (
     <div className="navigation">
-      <h2>HOD Dashboard</h2>
+    <div className="nav-logo">
+      <h1>Lmis</h1>
+      </div>
       <ul>
         <li onClick={() => setCurrentPage('overview')}>  <FaHome /> Overview</li>
         <li onClick={() => setCurrentPage('view-items')}> <FaList /> Available Items</li>

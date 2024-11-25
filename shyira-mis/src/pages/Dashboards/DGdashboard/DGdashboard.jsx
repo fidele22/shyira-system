@@ -48,7 +48,7 @@ const Dashboard = () => {
          return<RepairLogisticRequest />       
       case 'fuel-requisition':
           return <FuelRequisition />;
-      case 'profile':
+      case 'user-profile':
           return <DafProfile />;  
       case 'help-center':
           return <HelpCenter />;

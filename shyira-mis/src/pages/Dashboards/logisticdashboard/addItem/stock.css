@@ -76,7 +76,7 @@
     }
     .download-exl-btn{
       background-color: rgb(206, 156, 5);
-      font-size: 20px;
+      font-size: 14px;
       margin-left: 2%;
       margin-top:2% ;
     }
@@ -91,8 +91,8 @@
    
     }
     .download-history-btn{
-      background-color: green;
-      font-size: 20px;
+      background-color: rgb(207, 95, 87);
+      font-size: 14px;
     }
 /***********styling *stock history**********/
     .stockHistory-overlay{

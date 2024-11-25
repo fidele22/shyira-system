@@ -32,7 +32,7 @@ const LogisticDashboard = () => {
         return <Overview />;
       case 'user-item-request':
           return <ViewUserRequest />;
-      case 'logistic-profile':
+      case 'user-profile':
           return <DafProfile />;
       case 'recieved-requisition':
          return <RecieveduserRequest />

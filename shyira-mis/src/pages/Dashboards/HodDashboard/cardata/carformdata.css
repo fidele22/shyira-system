@@ -57,7 +57,10 @@
   }
   
   button:hover {
-    background-color: #0056b3;
+    background-color:transparent;
+    border: 1px solid blue;
+    color: black;
+    transition: 1s;
   }
   
   /* Styling for error messages or alerts (optional) */
