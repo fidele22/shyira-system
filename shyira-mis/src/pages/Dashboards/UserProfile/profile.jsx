@@ -72,7 +72,7 @@ const UserProfile = () => {
 
   return (
     <div className="user-profile">
-      <h2>User Profile</h2>
+      <h2>Profile Setting</h2>
       <div className="profile-header">
         <img
           src={`https://api.dicebear.com/6.x/initials/svg?seed=${user.firstName}&backgroundColor=E3F2FD`}

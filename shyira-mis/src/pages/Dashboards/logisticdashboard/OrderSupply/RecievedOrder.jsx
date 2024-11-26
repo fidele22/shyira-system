@@ -180,7 +180,7 @@ const ApprovedRequests = () => {
 
       <div className="order-navigation">
         <div className="navigation-title">
-          <h2>Requisition of fuel form logistic office received</h2>
+          <h2>Requisition of item form logistic office received</h2>
         </div>
         <ul>
           {currentItems.slice().reverse().map((request, index) => (

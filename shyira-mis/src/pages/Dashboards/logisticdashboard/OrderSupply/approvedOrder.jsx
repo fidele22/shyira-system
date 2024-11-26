@@ -165,7 +165,8 @@ const handleReceivedClick = async (requestId) => {
   return (
     <div className={`requist ${selectedRequest ? 'dim-background' : ''}`}>
      
-      <form onSubmit={handleSearchRequest} className="search-form">
+      <form onSubmit={handleSearchRequest}>
+        <div className="search-form">
         <div className='search-date'>
           <label htmlFor="">Search by date</label>
           <input
@@ -178,6 +179,8 @@ const handleReceivedClick = async (requestId) => {
         </div>
         
         <button type="submit" className='search-btn'>Search</button>
+        </div>
+        
       </form>
       <div className="order-navigation">
         <div className="navigation-title">
