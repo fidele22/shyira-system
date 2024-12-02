@@ -46,6 +46,7 @@ const AdminDashboard = () => {
 
   return (
     <div className={`admin-dashboard ${isMenuOpen ? 'open' : ''}`}>
+      
       <div>
       <Navigation setCurrentPage={setCurrentPage} />
       

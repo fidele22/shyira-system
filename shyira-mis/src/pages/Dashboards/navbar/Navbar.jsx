@@ -5,44 +5,29 @@ import axios from 'axios';
 
 function Navbar({ setCurrentPage }) {
   const [user, setUser ] = useState({}); // Initialize user as an empty object
-  const [userName, setUserName] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const tabId = sessionStorage.getItem('currentTab');
+  const token = sessionStorage.getItem(`token_${tabId}`); 
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      const currentTab = sessionStorage.getItem('currentTab');
-      if (!currentTab) {
-        console.error('No tab ID found in sessionStorage');
-        return;
-      }
-
-      const token = sessionStorage.getItem(`token_${currentTab}`);
-      if (!token) {
-        console.error('No token found for the current tab');
-        return;
-      }
-
+    const fetchUser  = async () => {
       try {
-        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/profile`, {
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/profile/profile`, {
           headers: {
-            'Authorization': `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         });
-
-        if (response.ok) {
-          const data = await response.json();
-          setUser (data); // Set the user state
-          const fullName = `${data.firstName} ${data.lastName}`;
-          setUserName(fullName);
-        } else {
-          console.error('Failed to fetch user data');
-        }
-      } catch (error) {
-        console.error('Error fetching user data:', error);
+        setUser (response.data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchUserData();
+    fetchUser ();
 
     const handleOutsideClick = (event ) => {
       if (!event.target.closest('.user-dropdown')) {
@@ -87,7 +72,7 @@ function Navbar({ setCurrentPage }) {
                 alt={`${user.firstName} ${user.lastName}`}
                 className="profile-avatar"
               />
-              {userName} <FaChevronDown />
+              <h3>{`${user.firstName} ${user.lastName}`}</h3> <FaChevronDown />
             </>
           ) : (
             <span>Loading...</span>
@@ -98,8 +83,8 @@ function Navbar({ setCurrentPage }) {
                 <li onClick={() => setCurrentPage('user-profile')}>
                   <FaUser  /> Profile
                 </li>
-                <li onClick={handleLogout}>
-                  <FaSignOutAlt /> Logout
+                <li onClick={handleLogout} >
+                  <FaSignOutAlt color='red' /> Logout
                 </li>
               </ul>
             </div>

@@ -9,15 +9,17 @@ const LogisticRequestForm = () => {
   const [items, setItems] = useState([]);
   const [department, setDepartment] = useState('');
   const [supplierName, setSupplierName] = useState('');
-  const [desitination, setDestination]  =useState ('') 
-  const [quantityRequested, setQuantityRequested]  = useState ('') 
-  const [pricePerUnit, setPrice]  = useState ('') 
-  const [totalPrice, setTotalPrice]  = useState ('') 
+  const [desitination, setDestination]  = useState('');
+  const [quantityRequested, setQuantityRequested]  = useState(''); 
+  const [pricePerUnit, setPrice] = useState('');
+  const [totalPrice, setTotalPrice] = useState('');
   const [date, setDate] = useState('');
   const [error, setError] = useState(null);
   const [user, setUser] = useState(null);
+  const [logisticUsers, setLogisticUsers] = useState([]);
   
   useEffect(() => {
+  
     const fetchUserProfile = async () => {
       try {
         // Get the current tab's ID from sessionStorage
@@ -49,8 +51,23 @@ const LogisticRequestForm = () => {
       }
     };
 
+    // Fetch logistic users
+    const fetchLogisticUsers = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_BACKEND_URL}/api/logistic-users`
+        );
+        setLogisticUsers(response.data);
+      } catch (error) {
+        console.error('Error fetching logistic users:', error);
+      }
+    };
+
+    fetchLogisticUsers();
     fetchUserProfile();
   }, []);
+
+  
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -85,11 +102,8 @@ const LogisticRequestForm = () => {
         });
 
       // Clear the form fields after successful submission
-
         setSupplierName('');
-
         setItems([]);
-
         setDate('');
    
 
@@ -113,7 +127,7 @@ const LogisticRequestForm = () => {
     setItems([
       ...items,
       {
-        desitination:'',
+        desitination: 'Fuel',
         quantityRequested: '',
         pricePerUnit: '',
         totalPrice: '',
@@ -193,7 +207,6 @@ const LogisticRequestForm = () => {
                 required
               />
             </div>
-           
           </div>
 
           <h4>REQUISITION FORM FROM LOGISTIC DEPARTMENT  FOR FUEL</h4>
@@ -214,14 +227,8 @@ const LogisticRequestForm = () => {
                 <tr key={index}>
                   <td>{index + 1}</td>
                   <td className='itemname-td'>
-                  <input
-                      type="text"
-                      value={item.desitination}
-                      onChange={(e) => handleItemChange(index, 'desitination', e.target.value)}
-                      required
-                    />
-                    
-                  </td>
+                          Fuel 
+                     </td>
                  
                   <td>
                     <input
@@ -261,14 +268,16 @@ const LogisticRequestForm = () => {
             {user ? (
               <>
                 <p>{user.firstName} {user.lastName}</p>
-            
+
                 {user.signature ? (
                   <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt="Signature" 
                   className='signature-img' />
                 ) : (
                   <p>No signature available</p>
                 )}
+                
               </>
+
             ) : (
               <p>Loading user profile...</p>
             )}

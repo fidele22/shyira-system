@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './contentCss/additem.css';
+
 
 const AddItemForm = ({ itemToEdit, onUpdateItem, onAddItem, onCancelEdit }) => {
   const [formData, setFormData] = useState({

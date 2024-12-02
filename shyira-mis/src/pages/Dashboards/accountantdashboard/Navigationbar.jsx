@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './contentCss/Navigationbar.css';
+
 import axios from 'axios';
 
 const Navbar = ({ setCurrentPage }) => {

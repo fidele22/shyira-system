@@ -2,48 +2,51 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken'); // Add this line to import jsonwebtoken
 const jwtSecret = 'your_jwt_secret_key';
-const { upload, registerUser, loginUser, getUsers, updateUser, deleteUser, authenticate, getProfile,updateProfile } = require('../controllers/userController');
+const { upload, registerUser, loginUser, deleteUser, authenticate, updateProfile } = require('../controllers/userController');
 const User = require('../models/user'); // Make sure to import your User model
+const Role = require('../models/userRoles');
 
 router.post('/register', upload.single('signature'), registerUser);
-
 router.post('/login', loginUser);
-router.get('/', getUsers);
-router.put('/:id', updateUser);
 router.delete('/:id', deleteUser);
 
-// Profile route
-router.get('/profile', authenticate, getProfile);
 
 
-// Get users with role 'logistic' with 
-router.get('/logistic-users', async (req, res) => {
-    try {
-      const logisticUsers = await User.find({ role: 'LOGISTIC' }).select('firstName lastName signature');
-      res.json(logisticUsers);
-    } catch (error) {
-      res.status(500).json({ message: 'Error fetching logistic users', error });
+// / Helper function to fetch users by role name
+const getUsersByRoleName = async (roleName, res) => {
+
+  try
+  {
+    // Find the role by its name // 
+    const role = await Role.findOne({ name: roleName });
+    if (!role) {
+      return res.status(404).json({ message: `Role ${roleName} not found` });
     }
-  });
-  // Get users with role 'daf'
-router.get('/daf-users', async (req, res) => {
-  try {
-    const dafUsers = await User.find({ role: 'DAF' }).select('firstName lastName signature');
-    res.json(dafUsers);
+
+    // Find users with the matching role ID
+    const users = await User.find({ role: role._id }).select('firstName signature');
+    res.json(users);
+    
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching logistic users', error });
+    console.error(`Error fetching users with role ${roleName}:`, error);
+    res.status(500).json({ message: `Error fetching users with role ${roleName}`, error });
   }
+};
+
+// Get users with role 'LOGISTIC'
+router.get('/logistic-users', (req, res) => {
+  getUsersByRoleName('LOGISTIC', res);
 });
-  // Get users with role 'daf'
-  router.get('/DG-users', async (req, res) => {
-    try {
-      const dgUsers = await User.find({ role: 'DG' }).select('firstName lastName signature');
-      res.json(dgUsers);
-    } catch (error) {
-      res.status(500).json({ message: 'Error fetching logistic users', error });
-    }
-  });
-  
+
+// Get users with role 'DAF'
+router.get('/daf-users', (req, res) => {
+  getUsersByRoleName('DAF', res);
+});
+
+// Get users with role 'DG'
+router.get('/dg-users', (req, res) => {
+  getUsersByRoleName('DG', res);
+});
   
 
 module.exports = router;

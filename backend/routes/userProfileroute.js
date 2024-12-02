@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const authMiddleware = require('../middlewares/userAthu')
 const User = require('../models/user');
+
 //const middleware= require('../middlewares/userAthu')
 const upload = require('../middlewares/upload');
 const multer = require('multer');

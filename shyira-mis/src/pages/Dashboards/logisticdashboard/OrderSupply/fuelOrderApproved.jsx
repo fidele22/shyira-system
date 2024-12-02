@@ -118,15 +118,20 @@ const ForwardedRequests = () => {
     <div className={`request ${selectedRequest ? 'dim-background' : ''}`}>
 
       <div className="order-navigation">
-        <h2>Your requisition for fuel order</h2>
+        <div className="navigation-title">
+        <h2>Your requisition for fuel approved</h2>
+         <label>Review your fuel order that has approved and mark as received to extend your fuel stock and confirm that you have recieved what you was requested</label>
+        </div>
+      
         <ul>
           {approvedRequests && approvedRequests.length > 0 ? (
             approvedRequests.slice().reverse().map((request, index) => (
               <li key={index}>
                 <p onClick={() => handleRequestClick(request._id)}>
                   Requisition Form from <b>logistic office</b> order of FUEL done on {new Date(request.createdAt).toDateString()}
+                  <span className="status-approved">Fuel order approved</span>
                 </p>
-                <label htmlFor=""><FaCheckCircle /> Approved</label>
+            
               </li>
             ))
           ) : (
@@ -171,7 +176,7 @@ const ForwardedRequests = () => {
                 {selectedRequest.items.map((item, idx) => (
                   <tr key={idx}>
                     <td>{idx + 1}</td>
-                    <td>{item.destination}</td>
+                    <td>{item.desitination}</td>
                     <td>{item.quantityRequested}</td>
                     <td>{item.pricePerUnit}</td>
                     <td>{item.totalPrice}</td>

@@ -48,7 +48,7 @@
   
   .user-dropdown .dropdown-menu {
     position: absolute;
-    top: 30px; /* Adjust based on your needs */
+    top: 50px; /* Adjust based on your needs */
     right: 0;
     background-color: white;
    border-radius: 3px;
@@ -71,6 +71,9 @@
   .user-dropdown .dropdown-menu ul li:hover {
     background-color: #f1f1f1;
   }
+  .logout{
+    color: red;
+  }
   
   @media (max-width: 600px) {
  
@@ -83,4 +86,12 @@
     }
   
   }  
+  @media (min-width: 300px) and (max-width: 600px) {
+    .Navbar{
   
+      width: 100%; /* Full width on small screens */
+      margin-top: 0%;
+      margin-left: 0%;/* Remove margin */
+
+    }
+  }

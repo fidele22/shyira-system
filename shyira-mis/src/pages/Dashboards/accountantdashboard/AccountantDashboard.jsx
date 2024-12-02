@@ -5,7 +5,7 @@ import ViewItem from './Viewitem'
 import AddItem from './AddItem';
 import AccountantProfile from './AccountantProfile'
 import OrderSupplies from './OrderSupplies';
-import './contentCss/LogisticDashboard.css';
+
 
 const LogisticDashboard = () => {
   const [currentPage, setCurrentPage] = useState('overview');

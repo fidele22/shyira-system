@@ -144,7 +144,7 @@
   @media (min-width: 601px) and (max-width: 800px) {
 
     .admin-dashboard {
-      width: 690px; /* Full width on small screens **/
+      width: 100%; /* Full width on small screens **/
       background-color: #007bff;
       margin-left: 0rem; 
       margin-top: 0%;
@@ -152,10 +152,11 @@
     }
   
     .Admincontent-page {
-        width: 792px;
+        width: 100%;
         position: absolute;
         margin-top: 0rem;
         margin-left: 0rem;
+        padding: 10px;
     }
   
   }
@@ -165,17 +166,18 @@
 @media (min-width: 300px) and (max-width: 600px) {
 
   .admin-dashboard {
-    width: 690px; /* Full width on small screens **/
+    width:100%; /* Full width on small screens **/
     background-color: #007bff;
-    margin-left: -8rem; 
-    margin-top: -4%;
+    margin-left:0; 
+    margin-top: 0%;
+ 
  
   }
 
   .Admincontent-page {
-      width: 730px;
-      margin-top: -17rem;
-      margin-left: -6rem;
+      width:100%;
+      margin-top: 0;
+      margin-left: 0;
   }
 
 }

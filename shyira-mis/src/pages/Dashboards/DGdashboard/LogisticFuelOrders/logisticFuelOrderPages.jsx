@@ -24,10 +24,10 @@ const LogisticFuelOrder = () => {
           <FaEye /> View fuel Orders
         </button>
         
-      {/* <button className='view-requisition' onClick={() => setActiveComponent('verifiedFuelOrder')} >
+      <button className='view-requisition' onClick={() => setActiveComponent('verifiedFuelOrder')} >
           <FaEye /> Verified fuel Order
         </button>
-         */}
+        
         <button className='make-fuel-order' onClick={() => setActiveComponent('approvedFuelOrder')}>
           <FaSpinner color='brown'/> Approved fuel Order
         </button>

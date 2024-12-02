@@ -28,12 +28,18 @@ const ViewItems = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users`);
-        setUsers(response.data);
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/userdata/fetchUsers`);
+        if (Array.isArray(response.data)) {
+          setUsers(response.data);
+        } else {
+          console.error("Received data is not an array:", response.data);
+          setUsers([]);  // Fallback to an empty array if data is malformed
+        }
       } catch (error) {
         console.error('Error fetching users:', error);
       }
     };
+    
 
     fetchUsers();
   }, []);
@@ -43,9 +49,9 @@ const ViewItems = () => {
   const [positions, setPositions] = useState([]);
   const [roles, setRoles] = useState([]);
 
-  const [showModal, setShowModal] = useState(false); // State for modal visibility
+
   const [modalMessage, setModalMessage] = useState(''); //
-  const [isSuccess, setIsSuccess] = useState(true);
+
 
   useEffect(() => {
     const fetchDepartments = async () => {
@@ -109,7 +115,7 @@ const ViewItems = () => {
       departmentName: user.departmentName,
       phone: user.phone,
       email: user.email,
-      role: user.role,
+      role: user.role ? user.role._id : '',
       signature: user.signature,
     });
   };
@@ -186,8 +192,13 @@ const ViewItems = () => {
           'Content-Type': 'multipart/form-data'
         }
       });
-      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users`);
-      setUsers(response.data);
+        // Update the users state directly using the response data from the server (updated user data)
+    setUsers(prevUsers => 
+      prevUsers.map(user => 
+        user._id === editingUser ? { ...user, ...formData, role: { _id: formData.role } } : user
+      )
+    );
+
         // Show success message using SweetAlert2
         Swal.fire ({
           title: 'Success!',
@@ -220,9 +231,10 @@ const ViewItems = () => {
       setEditingUser(null);
     };
 //handle search  
-  const filteredUsers = users.filter(user =>
-    user.firstName.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+const filteredUsers = Array.isArray(users) ? users.filter(user =>
+  user.firstName.toLowerCase().includes(searchTerm.toLowerCase())
+) : [];
+
 
   const indexOfLastUser  = currentPage * usersPerPage;
 
@@ -300,7 +312,7 @@ const ViewItems = () => {
                 <td>{user.departmentName}</td>
                 <td>{user.phone}</td>
                 <td>{user.email}</td>
-                <td>{user.role}</td>
+                <td>{user.role?.name || 'No Role Assigned'}</td>
                 <td>{user.signature}</td>
                 <td className='edit-delete'>
                   <label className='user-edit-btn' onClick={() => handleEditClick(user)}>
@@ -378,13 +390,16 @@ const ViewItems = () => {
                 <label>Email</label>
                 <input type="text" name="email" value={formData.email} onChange={handleChange} />
                 <label>Role</label>
-                <select name="role" value={formData.role} onChange={handleChange}>
-                  <option value="">Select role</option>
-                  {roles.map((role) => (
-                    <option key={role._id} value={role.name}>{role.name}</option>
-                  ))}
-                </select>
-                <label>Signature</label>
+               <select name="role" value={formData.role} onChange={handleChange}>
+                 <option value="">Select Role</option>
+                 {roles.map((role) => (
+                   <option key={role._id} value={role._id}>
+                     {role.name}
+                   </option>
+                 ))}
+               </select>
+
+              <label>Signature</label>
                 <input type="file" name="signature" onChange={(e) => setFormData({ ...formData, signature: e.target.files[0] })} />
                 <button type="submit" className='update-user-btn'>Update</button>
               </form>

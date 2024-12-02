@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { FaQuestionCircle, FaEdit, FaTimes,FaCheckCircle, FaTimesCircle,FaTrash,FaCheck } from 'react-icons/fa';
 import axios from 'axios';
-import '../../logisticdashboard/contentCss/itemrequisition.css';
+import Swal from 'sweetalert2'; 
+import './stylingfuelorders.css'
+
 //import './ViewRequest.css'; // Import CSS for styling
 
 
@@ -10,26 +12,24 @@ const ForwardedRequests = () => {
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({});
-  const [logisticUsers, setLogisticUsers] = useState([]);
-
+  const [dafUsers, setDafUsers] = useState([]);
 
   useEffect(() => {
     fetchForwardedRequests();
-    fetchLogisticUsers(); // Fetch logistic users on component mount
+    fetchDafUsers(); // Fetch logistic users on component mount
   }, []);
 
-  const fetchLogisticUsers = async () => {
+  const fetchDafUsers = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/logistic-users`);
-      setLogisticUsers(response.data);
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/daf-users`);
+      setDafUsers(response.data);
     } catch (error) {
-      console.error('Error fetching logistic users:', error);
+      console.error('Error fetching daf users:', error);
     }
   };
-
   const fetchForwardedRequests = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/logisticFuel`);
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/logisticFuel/verified-fuel-order`);
       setForwardedRequests(response.data);
     } catch (error) {
       console.error('Error fetching forwarded requests:', error);
@@ -75,13 +75,22 @@ const ForwardedRequests = () => {
   const handleUpdateSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/LogisticRequest/${selectedRequest._id}`, formData);
+      const response = await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/logisticFuel/${selectedRequest._id}`, formData);
       setSelectedRequest(response.data);
       setIsEditing(false);
       setForwardedRequests(prevRequests =>
         prevRequests.map(req => (req._id === response.data._id ? response.data : req))
       );
-    alert('requisition updated successful')
+      Swal.fire ({
+        title: 'Updated!',
+        text: 'requisition updated successful',
+        icon: 'success',
+        confirmButtonText: 'OK',
+        customClass: {
+          popup: 'custom-swal', // Apply custom class to the popup
+        }
+      });
+    alert('')
    
     } catch (error) {
       console.error('Error updating request:', error);
@@ -89,26 +98,103 @@ const ForwardedRequests = () => {
   };
 
  //
- const handleVerifySubmit = async (e) => {
+ const handleApproveSubmit = async (e) => {
   e.preventDefault();
-  try {
+  Swal.fire({
+    title: 'Are you sure?',
+    text: 'Do you want to approve this fuel logistic requisition with signing?,',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, Approve it!',
+    customClass: {
+      popup: 'custom-swal', // Apply custom class to the popup
+    }
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      try {
        // Forward the updated request to the approved collection
-       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/logisticFuel/verified/${selectedRequest._id}`);
+       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/logisticFuel/approve-fuel-order/${selectedRequest._id}`);
        setSelectedRequest(response.data);
-    
-      //  setModalMessage('logistic requestion verified successfully');
-      //  setIsSuccess(true); // Set the success state
-      //  setShowModal(true); // Show the modal
-
+       Swal.fire ({
+        title: 'Success!',
+        text: 'Approve fuel order successfully',
+        icon: 'success',
+        confirmButtonText: 'OK',
+        customClass: {
+          popup: 'custom-swal', // Apply custom class to the popup
+        }
+      });
          // Optionally refresh the list
     fetchForwardedRequests();
   } catch (error) {
     console.error('Error for approving request:', error);  
-    // setModalMessage('Failed to verify requisition');
-    // setIsSuccess(false); // Set the success state
-    // setShowModal(true); // Show the modal
+    Swal.fire ({
+      title: 'Error!',
+      text: 'Failed to approve fuel order',
+      icon: 'error',
+      confirmButtonText: 'OK',
+      customClass: {
+        popup: 'custom-swal', // Apply custom class to the popup
+      }
+    });
   }
+}
+});
 } 
+
+//reject fuel order
+
+const handleRejectSubmit = async () => {
+
+    if (!selectedRequest) return;
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you want to reject this fuel logistic requisition with signing?,',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Reject it!',
+      customClass: {
+        popup: 'custom-swal', // Apply custom class to the popup
+      }
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+        const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/logisticFuel/rejectFuelOrder/${selectedRequest._id}`);
+
+        Swal.fire ({
+          title: 'Success!',
+          text: 'Fuel order rejected successfully',
+          icon: 'success',
+          confirmButtonText: 'OK',
+          customClass: {
+            popup: 'custom-swal', // Apply custom class to the popup
+          }
+        });
+        // Optionally refresh the list
+        fetchForwardedRequests();
+
+    } catch (error) {
+
+        console.error('Error rejecting request:', error);
+        Swal.fire ({
+          title: 'Error!',
+          text: 'Failed to reject fuel order',
+          icon: 'error',
+          confirmButtonText: 'OK',
+          customClass: {
+            popup: 'custom-swal', // Apply custom class to the popup
+          }
+        });
+
+    }
+  }
+});
+};
+
   //fetching signature
   const [error, setError] = useState(null);
   const [user, setUser] = useState(null);
@@ -154,10 +240,13 @@ const ForwardedRequests = () => {
   if (!user) return <p>Loading...</p>;
 
   return (
-    <div className={`verified-requist ${selectedRequest ? 'dim-background' : ''}`}>
+    <div className={`request ${selectedRequest ? 'dim-background' : ''}`}>
 
-      <div className="request-navigation">
-      <h2>Requisition from logistic office for fuel status</h2>
+      <div className="order-navigation">
+        <div className="navigation-title">
+        <h2>Requisition from logistic office for fuel that has been verified</h2>
+        </div>
+      
         <ul>
           {forwardedRequests.slice().reverse().map((request, index) => (
             <li key={index}>
@@ -177,11 +266,11 @@ const ForwardedRequests = () => {
               <form >
                 <h2>Edit Logistic Fuel Order</h2>
                 <div className="request-recieved-heading">
-            <h1>WESTERN PROVINCE</h1>
-            <h1>DISTRIC: NYABIHU</h1>
-            <h1>HEALTH FACILITY: SHYIRA DISTRICT HOSPITAL</h1>
-            <h1>DEPARTMENT:  LOGISTIC OFFICE</h1>
-            <h1>SUPPLIER NAME:</h1>
+            <h5>WESTERN PROVINCE</h5>
+            <h5>DISTRIC: NYABIHU</h5>
+            <h5>HEALTH FACILITY: SHYIRA DISTRICT HOSPITAL</h5>
+            <h5>DEPARTMENT:  LOGISTIC OFFICE</h5>
+            <h5>SUPPLIER NAME:</h5>
 
           </div>
                 <table>
@@ -241,8 +330,9 @@ const ForwardedRequests = () => {
             ) : (
               <>
                <div className="form-navigation">
-               <button className='verify-requisition' onClick={handleVerifySubmit}>Approve Order</button>
-               <button className='edit-btn' onClick={handleEditClick}>Edit</button>
+               <button className='approve-requisition' onClick={handleApproveSubmit}>Approved Order</button>
+               <button className='reject-request' onClick={handleRejectSubmit}>Reject Order</button>
+               {/* <button className='edit-btn' onClick={handleEditClick}>Edit</button> */}
                <button></button>
              <label className='request-close-btn' onClick={() => setSelectedRequest(null)}><FaTimes /></label>
           </div>
@@ -252,15 +342,15 @@ const ForwardedRequests = () => {
           <div className='date-done'>
             <label htmlFor="">{new Date(selectedRequest.date).toDateString()}</label>
             </div>
-          <div className="request-recieved-heading">
-            <h1>WESTERN PROVINCE</h1>
-            <h1>DISTRIC: NYABIHU</h1>
-            <h1>HEALTH FACILITY: SHYIRA DISTRICT HOSPITAL</h1>
-            <h1>DEPARTMENT: LOGISTIC OFFICE </h1>
-            <h1>SUPPLIER NAME:{selectedRequest.supplierName}</h1>
+          <div className="fuel-order-heading">
+            <h5>WESTERN PROVINCE</h5>
+            <h5>DISTRIC: NYABIHU</h5>
+            <h5>HEALTH FACILITY: SHYIRA DISTRICT HOSPITAL</h5>
+            <h5>DEPARTMENT: LOGISTIC OFFICE </h5>
+            <h5>SUPPLIER NAME:{selectedRequest.supplierName}</h5>
           </div>
 
-            <h2>REQUISITON FORM OF LOGISTIC FOR FUEL</h2>
+            <h3>REQUISITON FORM OF LOGISTIC FOR FUEL</h3>
               
                 <table>
                   <thead>
@@ -285,19 +375,32 @@ const ForwardedRequests = () => {
                   </tbody>
                 </table>
 
-                <div className="daf-signature-section">
-                <div className="hod">
-                  <h3>Logistic Office</h3>
-                  <label>Prepared By:</label>
-                  <span>{selectedRequest.hodName || ''}</span><br />
-                  <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" 
-                  className='signature-img'/>
-                
-                    
-                   
+                <div className="signature-section">
+              <div className="hod">
+                <h4>Logistic Office</h4>
+                <label>Prepared By:</label>
+                <span>{selectedRequest.hodName || ''}</span><br />
+                <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature"
+                className='signature-img' />
+              </div>
+
+              <div className='daf-signature'>
+               
+                {dafUsers.map(user => (
+                  <div key={user._id} className="daf-signature">
+                     <h4>DAF Office:</h4>
+                     <label htmlFor="">Approved By:</label>
+                    <p>{user.firstName} {user.lastName}</p>
+                    {user.signature ? (
+                      <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt={`${user.firstName} ${user.lastName} Signature`} 
+                      className='signature-img'/>
+                    ) : (
+                      <p>No signature available</p>
+                    )}
                   </div>
-              
-                </div>
+                ))}
+              </div>
+            </div>
                
                 
 

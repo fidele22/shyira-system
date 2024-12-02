@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import logo from '../../../Component/image/land.jpg'
+
 import './contentCss/overview.css';
 
 const DashboardOverview = () => {

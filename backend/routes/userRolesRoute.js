@@ -43,7 +43,7 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// Delete position
+// Delete role
 router.delete('/:id', async (req, res) => {
   try {
     const roles = await UserRole.findByIdAndDelete(req.params.id);

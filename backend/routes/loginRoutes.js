@@ -4,35 +4,30 @@ const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const User = require('../models/user'); // Adjust the path as necessary
 const router = express.Router();
+const authenticateToken = require('../middlewares/protectRouter')
 
 const JWT_SECRET = 'your_jwt_secret';
 
-// Login route
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    // Check if the user exists in the database
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).populate('role');
     if (!user) {
       return res.status(400).json({ message: 'Invalid email or password' });
     }
 
-    // Check if the password matches the stored hash
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ message: 'Invalid email or password' });
     }
 
-    // Generate a JWT token with user ID and role
-    const token = jwt.sign(
-      { userId: user._id, role: user.role },
-      JWT_SECRET,
-      { expiresIn: '8h' } // Token expires in 8 hours
-    );
+    if (!user.role) {
+      return res.status(400).json({ message: 'User role not assigned. Contact admin.' });
+    }
 
-    // Send the token and role back to the client
-    res.json({ token, role: user.role });
+    const token = jwt.sign({ userId: user._id, role: user.role.name }, JWT_SECRET, { expiresIn: '8h' });
+    res.json({ token, role: user.role.name });
   } catch (err) {
     console.error('Login error:', err);
     res.status(500).json({ message: 'Server error' });

@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 const ApprovedLogisticOrder = require('../models/logisticFuelApproved')
+const VerifiedLogisticOrder = require('../models/logisticFuelVerified')
 const fuelOrder = require('../models/logisticfuelrequest'); 
 const ApprovedfuelOrder = require('../models/logisticFuelApproved')
 const RecievedFuelOrder = require('../models/logisticFuelReceived')
@@ -56,6 +57,17 @@ router.get('/', async (req, res) => {
       res.status(500).json({ message: 'Server Error' });
     }
   });
+// Route to fetch all logistic requests
+router.get('/verified-fuel-order', async (req, res) => {
+  try {
+    const fuellogisticrequests = await VerifiedLogisticOrder.find();
+    res.json(fuellogisticrequests);
+  } catch (err) {
+    console.error('Error:', err);
+    res.status(500).json({ message: 'Server Error' });
+  }
+});
+  
   router.put('/:id', async (req, res) => {
     try {
       const updateData = { ...req.body };
@@ -129,7 +141,24 @@ router.get('/fuel-order', async (req, res) => {
       res.status(500).json({ message: 'Server error' });
     }
   });
-  
+   // Route to fetch a single logistic request by ID
+   router.get('/verified-fuel-order/:id', async (req, res) => {
+    try {
+      const requestId = req.params.id;
+      // Validate that requestId is a valid ObjectId
+      if (!mongoose.Types.ObjectId.isValid(requestId)) {
+        return res.status(400).json({ message: 'Invalid ID' });
+      }
+      const request = await VerifiedLogisticOrder.findById(requestId);
+      if (!request) {
+        return res.status(404).json({ message: 'Request not found' });
+      }
+      res.json(request);
+    } catch (error) {
+      console.error('Error fetching request:', error);
+      res.status(500).json({ message: 'Server error' });
+    }
+  }); 
   // Route to verify a request
 router.post('/verified/:id', async (req, res) => {
     try {
@@ -144,7 +173,7 @@ router.post('/verified/:id', async (req, res) => {
       }
   
       // Save to the verified collection
-      const verifiedRequest = new ApprovedLogisticOrder(request.toObject());
+      const verifiedRequest = new VerifiedLogisticOrder(request.toObject());
       await verifiedRequest.save();
   
       // Optionally, remove from the original collection
@@ -156,6 +185,34 @@ router.post('/verified/:id', async (req, res) => {
       res.status(500).json({ message: 'Server error' });
     }
   });
+
+    // Route to approve a request
+router.post('/approve-fuel-order/:id', async (req, res) => {
+  try {
+    const requestId = req.params.id;
+    if (!mongoose.Types.ObjectId.isValid(requestId)) {
+      return res.status(400).json({ message: 'Invalid ID' });
+    }
+
+    const request = await VerifiedLogisticOrder.findById(requestId);
+    if (!request) {
+      return res.status(404).json({ message: 'Request not found' });
+    }
+
+    // Save to the verified collection
+    const verifiedRequest = new ApprovedLogisticOrder(request.toObject());
+    await verifiedRequest.save();
+
+    // Optionally, remove from the original collection
+    await VerifiedLogisticOrder.findByIdAndDelete(requestId);
+
+    res.json(verifiedRequest);
+  } catch (error) {
+    console.error('Error verifying request:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 // Route to mark  a fuel order as recieve
 router.post('/recieved-fuel/:id', async (req, res) => {
   try {

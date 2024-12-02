@@ -60,7 +60,7 @@ const togglePasswordVisibility = () => {
         sessionStorage.setItem('currentTab', tabId);
   
         // Redirect to the appropriate dashboard based on role
-        if (role === 'admin') {
+        if (role === 'ADMIN') {
           navigate('/admin-dashboard');
         } else if (role === 'LOGISTIC') {
           navigate('/LOGISTIC');

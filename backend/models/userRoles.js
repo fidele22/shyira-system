@@ -1,12 +1,21 @@
-// models/department.js
 const mongoose = require('mongoose');
 
-const roleSchema = new mongoose.Schema({
-  name: { type: String, required: true, unique: true },
-  privileges: { type: [String], default: [] }, 
-  description: { type: String },
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now }
-});
+const RoleSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    privileges: {
+      type: [String], // Array of privilege strings
+      default: [],
+    },
+    description: {
+      type: String,
+    },
+  },
+  { timestamps: true } // Automatically add createdAt and updatedAt
+);
 
-module.exports = mongoose.model('Role', roleSchema);
+module.exports = mongoose.model('Role', RoleSchema);

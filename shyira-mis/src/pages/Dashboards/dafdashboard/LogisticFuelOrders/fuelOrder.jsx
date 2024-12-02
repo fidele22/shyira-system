@@ -6,7 +6,6 @@ import './stylingfuelorders.css'
 
 //import './ViewRequest.css'; // Import CSS for styling
 
-
 const ForwardedRequests = () => {
   const [forwardedRequests, setForwardedRequests] = useState([]);
   const [selectedRequest, setSelectedRequest] = useState(null);
@@ -16,7 +15,7 @@ const ForwardedRequests = () => {
 
   useEffect(() => {
     fetchForwardedRequests();
-    fetchLogisticUsers(); // Fetch logistic users on component mount
+    fetchLogisticUsers(); //
   }, []);
 
   const fetchLogisticUsers = async () => {
@@ -99,16 +98,16 @@ const ForwardedRequests = () => {
   };
 
  //
- const handleApproveSubmit = async (e) => {
+ const handleVerifySubmit = async (e) => {
   e.preventDefault();
   Swal.fire({
     title: 'Are you sure?',
-    text: 'Do you want to approve this fuel logistic requisition with signing?,',
+    text: 'Do you want to verify this fuel logistic requisition with signing?,',
     icon: 'warning',
     showCancelButton: true,
     confirmButtonColor: '#3085d6',
     cancelButtonColor: '#d33',
-    confirmButtonText: 'Yes, Approve it!',
+    confirmButtonText: 'Yes, Verify it!',
     customClass: {
       popup: 'custom-swal', // Apply custom class to the popup
     }
@@ -120,7 +119,7 @@ const ForwardedRequests = () => {
        setSelectedRequest(response.data);
        Swal.fire ({
         title: 'Success!',
-        text: 'Approve fuel order successfully',
+        text: 'Fuel order Verified successfully',
         icon: 'success',
         confirmButtonText: 'OK',
         customClass: {
@@ -133,7 +132,7 @@ const ForwardedRequests = () => {
     console.error('Error for approving request:', error);  
     Swal.fire ({
       title: 'Error!',
-      text: 'Failed to approve fuel order',
+      text: 'Failed to verify fuel order',
       icon: 'error',
       confirmButtonText: 'OK',
       customClass: {
@@ -331,7 +330,7 @@ const handleRejectSubmit = async () => {
             ) : (
               <>
                <div className="form-navigation">
-               <button className='approve-requisition' onClick={handleApproveSubmit}>Approve Order</button>
+               <button className='approve-requisition' onClick={handleVerifySubmit}>Verify Order</button>
                <button className='reject-request' onClick={handleRejectSubmit}>Reject Order</button>
                {/* <button className='edit-btn' onClick={handleEditClick}>Edit</button> */}
                <button></button>
@@ -382,18 +381,12 @@ const handleRejectSubmit = async () => {
                   <label>Prepared By:</label>
                   <span>{selectedRequest.hodName || ''}</span><br />
                   <img src={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.hodSignature}`} alt="HOD Signature" 
-                  className='signature-img' />
-                
-                    
-                   
+                  className='signature-img' />  
                   </div>
-              
                 </div>
-               
                 
-
-
               </>
+
             )}
           </div>
         </div>

@@ -6,7 +6,7 @@ const path = require('path');
 const jwt = require('jsonwebtoken');
 const JWT_SECRET = 'your_jwt_secret';
 const User = require('../models/user');
-
+const Role = require('../models/userRoles');
 // Ensure you have a secret key
 
 const storage = multer.diskStorage({
@@ -22,6 +22,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // Your route that handles the file upload
+
 
 
 const registerUser = async (req, res) => {
@@ -44,6 +45,13 @@ const registerUser = async (req, res) => {
     // Save the path of the uploaded signature, adjust as per your schema
     const signature = req.file ? req.file.path : '';
 
+    // Find the 'HOD' role in the Role model
+    const role = await Role.findOne({ name: 'HOD' });
+
+    if (!role) {
+      return res.status(400).json({ msg: 'Role not found' });
+    }
+
     const newUser = new User({
       firstName,
       lastName,
@@ -52,14 +60,12 @@ const registerUser = async (req, res) => {
       departmentName,
       phone,
       email,
-      role: 'HOD',
+      role: role._id, // Store the ObjectId of the 'HOD' role
       signature,
       password: hashedPassword
     });
 
     await newUser.save();
-
-   
 
     res.status(201).json({ msg: 'User registered successfully', newUser });
 
@@ -123,72 +129,6 @@ router.get('/', authenticate, async (req, res) => {
 
 module.exports = router;
 
-const getProfile = async (req, res) => {
-  try {
-    const user = await User.findById(req.user._id);
-
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-
-    res.json({
-      firstName: user.firstName,
-      lastName: user.lastName,
-      phone: user.phone,
-      email: user.email,
-      signature: user.signature,
-      positionName: user.positionName,
-      serviceName: user.serviceName,
-      departmentName: user.departmentName,
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Server error' });
-  }
-};
-
-//fetching user data and display to admin dashboard
-const getUsers = async (req, res) => {
-  try {
-    // Fetch users excluding those with the role of "admin"
-    const users = await User.find({ role: { $ne: 'admin' } })
-     
-    res.status(200).json(users);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
-
-const updateUser = async (req, res) => {
-  try {
-    const { positionName, serviceName, departmentName, firstName, lastName, phone, email, role } = req.body;
-    const userId = req.params.id;
-
-  
-//
-    // Update the user with references to the position and department
-    const updatedUser = await User.findByIdAndUpdate(
-      userId,
-      {
-        firstName,
-        lastName,
-        phone,
-        email,
-        role,
-        positionName,
-        departmentName,
-        serviceName
-      },
-      { new: true }
-    );
-
-    res.status(200).json(updatedUser);
-  } catch (error) {
-    console.error(error);
-    res.status(400).json({ error: error.message });
-  }
-};
 
 
 const deleteUser = async (req, res) => {
@@ -205,4 +145,4 @@ const deleteUser = async (req, res) => {
   }
 };
 
-module.exports = {upload,registerUser,getUsers,loginUser, updateUser, deleteUser,authenticate,getProfile};
+module.exports = {upload,registerUser,loginUser, deleteUser,authenticate};
